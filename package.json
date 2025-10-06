@@ -1,0 +1,12 @@
+{
+  "name": "idea-box",
+  "version": "dev. 25w41",
+  "description": "Capture them before the inspiration flies away!",
+  "scripts": {
+    "types": "cd client && bun tsc && cd ../server && bun tsc"
+  },
+  "dependencies": {
+    "open-graph-scraper": "^6.10.0"
+  },
+  "devDependencies": {}
+}
