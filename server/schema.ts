@@ -444,271 +444,6 @@ const ideaBoxSchemas = {
       system: false
     }
   },
-  tags_aggregated: {
-    schema: z.object({
-      name: z.string(),
-      color: z.string(),
-      icon: z.string(),
-      container: z.string(),
-      amount: z.number()
-    }),
-    raw: {
-      id: 'pbc_3145449922',
-      listRule: '@request.auth.id != ""',
-      viewRule: '@request.auth.id != ""',
-      createRule: null,
-      updateRule: null,
-      deleteRule: null,
-      name: 'idea_box__tags_aggregated',
-      type: 'view',
-      fields: [
-        {
-          autogeneratePattern: '',
-          hidden: false,
-          id: 'text3208210256',
-          max: 0,
-          min: 0,
-          name: 'id',
-          pattern: '^[a-z0-9]+$',
-          presentable: false,
-          primaryKey: true,
-          required: true,
-          system: true,
-          type: 'text'
-        },
-        {
-          autogeneratePattern: '',
-          hidden: false,
-          id: '_clone_Hvdl',
-          max: 0,
-          min: 0,
-          name: 'name',
-          pattern: '',
-          presentable: false,
-          primaryKey: false,
-          required: false,
-          system: false,
-          type: 'text'
-        },
-        {
-          autogeneratePattern: '',
-          hidden: false,
-          id: '_clone_Npv3',
-          max: 0,
-          min: 0,
-          name: 'color',
-          pattern: '',
-          presentable: false,
-          primaryKey: false,
-          required: false,
-          system: false,
-          type: 'text'
-        },
-        {
-          autogeneratePattern: '',
-          hidden: false,
-          id: '_clone_cvMl',
-          max: 0,
-          min: 0,
-          name: 'icon',
-          pattern: '',
-          presentable: false,
-          primaryKey: false,
-          required: false,
-          system: false,
-          type: 'text'
-        },
-        {
-          cascadeDelete: true,
-          collectionId: '10yi8esudwbgz4n',
-          hidden: false,
-          id: '_clone_X9hN',
-          maxSelect: 1,
-          minSelect: 0,
-          name: 'container',
-          presentable: false,
-          required: false,
-          system: false,
-          type: 'relation'
-        },
-        {
-          hidden: false,
-          id: 'number2392944706',
-          max: null,
-          min: null,
-          name: 'amount',
-          onlyInt: false,
-          presentable: false,
-          required: false,
-          system: false,
-          type: 'number'
-        }
-      ],
-      indexes: [],
-      system: false,
-      viewQuery:
-        'WITH entry_tag_map AS (\n  SELECT\n    idea_box__entries.id AS entry_id,\n    idea_box__entries.container as entry_container,\n    json_each.value AS tag_name\n  FROM\n    idea_box__entries,\n    json_each(idea_box__entries.tags)\n  WHERE\n    idea_box__entries.archived = FALSE\n)\nSELECT \n  idea_box__tags.id,\n  idea_box__tags.name,\n  idea_box__tags.color,\n  idea_box__tags.icon,\n  idea_box__tags.container,\n  count(entry_tag_map.entry_id) as amount\nFROM \n  idea_box__tags\nLEFT JOIN entry_tag_map \n  ON entry_tag_map.tag_name = idea_box__tags.name\n  AND entry_tag_map.entry_container = idea_box__tags.container\nGROUP BY \n  idea_box__tags.id'
-    }
-  },
-  containers_aggregated: {
-    schema: z.object({
-      name: z.string(),
-      color: z.string(),
-      icon: z.string(),
-      cover: z.string(),
-      pinned: z.boolean(),
-      hidden: z.boolean(),
-      text_count: z.number(),
-      link_count: z.number(),
-      image_count: z.number()
-    }),
-    raw: {
-      id: 'pbc_3754909733',
-      listRule: '@request.auth.id != ""',
-      viewRule: '@request.auth.id != ""',
-      createRule: null,
-      updateRule: null,
-      deleteRule: null,
-      name: 'idea_box__containers_aggregated',
-      type: 'view',
-      fields: [
-        {
-          autogeneratePattern: '',
-          hidden: false,
-          id: 'text3208210256',
-          max: 0,
-          min: 0,
-          name: 'id',
-          pattern: '^[a-z0-9]+$',
-          presentable: false,
-          primaryKey: true,
-          required: true,
-          system: true,
-          type: 'text'
-        },
-        {
-          autogeneratePattern: '',
-          hidden: false,
-          id: '_clone_0lJw',
-          max: 0,
-          min: 0,
-          name: 'name',
-          pattern: '',
-          presentable: false,
-          primaryKey: false,
-          required: true,
-          system: false,
-          type: 'text'
-        },
-        {
-          autogeneratePattern: '',
-          hidden: false,
-          id: '_clone_IxCk',
-          max: 0,
-          min: 0,
-          name: 'color',
-          pattern: '',
-          presentable: false,
-          primaryKey: false,
-          required: true,
-          system: false,
-          type: 'text'
-        },
-        {
-          autogeneratePattern: '',
-          hidden: false,
-          id: '_clone_dztZ',
-          max: 0,
-          min: 0,
-          name: 'icon',
-          pattern: '',
-          presentable: false,
-          primaryKey: false,
-          required: true,
-          system: false,
-          type: 'text'
-        },
-        {
-          hidden: false,
-          id: '_clone_v8GV',
-          maxSelect: 1,
-          maxSize: 0,
-          mimeTypes: [
-            'image/jpeg',
-            'image/png',
-            'image/svg+xml',
-            'image/gif',
-            'image/webp'
-          ],
-          name: 'cover',
-          presentable: false,
-          protected: false,
-          required: false,
-          system: false,
-          thumbs: ['0x300'],
-          type: 'file'
-        },
-        {
-          hidden: false,
-          id: '_clone_WQOF',
-          name: 'pinned',
-          presentable: false,
-          required: false,
-          system: false,
-          type: 'bool'
-        },
-        {
-          hidden: false,
-          id: '_clone_dcAp',
-          name: 'hidden',
-          presentable: false,
-          required: false,
-          system: false,
-          type: 'bool'
-        },
-        {
-          hidden: false,
-          id: 'number3547201087',
-          max: null,
-          min: null,
-          name: 'text_count',
-          onlyInt: false,
-          presentable: false,
-          required: false,
-          system: false,
-          type: 'number'
-        },
-        {
-          hidden: false,
-          id: 'number711071932',
-          max: null,
-          min: null,
-          name: 'link_count',
-          onlyInt: false,
-          presentable: false,
-          required: false,
-          system: false,
-          type: 'number'
-        },
-        {
-          hidden: false,
-          id: 'number2459746507',
-          max: null,
-          min: null,
-          name: 'image_count',
-          onlyInt: false,
-          presentable: false,
-          required: false,
-          system: false,
-          type: 'number'
-        }
-      ],
-      indexes: [],
-      system: false,
-      viewQuery:
-        "SELECT\n  idea_box__containers.id,\n  idea_box__containers.name,\n  idea_box__containers.color,\n  idea_box__containers.icon,\n  idea_box__containers.cover,\n  idea_box__containers.pinned,\n  idea_box__containers.hidden,\n  COUNT(CASE WHEN idea_box__entries.type = 'text' THEN 1 END) AS text_count,\n  COUNT(CASE WHEN idea_box__entries.type = 'link' THEN 1 END) AS link_count,\n  COUNT(CASE WHEN idea_box__entries.type = 'image' THEN 1 END) AS image_count\nFROM idea_box__containers\nLEFT JOIN idea_box__entries\n  ON idea_box__entries.container = idea_box__containers.id\n  AND idea_box__entries.archived = false\nGROUP BY idea_box__containers.id\n"
-    }
-  },
   entries_text: {
     schema: z.object({
       base_entry: z.string(),
@@ -893,6 +628,271 @@ const ideaBoxSchemas = {
       ],
       indexes: [],
       system: false
+    }
+  },
+  tags_aggregated: {
+    schema: z.object({
+      name: z.string(),
+      color: z.string(),
+      icon: z.string(),
+      container: z.string(),
+      amount: z.number()
+    }),
+    raw: {
+      id: 'pbc_3145449922',
+      listRule: '@request.auth.id != ""',
+      viewRule: '@request.auth.id != ""',
+      createRule: null,
+      updateRule: null,
+      deleteRule: null,
+      name: 'idea_box__tags_aggregated',
+      type: 'view',
+      fields: [
+        {
+          autogeneratePattern: '',
+          hidden: false,
+          id: 'text3208210256',
+          max: 0,
+          min: 0,
+          name: 'id',
+          pattern: '^[a-z0-9]+$',
+          presentable: false,
+          primaryKey: true,
+          required: true,
+          system: true,
+          type: 'text'
+        },
+        {
+          autogeneratePattern: '',
+          hidden: false,
+          id: '_clone_fWDz',
+          max: 0,
+          min: 0,
+          name: 'name',
+          pattern: '',
+          presentable: false,
+          primaryKey: false,
+          required: false,
+          system: false,
+          type: 'text'
+        },
+        {
+          autogeneratePattern: '',
+          hidden: false,
+          id: '_clone_cuAj',
+          max: 0,
+          min: 0,
+          name: 'color',
+          pattern: '',
+          presentable: false,
+          primaryKey: false,
+          required: false,
+          system: false,
+          type: 'text'
+        },
+        {
+          autogeneratePattern: '',
+          hidden: false,
+          id: '_clone_yka3',
+          max: 0,
+          min: 0,
+          name: 'icon',
+          pattern: '',
+          presentable: false,
+          primaryKey: false,
+          required: false,
+          system: false,
+          type: 'text'
+        },
+        {
+          cascadeDelete: true,
+          collectionId: '10yi8esudwbgz4n',
+          hidden: false,
+          id: '_clone_Vzyn',
+          maxSelect: 1,
+          minSelect: 0,
+          name: 'container',
+          presentable: false,
+          required: false,
+          system: false,
+          type: 'relation'
+        },
+        {
+          hidden: false,
+          id: 'number2392944706',
+          max: null,
+          min: null,
+          name: 'amount',
+          onlyInt: false,
+          presentable: false,
+          required: false,
+          system: false,
+          type: 'number'
+        }
+      ],
+      indexes: [],
+      system: false,
+      viewQuery:
+        'WITH entry_tag_map AS (\n  SELECT\n    idea_box__entries.id AS entry_id,\n    idea_box__entries.container as entry_container,\n    json_each.value AS tag_name\n  FROM\n    idea_box__entries,\n    json_each(idea_box__entries.tags)\n  WHERE\n    idea_box__entries.archived = FALSE\n)\nSELECT \n  idea_box__tags.id,\n  idea_box__tags.name,\n  idea_box__tags.color,\n  idea_box__tags.icon,\n  idea_box__tags.container,\n  count(entry_tag_map.entry_id) as amount\nFROM \n  idea_box__tags\nLEFT JOIN entry_tag_map \n  ON entry_tag_map.tag_name = idea_box__tags.name\n  AND entry_tag_map.entry_container = idea_box__tags.container\nGROUP BY \n  idea_box__tags.id'
+    }
+  },
+  containers_aggregated: {
+    schema: z.object({
+      name: z.string(),
+      color: z.string(),
+      icon: z.string(),
+      cover: z.string(),
+      pinned: z.boolean(),
+      hidden: z.boolean(),
+      text_count: z.number(),
+      link_count: z.number(),
+      image_count: z.number()
+    }),
+    raw: {
+      id: 'pbc_3754909733',
+      listRule: '@request.auth.id != ""',
+      viewRule: '@request.auth.id != ""',
+      createRule: null,
+      updateRule: null,
+      deleteRule: null,
+      name: 'idea_box__containers_aggregated',
+      type: 'view',
+      fields: [
+        {
+          autogeneratePattern: '',
+          hidden: false,
+          id: 'text3208210256',
+          max: 0,
+          min: 0,
+          name: 'id',
+          pattern: '^[a-z0-9]+$',
+          presentable: false,
+          primaryKey: true,
+          required: true,
+          system: true,
+          type: 'text'
+        },
+        {
+          autogeneratePattern: '',
+          hidden: false,
+          id: '_clone_WOOz',
+          max: 0,
+          min: 0,
+          name: 'name',
+          pattern: '',
+          presentable: false,
+          primaryKey: false,
+          required: true,
+          system: false,
+          type: 'text'
+        },
+        {
+          autogeneratePattern: '',
+          hidden: false,
+          id: '_clone_CTRj',
+          max: 0,
+          min: 0,
+          name: 'color',
+          pattern: '',
+          presentable: false,
+          primaryKey: false,
+          required: true,
+          system: false,
+          type: 'text'
+        },
+        {
+          autogeneratePattern: '',
+          hidden: false,
+          id: '_clone_OoIu',
+          max: 0,
+          min: 0,
+          name: 'icon',
+          pattern: '',
+          presentable: false,
+          primaryKey: false,
+          required: true,
+          system: false,
+          type: 'text'
+        },
+        {
+          hidden: false,
+          id: '_clone_nWIH',
+          maxSelect: 1,
+          maxSize: 0,
+          mimeTypes: [
+            'image/jpeg',
+            'image/png',
+            'image/svg+xml',
+            'image/gif',
+            'image/webp'
+          ],
+          name: 'cover',
+          presentable: false,
+          protected: false,
+          required: false,
+          system: false,
+          thumbs: ['0x300'],
+          type: 'file'
+        },
+        {
+          hidden: false,
+          id: '_clone_gsPm',
+          name: 'pinned',
+          presentable: false,
+          required: false,
+          system: false,
+          type: 'bool'
+        },
+        {
+          hidden: false,
+          id: '_clone_q8Or',
+          name: 'hidden',
+          presentable: false,
+          required: false,
+          system: false,
+          type: 'bool'
+        },
+        {
+          hidden: false,
+          id: 'number3547201087',
+          max: null,
+          min: null,
+          name: 'text_count',
+          onlyInt: false,
+          presentable: false,
+          required: false,
+          system: false,
+          type: 'number'
+        },
+        {
+          hidden: false,
+          id: 'number711071932',
+          max: null,
+          min: null,
+          name: 'link_count',
+          onlyInt: false,
+          presentable: false,
+          required: false,
+          system: false,
+          type: 'number'
+        },
+        {
+          hidden: false,
+          id: 'number2459746507',
+          max: null,
+          min: null,
+          name: 'image_count',
+          onlyInt: false,
+          presentable: false,
+          required: false,
+          system: false,
+          type: 'number'
+        }
+      ],
+      indexes: [],
+      system: false,
+      viewQuery:
+        "SELECT\n  idea_box__containers.id,\n  idea_box__containers.name,\n  idea_box__containers.color,\n  idea_box__containers.icon,\n  idea_box__containers.cover,\n  idea_box__containers.pinned,\n  idea_box__containers.hidden,\n  COUNT(CASE WHEN idea_box__entries.type = 'text' THEN 1 END) AS text_count,\n  COUNT(CASE WHEN idea_box__entries.type = 'link' THEN 1 END) AS link_count,\n  COUNT(CASE WHEN idea_box__entries.type = 'image' THEN 1 END) AS image_count\nFROM idea_box__containers\nLEFT JOIN idea_box__entries\n  ON idea_box__entries.container = idea_box__containers.id\n  AND idea_box__entries.archived = false\nGROUP BY idea_box__containers.id\n"
     }
   }
 }

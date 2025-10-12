@@ -6,7 +6,12 @@
     "types": "cd client && bun tsc && cd ../server && bun tsc"
   },
   "dependencies": {
-    "open-graph-scraper": "^6.10.0"
+    "lifeforge-ui": "workspace:*",
+    "open-graph-scraper": "^6.10.0",
+    "react-columns": "^1.2.1",
+    "react-markdown": "^10.1.0",
+    "shared": "workspace:*",
+    "zod": "^4.1.12"
   },
   "devDependencies": {}
 }
