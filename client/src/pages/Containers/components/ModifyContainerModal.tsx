@@ -38,7 +38,11 @@ function ModifyContainerModal({
   )
 
   const imageGenAPIKeyExistsQuery = useQuery(
-    forgeAPI.ai.imageGeneration.verifyAPIKey.queryOptions()
+    forgeAPI.apiKeys.entries.checkKeys
+      .input({
+        keys: 'openai'
+      })
+      .queryOptions()
   )
 
   const { formProps } = defineForm<
