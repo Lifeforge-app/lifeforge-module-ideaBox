@@ -2,6 +2,7 @@ import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 import forgeAPI from '@/utils/forgeAPI'
 import { Icon } from '@iconify/react'
 import { useQuery } from '@tanstack/react-query'
+import clsx from 'clsx'
 import { Link, useParams } from 'react-router'
 
 import ContainerName from './components/ContainerName'
@@ -29,22 +30,40 @@ function Header() {
     <header className="space-y-3">
       <GoBackButtonAndMenu />
       <div
-        className="bg-bg-900 relative isolate flex h-56 w-full items-end justify-between rounded-lg bg-cover bg-center bg-no-repeat p-6 sm:h-72"
-        style={{
-          backgroundImage:
-            pathDetails?.container &&
-            `url(${
-              forgeAPI.media.input({
-                collectionId: pathDetails.container.collectionId,
-                recordId: pathDetails.container.id,
-                fieldId: pathDetails.container.cover
-              }).endpoint
-            })`
-        }}
+        className={clsx(
+          'relative isolate flex h-56 w-full items-end justify-between rounded-lg bg-cover bg-center bg-no-repeat p-6 sm:h-72',
+          pathDetails?.container.cover
+            ? 'bg-bg-900'
+            : 'bg-bg-200 dark:bg-bg-800'
+        )}
+        style={
+          pathDetails?.container.cover
+            ? {
+                backgroundImage:
+                  pathDetails?.container &&
+                  `url(${
+                    forgeAPI.media.input({
+                      collectionId: pathDetails.container.collectionId,
+                      recordId: pathDetails.container.id,
+                      fieldId: pathDetails.container.cover
+                    }).endpoint
+                  })`
+              }
+            : undefined
+        }
       >
-        <div className="absolute inset-0 rounded-lg bg-[linear-gradient(to_bottom,rgba(0,0,0,0)_0%,rgba(0,0,0,0.7)_80%)]"></div>
-        <div className="flex-between relative z-9999 flex w-full">
-          <h1 className="text-bg-100 flex items-center gap-3 text-2xl font-semibold sm:text-3xl">
+        {pathDetails?.container.cover && (
+          <div className="absolute inset-0 rounded-lg bg-[linear-gradient(to_bottom,rgba(0,0,0,0)_0%,rgba(0,0,0,0.7)_80%)]"></div>
+        )}
+        <div className="flex-between z-9999 relative flex w-full">
+          <h1
+            className={clsx(
+              'flex items-center gap-3 text-2xl font-semibold sm:text-3xl',
+              pathDetails?.container.cover
+                ? 'text-bg-100'
+                : 'text-bg-900 dark:text-bg-100'
+            )}
+          >
             {(() => {
               if (!pathDetails) {
                 return (
@@ -75,7 +94,7 @@ function Header() {
                       <>
                         <Link
                           key={folder.id}
-                          className="relative flex items-center gap-2 rounded-lg p-3 text-base before:absolute before:top-0 before:left-0 before:size-full before:rounded-md before:transition-all hover:before:bg-white/5"
+                          className="relative flex items-center gap-2 rounded-lg p-3 text-base before:absolute before:left-0 before:top-0 before:size-full before:rounded-md before:transition-all hover:before:bg-white/5"
                           style={{
                             backgroundColor: folder.color + '20',
                             color: folder.color

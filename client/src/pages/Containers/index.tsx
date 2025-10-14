@@ -75,12 +75,6 @@ function IdeaBox() {
           if (data.length === 0) {
             return (
               <EmptyStateScreen
-                CTAButtonProps={{
-                  children: 'new',
-                  onClick: handleCreateContainer,
-                  icon: 'tabler:plus',
-                  tProps: { item: t('items.container') }
-                }}
                 icon="tabler:cube-off"
                 name="container"
                 namespace="apps.ideaBox"
