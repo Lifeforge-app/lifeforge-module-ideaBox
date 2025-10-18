@@ -6,8 +6,8 @@ import clsx from 'clsx'
 import { Button, GoBackButton, ModalHeader, WithQuery } from 'lifeforge-ui'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useParams } from 'react-router'
 import { toast } from 'react-toastify'
+import { useParams } from 'shared'
 
 interface MoveToFolderModalProps {
   data: {
@@ -118,7 +118,7 @@ function MoveToFolderModal({
         onClose={onClose}
       />
       {modalPath && <GoBackButton onClick={handleParentClick} />}
-      <div className="mt-4 mb-6 flex flex-wrap items-center gap-2">
+      <div className="mb-6 mt-4 flex flex-wrap items-center gap-2">
         <button
           className="flex items-center gap-2"
           onClick={() => setModalPath('')}
@@ -197,7 +197,7 @@ function MoveToFolderModal({
                     <div className="flex w-full min-w-0 items-start">
                       <p className="min-w-0 truncate">{folder.name}</p>
                       {isCurrentFolder(folder.id) && (
-                        <span className="text-bg-500 mt-1 ml-2 block text-sm">
+                        <span className="text-bg-500 ml-2 mt-1 block text-sm">
                           (current)
                         </span>
                       )}

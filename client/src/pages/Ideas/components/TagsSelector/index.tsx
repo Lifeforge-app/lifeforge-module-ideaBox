@@ -1,7 +1,7 @@
 import { type IdeaBoxTag, useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 import { useModalStore } from 'lifeforge-ui'
 import { useCallback, useMemo } from 'react'
-import { useParams } from 'react-router'
+import { useParams } from 'shared'
 
 import ModifyTagModal from '../modals/ModifyTagModal'
 import TagItem from './components/TagItem'

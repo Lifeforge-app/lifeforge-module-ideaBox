@@ -10,8 +10,8 @@ import {
   useModalStore
 } from 'lifeforge-ui'
 import { useCallback } from 'react'
-import { Link } from 'react-router'
 import { toast } from 'react-toastify'
+import { Link } from 'shared'
 
 import ModifyContainerModal from '../../ModifyContainerModal'
 
@@ -94,12 +94,12 @@ function ContainerItem({ container }: { container: IdeaBoxContainer }) {
     <ItemWrapper
       isInteractive
       as="li"
-      className="group flex cursor-default! flex-col items-center justify-start p-0!"
+      className="cursor-default! p-0! group flex flex-col items-center justify-start"
       tabIndex={-1}
     >
       {container.pinned && (
         <Icon
-          className="absolute -top-2 -left-2 z-50 size-5 -rotate-90 text-red-500 drop-shadow-md"
+          className="absolute -left-2 -top-2 z-50 size-5 -rotate-90 text-red-500 drop-shadow-md"
           icon="tabler:pin"
         />
       )}

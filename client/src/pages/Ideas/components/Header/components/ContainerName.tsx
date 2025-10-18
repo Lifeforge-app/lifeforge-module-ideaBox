@@ -1,7 +1,7 @@
 import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 import { Icon } from '@iconify/react'
 import { useCallback } from 'react'
-import { Link } from 'react-router'
+import { Link } from 'shared'
 
 function ContainerName({
   id,

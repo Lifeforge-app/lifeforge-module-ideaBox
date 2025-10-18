@@ -3,7 +3,7 @@ import {
   useIdeaBoxContext
 } from '@/providers/IdeaBoxProvider'
 import { Icon } from '@iconify/react'
-import { Link, useParams } from 'react-router'
+import { Link, useParams } from 'shared'
 
 function InFolderChip({ entry }: { entry: IdeaBoxIdea }) {
   const { setSearchQuery, setSelectedTags } = useIdeaBoxContext()

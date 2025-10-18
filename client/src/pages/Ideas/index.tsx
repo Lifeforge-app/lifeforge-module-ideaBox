@@ -1,6 +1,6 @@
 import IdeaBoxProvider, { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 import { SearchInput } from 'lifeforge-ui'
-import { useParams } from 'react-router'
+import { useParams } from 'shared'
 
 import FAB from './components/FAB'
 import Header from './components/Header'

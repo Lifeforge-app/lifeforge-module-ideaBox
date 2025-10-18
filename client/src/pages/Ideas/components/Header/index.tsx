@@ -3,7 +3,7 @@ import forgeAPI from '@/utils/forgeAPI'
 import { Icon } from '@iconify/react'
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { Link, useParams } from 'react-router'
+import { Link, useParams } from 'shared'
 
 import ContainerName from './components/ContainerName'
 import GoBackButtonAndMenu from './components/GoBackButtonAndMenu'

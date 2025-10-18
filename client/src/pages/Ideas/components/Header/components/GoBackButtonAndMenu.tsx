@@ -1,7 +1,7 @@
 import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 import { ContextMenu, ContextMenuItem, GoBackButton } from 'lifeforge-ui'
 import { memo, useCallback } from 'react'
-import { useLocation, useNavigate } from 'react-router'
+import { useLocation, useNavigate } from 'shared'
 
 function GoBackButtonAndMenu() {
   const navigate = useNavigate()
