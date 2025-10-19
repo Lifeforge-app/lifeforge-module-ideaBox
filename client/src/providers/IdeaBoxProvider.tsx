@@ -3,6 +3,8 @@ import { type UseQueryResult, useQuery } from '@tanstack/react-query'
 import { useDebounce } from '@uidotdev/usehooks'
 import { useModalStore } from 'lifeforge-ui'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import { toast } from 'react-toastify'
 import { useNavigate, useParams, useSearchParams } from 'shared'
 import type { InferOutput } from 'shared'
@@ -227,7 +229,11 @@ export default function IdeaBoxProvider({
     ]
   )
 
-  return <IdeaBoxContext value={value}>{children}</IdeaBoxContext>
+  return (
+    <DndProvider backend={HTML5Backend}>
+      <IdeaBoxContext value={value}>{children}</IdeaBoxContext>
+    </DndProvider>
+  )
 }
 
 export function useIdeaBoxContext(): IIdeaBoxData {

@@ -17,6 +17,7 @@
     "react": "^19.2.0",
     "react-columns": "^1.2.1",
     "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-i18next": "^15.1.1",
     "react-markdown": "^10.1.0",
     "react-medium-image-zoom": "^5.4.0",
