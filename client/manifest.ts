@@ -8,5 +8,5 @@ export default {
     'idea-box': lazy(() => import('@/pages/Containers')),
     'idea-box/:id/*': lazy(() => import('@/pages/Ideas'))
   },
-  category: '01.Productivity'
+  category: 'Productivity'
 } satisfies ModuleConfig
