@@ -479,7 +479,7 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_Hvdl',
+          id: '_clone_Gc22',
           max: 0,
           min: 0,
           name: 'name',
@@ -493,7 +493,7 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_Npv3',
+          id: '_clone_6Yup',
           max: 0,
           min: 0,
           name: 'color',
@@ -507,7 +507,7 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_cvMl',
+          id: '_clone_qegg',
           max: 0,
           min: 0,
           name: 'icon',
@@ -522,7 +522,7 @@ const ideaBoxSchemas = {
           cascadeDelete: true,
           collectionId: '10yi8esudwbgz4n',
           hidden: false,
-          id: '_clone_X9hN',
+          id: '_clone_ndMH',
           maxSelect: 1,
           minSelect: 0,
           name: 'container',
@@ -589,7 +589,7 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_0lJw',
+          id: '_clone_5qpK',
           max: 0,
           min: 0,
           name: 'name',
@@ -603,7 +603,7 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_IxCk',
+          id: '_clone_JYD4',
           max: 0,
           min: 0,
           name: 'color',
@@ -617,7 +617,7 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_dztZ',
+          id: '_clone_imc2',
           max: 0,
           min: 0,
           name: 'icon',
@@ -630,7 +630,7 @@ const ideaBoxSchemas = {
         },
         {
           hidden: false,
-          id: '_clone_v8GV',
+          id: '_clone_GK2u',
           maxSelect: 1,
           maxSize: 0,
           mimeTypes: [
@@ -650,7 +650,7 @@ const ideaBoxSchemas = {
         },
         {
           hidden: false,
-          id: '_clone_WQOF',
+          id: '_clone_fGUn',
           name: 'pinned',
           presentable: false,
           required: false,
@@ -659,7 +659,7 @@ const ideaBoxSchemas = {
         },
         {
           hidden: false,
-          id: '_clone_dcAp',
+          id: '_clone_Iy9W',
           name: 'hidden',
           presentable: false,
           required: false,
