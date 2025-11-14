@@ -70,7 +70,7 @@ function Header() {
                   <>
                     <Icon
                       className="text-bg-500 size-5"
-                      icon="svg-spinners:180-ring"
+                      icon="svg-spinners:ring-resize"
                     />
                     Loading...
                   </>
