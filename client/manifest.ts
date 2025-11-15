@@ -5,8 +5,8 @@ export default {
   name: 'Idea Box',
   icon: 'tabler:bulb',
   routes: {
-    'idea-box': lazy(() => import('@/pages/Containers')),
-    'idea-box/:id/*': lazy(() => import('@/pages/Ideas'))
+    '/': lazy(() => import('@/pages/Containers')),
+    '/:id/*': lazy(() => import('@/pages/Ideas'))
   },
   category: 'Productivity'
 } satisfies ModuleConfig
