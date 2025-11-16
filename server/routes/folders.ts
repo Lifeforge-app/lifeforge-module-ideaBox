@@ -60,7 +60,7 @@ const create = forgeController
   })
   .existenceCheck('body', {
     container: 'idea_box__containers',
-    parent: 'idea_box__folders'
+    parent: '[idea_box__folders]'
   })
   .callback(
     async ({ pb, body }) =>
