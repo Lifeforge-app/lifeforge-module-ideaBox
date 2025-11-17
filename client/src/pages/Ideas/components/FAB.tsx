@@ -1,10 +1,9 @@
 import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
-import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
 import { Icon } from '@iconify/react'
 import clsx from 'clsx'
 import { Button } from 'lifeforge-ui'
 import { useModalStore } from 'lifeforge-ui'
-import { useCallback } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 
@@ -17,6 +16,12 @@ function FAB() {
   const { t } = useTranslation('apps.ideaBox')
 
   const { viewArchived } = useIdeaBoxContext()
+
+  const [isOpen, setIsOpen] = useState(false)
+
+  const [focusedIndex, setFocusedIndex] = useState<number | null>(null)
+
+  const menuRef = useRef<HTMLDivElement>(null)
 
   const handleEntryCreation = useCallback(
     (name: string) => () => {
@@ -32,76 +37,113 @@ function FAB() {
           }
         })
       }
+      setIsOpen(false)
     },
-    []
+    [open]
   )
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        setIsOpen(false)
+      }
+    }
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsOpen(false)
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('mousedown', handleClickOutside)
+      document.addEventListener('keydown', handleEscape)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+      document.removeEventListener('keydown', handleEscape)
+    }
+  }, [isOpen])
+
+  const menuItems = [
+    ['Folder', 'tabler:folder'],
+    ['Text', 'tabler:text-size'],
+    ['Link', 'tabler:link'],
+    ['Image', 'tabler:photo']
+  ] as const
 
   return !viewArchived ? (
     createPortal(
-      <Menu
-        as="div"
+      <div
+        ref={menuRef}
         className="group fixed right-6 bottom-6 z-9990 sm:right-12 sm:bottom-12"
       >
-        {({ open }) => (
-          <>
-            <Button
-              as={MenuButton}
-              className={clsx(
-                'relative z-[9991] shadow-lg',
-                open && 'rotate-45',
-                'transition-all'
-              )}
-              icon="tabler:plus"
-              iconClassName={clsx(open && 'rotate-45', 'transition-all')}
-            />
-            <MenuItems
-              transition
-              anchor="top end"
-              className={clsx(
-                'z-9999 mb-4 rounded-lg outline-hidden transition duration-100 ease-out [--anchor-gap:1rem] focus:outline-hidden data-closed:scale-95 data-closed:opacity-0'
-              )}
-            >
-              {[
-                ['Folder', 'tabler:folder'],
-                ['Text', 'tabler:text-size'],
-                ['Link', 'tabler:link'],
-                ['Image', 'tabler:photo']
-              ].map(([name, icon]) => (
-                <MenuItem key={name}>
-                  <div
-                    className={
-                      'group flex w-full items-center justify-end gap-3 rounded-md py-2 pr-2 whitespace-nowrap'
-                    }
-                  >
-                    <span className="text-bg-50 group-data-focus:text-bg-200 transition-all">
-                      {t(`entryType.${name.toLowerCase()}`)}
-                    </span>
-                    <button
-                      className="bg-bg-100 text-bg-800 group-data-focus:bg-bg-200 rounded-full p-3 transition-all"
-                      onClick={handleEntryCreation(name)}
-                    >
-                      <Icon className="size-5" icon={icon} />
-                    </button>
-                  </div>
-                </MenuItem>
-              ))}
-            </MenuItems>
+        <Button
+          className={clsx(
+            'relative z-[9991] shadow-lg',
+            isOpen && 'rotate-45',
+            'transition-all'
+          )}
+          icon="tabler:plus"
+          iconClassName={clsx(isOpen && 'rotate-45', 'transition-all')}
+          onClick={() => setIsOpen(!isOpen)}
+        />
+        <div
+          className={clsx(
+            'absolute right-0 bottom-full z-9999 mb-4 rounded-lg outline-hidden transition duration-100 ease-out focus:outline-hidden',
+            isOpen
+              ? 'scale-100 opacity-100'
+              : 'pointer-events-none scale-95 opacity-0'
+          )}
+        >
+          {menuItems.map(([name, icon], index) => (
             <div
+              key={name}
               className={clsx(
-                'fixed top-0 left-0 z-[9990] size-full transition-transform',
-                open ? 'translate-x-0 duration-0' : 'translate-x-full delay-100'
+                'group flex w-full items-center justify-end gap-3 rounded-md py-2 pr-2 whitespace-nowrap',
+                focusedIndex === index && 'bg-bg-800/50'
               )}
+              onMouseEnter={() => setFocusedIndex(index)}
+              onMouseLeave={() => setFocusedIndex(null)}
             >
-              <div
+              <span
                 className={clsx(
-                  'bg-bg-900/50 size-full backdrop-blur-xs transition-opacity',
-                  open ? 'opacity-100' : 'opacity-0'
+                  'text-bg-50 transition-all',
+                  focusedIndex === index && 'text-bg-200'
                 )}
-              />
+              >
+                {t(`entryType.${name.toLowerCase()}`)}
+              </span>
+              <button
+                className={clsx(
+                  'bg-bg-100 text-bg-800 rounded-full p-3 transition-all',
+                  focusedIndex === index && 'bg-bg-200'
+                )}
+                onClick={handleEntryCreation(name)}
+              >
+                <Icon className="size-5" icon={icon} />
+              </button>
             </div>
-          </>
-        )}
-      </Menu>,
+          ))}
+        </div>
+        <div
+          className={clsx(
+            'fixed top-0 left-0 z-[9990] size-full transition-transform',
+            isOpen ? 'translate-x-0 duration-0' : 'translate-x-full delay-100'
+          )}
+        >
+          <div
+            className={clsx(
+              'bg-bg-900/50 size-full backdrop-blur-xs transition-opacity',
+              isOpen ? 'opacity-100' : 'opacity-0'
+            )}
+            onClick={() => {
+              setIsOpen(false)
+            }}
+          />
+        </div>
+      </div>,
       (document.getElementById('app') as HTMLElement) || document.body
     )
   ) : (
