@@ -68,13 +68,13 @@ function FolderContextMenu({
       .mutationOptions({
         onSuccess: () => {
           queryClient.invalidateQueries({
-            queryKey: ['idea-box', 'ideas']
+            queryKey: ['ideaBox', 'ideas']
           })
           queryClient.invalidateQueries({
-            queryKey: ['idea-box', 'misc', 'search']
+            queryKey: ['ideaBox', 'misc', 'search']
           })
           queryClient.invalidateQueries({
-            queryKey: ['idea-box', 'folders']
+            queryKey: ['ideaBox', 'folders']
           })
         },
         onError: () => {}

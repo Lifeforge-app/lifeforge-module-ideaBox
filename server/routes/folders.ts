@@ -7,7 +7,12 @@ import { validateFolderPath } from '../utils/folders'
 
 const list = forgeController
   .query()
-  .description('List folders from a container path')
+  .description({
+    en: 'Get all folders in a path',
+    ms: 'Dapatkan semua folder dalam laluan',
+    'zh-CN': '获取路径中的所有文件夹',
+    'zh-TW': '獲取路徑中的所有資料夾'
+  })
   .input({
     query: z.object({
       container: z.string(),
@@ -54,7 +59,12 @@ const list = forgeController
 
 const create = forgeController
   .mutation()
-  .description('Create a new folder')
+  .description({
+    en: 'Create a new folder',
+    ms: 'Cipta folder baharu',
+    'zh-CN': '创建新文件夹',
+    'zh-TW': '創建新資料夾'
+  })
   .input({
     body: SCHEMAS.idea_box.folders.schema
   })
@@ -70,7 +80,12 @@ const create = forgeController
 
 const update = forgeController
   .mutation()
-  .description('Update a folder')
+  .description({
+    en: 'Update folder details',
+    ms: 'Kemas kini butiran folder',
+    'zh-CN': '更新文件夹详情',
+    'zh-TW': '更新資料夾詳情'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -94,7 +109,12 @@ const update = forgeController
 
 const moveTo = forgeController
   .mutation()
-  .description('Move a folder to a different parent')
+  .description({
+    en: 'Move folder to another parent',
+    ms: 'Pindah folder ke induk lain',
+    'zh-CN': '将文件夹移至另一个父级',
+    'zh-TW': '將資料夾移至另一個父級'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -122,7 +142,12 @@ const moveTo = forgeController
 
 const removeFromParent = forgeController
   .mutation()
-  .description('Remove a folder from its parent')
+  .description({
+    en: 'Move folder to parent folder',
+    ms: 'Pindah folder ke folder induk',
+    'zh-CN': '将文件夹移至上级文件夹',
+    'zh-TW': '將資料夾移至上級資料夾'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -131,20 +156,38 @@ const removeFromParent = forgeController
   .existenceCheck('query', {
     id: 'idea_box__folders'
   })
-  .callback(
-    async ({ pb, query: { id } }) =>
-      await pb.update
-        .collection('idea_box__folders')
-        .id(id)
-        .data({
-          parent: ''
-        })
-        .execute()
-  )
+  .callback(async ({ pb, query: { id } }) => {
+    const currentFolder = await pb.getOne
+      .collection('idea_box__folders')
+      .id(id)
+      .execute()
+
+    if (!currentFolder.parent) {
+      throw new ClientError('Folder is already at root level')
+    }
+
+    const parentFolder = await pb.getOne
+      .collection('idea_box__folders')
+      .id(currentFolder.parent)
+      .execute()
+
+    return await pb.update
+      .collection('idea_box__folders')
+      .id(id)
+      .data({
+        parent: parentFolder.parent || null
+      })
+      .execute()
+  })
 
 const remove = forgeController
   .mutation()
-  .description('Delete a folder')
+  .description({
+    en: 'Delete a folder',
+    ms: 'Padam folder',
+    'zh-CN': '删除文件夹',
+    'zh-TW': '刪除資料夾'
+  })
   .input({
     query: z.object({
       id: z.string()
