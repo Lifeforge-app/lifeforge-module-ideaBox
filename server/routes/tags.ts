@@ -4,7 +4,12 @@ import z from 'zod'
 
 const list = forgeController
   .query()
-  .description('Get tags for a container')
+  .description({
+    en: 'Get all tags in a container',
+    ms: 'Dapatkan semua tag dalam bekas',
+    'zh-CN': '获取容器中的所有标签',
+    'zh-TW': '獲取容器中的所有標籤'
+  })
   .input({
     query: z.object({
       container: z.string()
@@ -30,7 +35,12 @@ const list = forgeController
 
 const create = forgeController
   .mutation()
-  .description('Create a new tag')
+  .description({
+    en: 'Create a new tag',
+    ms: 'Cipta tag baharu',
+    'zh-CN': '创建新标签',
+    'zh-TW': '創建新標籤'
+  })
   .input({
     body: SCHEMAS.idea_box.tags.schema
   })
@@ -45,7 +55,12 @@ const create = forgeController
 
 const update = forgeController
   .mutation()
-  .description('Update a tag')
+  .description({
+    en: 'Update an existing tag',
+    ms: 'Kemas kini tag sedia ada',
+    'zh-CN': '更新现有标签',
+    'zh-TW': '更新現有標籤'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -64,7 +79,12 @@ const update = forgeController
 
 const remove = forgeController
   .mutation()
-  .description('Delete a tag')
+  .description({
+    en: 'Delete a tag',
+    ms: 'Padam tag',
+    'zh-CN': '删除标签',
+    'zh-TW': '刪除標籤'
+  })
   .input({
     query: z.object({
       id: z.string()

@@ -9,7 +9,12 @@ import { validateFolderPath } from '../utils/folders'
 
 const list = forgeController
   .query()
-  .description('Get ideas from a folder')
+  .description({
+    en: 'Get all ideas from a folder or idea container',
+    ms: 'Dapatkan semua idea daripada folder atau bekas idea',
+    'zh-CN': '获取文件夹中的所有想法或想法容器',
+    'zh-TW': '獲取資料夾中的所有想法或想法容器'
+  })
   .input({
     query: z.object({
       container: z.string(),
@@ -198,7 +203,12 @@ const createSchema = SCHEMAS.idea_box.entries.schema
 
 const create = forgeController
   .mutation()
-  .description('Create a new idea')
+  .description({
+    en: 'Create a new idea entry',
+    ms: 'Cipta entri idea baharu',
+    'zh-CN': '创建新的想法条目',
+    'zh-TW': '創建新的想法條目'
+  })
   .input({
     body: createSchema
   })
@@ -297,7 +307,12 @@ const updateSchema = SCHEMAS.idea_box.entries.schema
 
 const update = forgeController
   .mutation()
-  .description('Update an idea')
+  .description({
+    en: 'Update an existing idea',
+    ms: 'Kemas kini idea sedia ada',
+    'zh-CN': '更新现有想法',
+    'zh-TW': '更新現有想法'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -394,7 +409,12 @@ const update = forgeController
 
 const remove = forgeController
   .mutation()
-  .description('Delete an idea')
+  .description({
+    en: 'Delete an idea',
+    ms: 'Padam idea',
+    'zh-CN': '删除想法',
+    'zh-TW': '刪除想法'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -410,7 +430,12 @@ const remove = forgeController
 
 const pin = forgeController
   .mutation()
-  .description('Pin/unpin an idea')
+  .description({
+    en: 'Toggle pin status of an idea',
+    ms: 'Togol status pin idea',
+    'zh-CN': '切换想法的置顶状态',
+    'zh-TW': '切換想法的置頂狀態'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -436,7 +461,12 @@ const pin = forgeController
 
 const archive = forgeController
   .mutation()
-  .description('Archive/unarchive an idea')
+  .description({
+    en: 'Toggle archive status of an idea',
+    ms: 'Togol status arkib idea',
+    'zh-CN': '切换想法的归档状态',
+    'zh-TW': '切換想法的封存狀態'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -463,7 +493,12 @@ const archive = forgeController
 
 const moveTo = forgeController
   .mutation()
-  .description('Move an idea to a different folder')
+  .description({
+    en: 'Move an idea to another folder',
+    ms: 'Pindah idea ke folder lain',
+    'zh-CN': '将想法移动到另一个文件夹',
+    'zh-TW': '將想法移動到另一個資料夾'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -490,7 +525,12 @@ const moveTo = forgeController
 
 const removeFromParent = forgeController
   .mutation()
-  .description('Remove an idea from its current folder')
+  .description({
+    en: 'Move idea to parent folder',
+    ms: 'Pindah idea ke folder induk',
+    'zh-CN': '将想法移至父文件夹',
+    'zh-TW': '將想法移至父資料夾'
+  })
   .input({
     query: z.object({
       id: z.string()

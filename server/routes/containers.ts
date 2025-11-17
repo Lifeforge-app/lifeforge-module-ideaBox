@@ -5,7 +5,12 @@ import z from 'zod'
 
 const validate = forgeController
   .query()
-  .description('Check if a container exists')
+  .description({
+    en: 'Validate if a container exists',
+    ms: 'Sahkan sama ada bekas wujud',
+    'zh-CN': '验证容器是否存在',
+    'zh-TW': '驗證容器是否存在'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -22,7 +27,12 @@ const validate = forgeController
 
 const list = forgeController
   .query()
-  .description('Get all containers')
+  .description({
+    en: 'Get all containers with stats',
+    ms: 'Dapatkan semua bekas dengan statistik',
+    'zh-CN': '获取所有容器及统计信息',
+    'zh-TW': '獲取所有容器及統計資訊'
+  })
   .input({
     query: z.object({
       hidden: z
@@ -49,7 +59,12 @@ const list = forgeController
 
 const create = forgeController
   .mutation()
-  .description('Create a new container')
+  .description({
+    en: 'Create a new container',
+    ms: 'Cipta bekas baharu',
+    'zh-CN': '创建新容器',
+    'zh-TW': '創建新容器'
+  })
   .input({
     body: SCHEMAS.idea_box.containers.schema.omit({
       cover: true,
@@ -75,7 +90,12 @@ const create = forgeController
 
 const update = forgeController
   .mutation()
-  .description('Update a container')
+  .description({
+    en: 'Update an existing container',
+    ms: 'Kemas kini bekas sedia ada',
+    'zh-CN': '更新现有容器',
+    'zh-TW': '更新現有容器'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -107,7 +127,12 @@ const update = forgeController
 
 const remove = forgeController
   .mutation()
-  .description('Delete a container')
+  .description({
+    en: 'Delete a container',
+    ms: 'Padam bekas',
+    'zh-CN': '删除容器',
+    'zh-TW': '刪除容器'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -123,7 +148,12 @@ const remove = forgeController
 
 const togglePin = forgeController
   .mutation()
-  .description('Toggle pin status of a container')
+  .description({
+    en: 'Toggle pin status of a container',
+    ms: 'Togol status pin bekas',
+    'zh-CN': '切换容器的置顶状态',
+    'zh-TW': '切換容器的置頂狀態'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -149,7 +179,12 @@ const togglePin = forgeController
 
 const toggleHide = forgeController
   .mutation()
-  .description('Toggle hide status of a container')
+  .description({
+    en: 'Toggle visibility of a container',
+    ms: 'Togol keterlihatan bekas',
+    'zh-CN': '切换容器的可见性',
+    'zh-TW': '切換容器的可見性'
+  })
   .input({
     query: z.object({
       id: z.string()

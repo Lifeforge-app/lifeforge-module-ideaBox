@@ -11,7 +11,12 @@ const OGCache = new Map<string, any>()
 
 const getPath = forgeController
   .query()
-  .description('Get path information for a container or folder')
+  .description({
+    en: 'Get path information for a container or folder',
+    ms: 'Dapatkan maklumat laluan untuk bekas atau folder',
+    'zh-CN': '获取容器或文件夹的路径信息',
+    'zh-TW': '獲取容器或資料夾的路徑資訊'
+  })
   .input({
     query: z.object({
       container: z.string(),
@@ -65,7 +70,12 @@ const getPath = forgeController
 
 const checkValid = forgeController
   .query()
-  .description('Check if a path is valid')
+  .description({
+    en: 'Validate if a folder path exists',
+    ms: 'Sahkan sama ada laluan folder wujud',
+    'zh-CN': '验证文件夹路径是否存在',
+    'zh-TW': '驗證資料夾路徑是否存在'
+  })
   .input({
     query: z.object({
       container: z.string(),
@@ -113,7 +123,12 @@ const checkValid = forgeController
 
 const getOgData = forgeController
   .query()
-  .description('Get Open Graph data for an entry')
+  .description({
+    en: 'Get Open Graph metadata for a link entry',
+    ms: 'Dapatkan metadata Open Graph untuk entri pautan',
+    'zh-CN': '获取链接条目的Open Graph元数据',
+    'zh-TW': '獲取連結條目的Open Graph元數據'
+  })
   .input({
     query: z.object({
       id: z.string()
@@ -162,7 +177,12 @@ const getOgData = forgeController
 
 const search = forgeController
   .query()
-  .description('Search entries')
+  .description({
+    en: 'Search entries in a container',
+    ms: 'Cari entri dalam bekas',
+    'zh-CN': '搜索容器中的条目',
+    'zh-TW': '搜尋容器中的條目'
+  })
   .input({
     query: z.object({
       q: z.string(),
