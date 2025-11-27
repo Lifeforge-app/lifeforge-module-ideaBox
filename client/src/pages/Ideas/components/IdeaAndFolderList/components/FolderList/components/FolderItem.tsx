@@ -19,7 +19,7 @@ function getStyle({
   canDrop: boolean
   folderColor: string
   opacity: number
-}): React.CSSProperties {
+}) {
   const backgroundColor = `${folderColor}${(() => {
     if (!canDrop) return '20'
 
