@@ -63,7 +63,7 @@ function IdeaBox() {
       <SearchInput
         namespace="apps.ideaBox"
         searchTarget="container"
-        setValue={setSearchQuery}
+        onChange={setSearchQuery}
         value={searchQuery}
       />
       <WithQueryData
@@ -76,8 +76,10 @@ function IdeaBox() {
             return (
               <EmptyStateScreen
                 icon="tabler:cube-off"
-                name="container"
-                namespace="apps.ideaBox"
+                message={{
+                  id: 'container',
+                  namespace: 'apps.ideaBox'
+                }}
               />
             )
           }
@@ -90,8 +92,10 @@ function IdeaBox() {
             return (
               <EmptyStateScreen
                 icon="tabler:search-off"
-                name="containerSearch"
-                namespace="apps.ideaBox"
+                message={{
+                  id: 'containerSearch',
+                  namespace: 'apps.ideaBox'
+                }}
               />
             )
           }

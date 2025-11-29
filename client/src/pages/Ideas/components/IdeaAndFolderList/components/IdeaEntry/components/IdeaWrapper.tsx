@@ -3,7 +3,7 @@ import { Icon } from '@iconify/react/dist/iconify.js'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { ItemWrapper } from 'lifeforge-ui'
+import { Card } from 'lifeforge-ui'
 import { useDrag } from 'react-dnd'
 import { useTranslation } from 'react-i18next'
 
@@ -40,7 +40,7 @@ function IdeaWrapper({
   )
 
   return (
-    <ItemWrapper
+    <Card
       ref={node => {
         dragRef(node)
       }}
@@ -91,7 +91,7 @@ function IdeaWrapper({
         </div>
         {entry.type === 'text' && <InFolderChip entry={entry} />}
       </div>
-    </ItemWrapper>
+    </Card>
   )
 }
 

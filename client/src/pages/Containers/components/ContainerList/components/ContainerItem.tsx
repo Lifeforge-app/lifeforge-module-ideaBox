@@ -6,7 +6,7 @@ import {
   ConfirmationModal,
   ContextMenu,
   ContextMenuItem,
-  ItemWrapper,
+  Card,
   useModalStore
 } from 'lifeforge-ui'
 import { useCallback } from 'react'
@@ -91,7 +91,7 @@ function ContainerItem({ container }: { container: IdeaBoxContainer }) {
   }, [container])
 
   return (
-    <ItemWrapper
+    <Card
       isInteractive
       as="li"
       className="cursor-default! p-0! group flex flex-col items-center justify-start"
@@ -197,7 +197,7 @@ function ContainerItem({ container }: { container: IdeaBoxContainer }) {
           onClick={handleDeleteContainer}
         />
       </ContextMenu>
-    </ItemWrapper>
+    </Card>
   )
 }
 

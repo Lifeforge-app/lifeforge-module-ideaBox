@@ -52,14 +52,18 @@ function IdeaAndFolderList() {
                             }
                           }}
                           icon="tabler:bulb-off"
-                          name="idea"
-                          namespace="apps.ideaBox"
+                          message={{
+                            id: 'idea',
+                            namespace: 'apps.ideaBox'
+                          }}
                         />
                       ) : (
                         <EmptyStateScreen
                           icon="tabler:archive-off"
-                          name="archived"
-                          namespace="apps.ideaBox"
+                          message={{
+                            id: 'archived',
+                            namespace: 'apps.ideaBox'
+                          }}
                         />
                       )}
                     </div>
@@ -82,8 +86,10 @@ function IdeaAndFolderList() {
                 <div className="mt-6">
                   <EmptyStateScreen
                     icon="tabler:search"
-                    name="result"
-                    namespace="apps.ideaBox"
+                    message={{
+                      id: 'result',
+                      namespace: 'apps.ideaBox'
+                    }}
                   />
                 </div>
               ) : (
