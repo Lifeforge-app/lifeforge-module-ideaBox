@@ -20,8 +20,8 @@ function Ideas() {
           className="mt-4"
           namespace="apps.ideaBox"
           searchTarget={path === '' ? 'idea' : 'idea In Folder'}
-          onChange={setSearchQuery}
           value={searchQuery}
+          onChange={setSearchQuery}
         />
       )}
       <TagsSelector />

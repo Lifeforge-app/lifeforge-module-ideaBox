@@ -1,6 +1,7 @@
 import forgeAPI from '@/utils/forgeAPI'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { FormModal, defineForm } from 'lifeforge-ui'
+import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import { useParams } from 'shared'
@@ -14,7 +15,9 @@ function ModifyIdeaModal({
     type: 'create' | 'update'
     initialData?: Partial<
       InferOutput<typeof forgeAPI.ideaBox.ideas.list>[number]
-    >
+    > & {
+      isPasted?: boolean
+    }
   }
   onClose: () => void
 }) {
@@ -216,6 +219,24 @@ function ModifyIdeaModal({
       }
     })
     .build()
+
+  useEffect(() => {
+    if (initialData?.isPasted && mutation.isIdle) {
+      mutation
+        .mutateAsync({
+          type: 'image',
+          folder: path?.split('/').pop() ?? '',
+          container: id ?? '',
+          tags: initialData.tags || [],
+          image:
+            //@ts-expect-error - Lazy to fix
+            initialData.image instanceof File ? initialData.image : undefined
+        })
+        .then(() => {
+          onClose()
+        })
+    }
+  }, [initialData])
 
   return <FormModal {...formProps} />
 }

@@ -165,6 +165,7 @@ export default function IdeaBoxProvider({
           type: 'create',
           initialData: {
             type: 'image',
+            isPasted: true,
             image: file as never
           }
         })
