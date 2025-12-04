@@ -2,11 +2,13 @@ import {
   type IdeaBoxIdea,
   useIdeaBoxContext
 } from '@/providers/IdeaBoxProvider'
-import { Icon } from '@iconify/react'
-import { Link, useParams } from 'shared'
+import { TagChip } from 'lifeforge-ui'
+import { useNavigate, useParams } from 'shared'
 
 function InFolderChip({ entry }: { entry: IdeaBoxIdea }) {
   const { setSearchQuery, setSelectedTags } = useIdeaBoxContext()
+
+  const navigate = useNavigate()
 
   const { '*': path } = useParams<{ '*': string }>()
 
@@ -17,29 +19,25 @@ function InFolderChip({ entry }: { entry: IdeaBoxIdea }) {
   return (
     <span className="mt-3 flex items-center gap-2 text-sm">
       In
-      <Link
-        className="inline-flex items-center gap-2 rounded-full px-3 py-1 pl-2 hover:opacity-70"
-        style={{
-          color: entry.expand.folder.color,
-          backgroundColor: entry.expand.folder.color + '30'
-        }}
-        to={
-          entry.expand.folder.id ===
-          path
-            ?.split('/')
-            .filter(e => e)
-            .pop()
-            ? ''
-            : `.${entry.fullPath}`
-        }
-        onClick={() => {
+      <TagChip
+        color={entry.expand.folder.color}
+        icon={entry.expand.folder.icon}
+        label={entry.expand.folder.name}
+        onClick={e => {
+          e.preventDefault()
+          navigate(
+            entry.expand.folder?.id ===
+              path
+                ?.split('/')
+                .filter(e => e)
+                .pop()
+              ? ''
+              : `.${entry.fullPath}`
+          )
           setSelectedTags([])
           setSearchQuery('')
         }}
-      >
-        <Icon className="size-4" icon={entry.expand.folder.icon} />
-        {entry.expand.folder.name}
-      </Link>
+      />
     </span>
   )
 }
