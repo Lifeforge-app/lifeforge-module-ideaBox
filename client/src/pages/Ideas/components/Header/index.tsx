@@ -55,7 +55,7 @@ function Header() {
         {pathDetails?.container.cover && (
           <div className="absolute inset-0 rounded-lg bg-[linear-gradient(to_bottom,rgba(0,0,0,0)_0%,rgba(0,0,0,0.7)_80%)]"></div>
         )}
-        <div className="flex-between z-9999 relative flex w-full">
+        <div className="flex-between relative z-9999 flex w-full">
           <h1
             className={clsx(
               'flex items-center gap-3 text-2xl font-semibold sm:text-3xl',
@@ -94,8 +94,9 @@ function Header() {
                       <>
                         <Link
                           key={folder.id}
-                          className="relative flex items-center gap-2 rounded-lg p-3 text-base before:absolute before:left-0 before:top-0 before:size-full before:rounded-md before:transition-all hover:before:bg-white/5"
+                          className="relative flex items-center gap-2 rounded-lg p-3 text-base before:absolute before:top-0 before:left-0 before:size-full before:rounded-md before:transition-all hover:before:bg-white/5 in-[.bordered]:border-2"
                           style={{
+                            borderColor: folder.color + '20',
                             backgroundColor: folder.color + '20',
                             color: folder.color
                           }}

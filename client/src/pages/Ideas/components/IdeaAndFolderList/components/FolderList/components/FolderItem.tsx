@@ -112,16 +112,19 @@ function FolderItem({ folder }: { folder: IdeaBoxFolder }) {
         drop(node)
       }}
       className={clsx(
-        'flex-between shadow-custom backdrop-blur-xs relative isolate flex rounded-md p-4 font-medium transition-all before:absolute before:left-0 before:top-0 before:size-full before:rounded-md before:transition-all hover:before:bg-white/5',
+        'flex-between shadow-custom relative isolate flex rounded-md p-4 font-medium backdrop-blur-xs transition-all before:absolute before:top-0 before:left-0 before:size-full before:rounded-md before:transition-all hover:before:bg-white/5 in-[.bordered]:border-2',
         isOver && 'text-bg-50 dark:text-bg-800',
         isDragging && 'cursor-move'
       )}
-      style={getStyle({
-        isOver,
-        canDrop,
-        folderColor: folder.color,
-        opacity
-      })}
+      style={{
+        ...getStyle({
+          isOver,
+          canDrop,
+          folderColor: folder.color,
+          opacity
+        }),
+        borderColor: folder.color + 20
+      }}
       to={`/idea-box/${id}/${path}/${folder.id}`.replace('//', '/')}
     >
       <div className="mr-2 flex w-full min-w-0 items-center">
