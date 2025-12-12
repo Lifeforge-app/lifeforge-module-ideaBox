@@ -16,8 +16,7 @@ import MoveToFolderModal from '../../../../modals/MoveToFolderModal'
 function EntryContextMenu({ entry }: { entry: IdeaBoxIdea }) {
   const open = useModalStore(state => state.open)
 
-  const { viewArchived, debouncedSearchQuery, selectedTags } =
-    useIdeaBoxContext()
+  const { viewArchived, searchQuery, selectedTags } = useIdeaBoxContext()
 
   const queryClient = useQueryClient()
 
@@ -127,7 +126,7 @@ function EntryContextMenu({ entry }: { entry: IdeaBoxIdea }) {
         await deleteMutation.mutateAsync({})
       }
     })
-  }, [entry, id, path, viewArchived, debouncedSearchQuery, selectedTags])
+  }, [entry, id, path, viewArchived, searchQuery, selectedTags])
 
   return (
     <ContextMenu classNames={{ button: 'w-10 h-10' }}>
@@ -158,7 +157,7 @@ function EntryContextMenu({ entry }: { entry: IdeaBoxIdea }) {
         namespace="apps.ideaBox"
         onClick={handleMoveToFolder}
       />
-      {!debouncedSearchQuery && selectedTags.length === 0 && path !== '' && (
+      {!searchQuery && selectedTags.length === 0 && path !== '' && (
         <ContextMenuItem
           icon="tabler:folder-minus"
           label="Remove from folder"

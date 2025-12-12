@@ -1,6 +1,5 @@
 import forgeAPI from '@/utils/forgeAPI'
 import { type UseQueryResult, useQuery } from '@tanstack/react-query'
-import { useDebounce } from '@uidotdev/usehooks'
 import { useModalStore } from 'lifeforge-ui'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
 import { DndProvider } from 'react-dnd'
@@ -34,7 +33,6 @@ interface IIdeaBoxData {
     InferOutput<typeof forgeAPI.ideaBox.misc.search>
   >
   searchQuery: string
-  debouncedSearchQuery: string
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>
   selectedTags: string[]
   setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>
@@ -58,8 +56,6 @@ export default function IdeaBoxProvider({
   const { id, '*': path } = useParams<{ id: string; '*': string }>()
 
   const [searchQuery, setSearchQuery] = useState('')
-
-  const debouncedSearchQuery = useDebounce(searchQuery.trim(), 300)
 
   const [selectedTags, setSelectedTags] = useState<string[]>([])
 
@@ -114,7 +110,7 @@ export default function IdeaBoxProvider({
   const searchResultsQuery = useQuery(
     forgeAPI.ideaBox.misc.search
       .input({
-        q: debouncedSearchQuery,
+        q: searchQuery.trim(),
         container: id!,
         tags: selectedTags.join(','),
         folder: path?.split('/').pop() || ''
@@ -124,7 +120,7 @@ export default function IdeaBoxProvider({
           id !== undefined &&
           path !== undefined &&
           pathValidQuery.data &&
-          (debouncedSearchQuery.trim().length > 0 || selectedTags.length > 0)
+          (searchQuery.trim().length > 0 || selectedTags.length > 0)
         )
       })
   )
@@ -210,7 +206,6 @@ export default function IdeaBoxProvider({
       tagsQuery,
       searchResultsQuery,
       searchQuery,
-      debouncedSearchQuery,
       setSearchQuery,
       selectedTags,
       setSelectedTags,
@@ -224,7 +219,6 @@ export default function IdeaBoxProvider({
       entriesQuery.data,
       searchResultsQuery.data,
       searchQuery,
-      debouncedSearchQuery,
       selectedTags,
       viewArchived
     ]

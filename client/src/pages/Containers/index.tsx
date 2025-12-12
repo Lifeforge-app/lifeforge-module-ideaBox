@@ -1,5 +1,4 @@
 import forgeAPI from '@/utils/forgeAPI'
-import { useDebounce } from '@uidotdev/usehooks'
 import {
   Button,
   ContextMenuItem,
@@ -23,8 +22,6 @@ function IdeaBox() {
   const [searchQuery, setSearchQuery] = useState('')
 
   const [showhidden, setShowhidden] = useState(false)
-
-  const debouncedSearchQuery = useDebounce(searchQuery.trim(), 300)
 
   const handleCreateContainer = useCallback(() => {
     open(ModifyContainerModal, {
@@ -61,10 +58,11 @@ function IdeaBox() {
         }}
       />
       <SearchInput
+        debounceMs={300}
         namespace="apps.ideaBox"
         searchTarget="container"
-        onChange={setSearchQuery}
         value={searchQuery}
+        onChange={setSearchQuery}
       />
       <WithQueryData
         controller={forgeAPI.ideaBox.containers.list.input({

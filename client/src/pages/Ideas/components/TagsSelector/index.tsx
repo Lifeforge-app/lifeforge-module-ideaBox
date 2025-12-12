@@ -23,7 +23,7 @@ function TagsSelector() {
     tagsQuery,
     entriesQuery,
     searchResultsQuery,
-    debouncedSearchQuery,
+    searchQuery,
     viewArchived,
     selectedTags,
     setSelectedTags
@@ -36,7 +36,7 @@ function TagsSelector() {
   const searchResults = searchResultsQuery.data ?? []
 
   const filteredTags = useMemo(() => {
-    if (debouncedSearchQuery.trim().length > 0) {
+    if (searchQuery.trim().length > 0) {
       return tags
         .filter(tag => {
           return searchResults.some(entry => entry.tags?.includes(tag.name))
@@ -51,13 +51,12 @@ function TagsSelector() {
         return entriesQuery.data?.some(entry => entry.tags?.includes(tag.name))
       })
       .sort(sortFunc)
-  }, [entries, searchResults, tags, path, debouncedSearchQuery])
+  }, [entries, searchResults, tags, path, searchQuery])
 
   const countHashMap = useMemo(() => {
     const hashMap = new Map<string, number>()
 
-    const target =
-      debouncedSearchQuery.trim().length > 0 ? searchResults : entries
+    const target = searchQuery.trim().length > 0 ? searchResults : entries
 
     target.forEach(entry => {
       entry.tags?.forEach((tag: string) => {
@@ -66,7 +65,7 @@ function TagsSelector() {
     })
 
     return hashMap
-  }, [filteredTags, searchResults, entries, debouncedSearchQuery, tags])
+  }, [filteredTags, searchResults, entries, searchQuery, tags])
 
   const handleSelectTag = useCallback((tagName: string) => {
     setSelectedTags(prev => {
@@ -97,7 +96,7 @@ function TagsSelector() {
       <div className="mt-4 flex flex-wrap gap-1.5">
         {tags.map(tag => {
           const tagCount =
-            path === '' && debouncedSearchQuery.trim().length === 0
+            path === '' && searchQuery.trim().length === 0
               ? tag.amount
               : (countHashMap.get(tag.name) ?? 0)
 

@@ -17,7 +17,7 @@ function IdeaAndFolderList() {
     entriesQuery,
     foldersQuery,
     searchResultsQuery,
-    debouncedSearchQuery,
+    searchQuery,
     selectedTags,
     viewArchived
   } = useIdeaBoxContext()
@@ -33,7 +33,7 @@ function IdeaAndFolderList() {
 
   return (
     <div className="mt-6 mb-20">
-      {debouncedSearchQuery.trim().length === 0 && selectedTags.length === 0 ? (
+      {searchQuery.trim().length === 0 && selectedTags.length === 0 ? (
         <WithQuery query={entriesQuery}>
           {data => (
             <WithQuery query={foldersQuery}>
