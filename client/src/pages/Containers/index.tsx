@@ -83,7 +83,7 @@ function IdeaBox() {
           }
 
           const filteredList = data.filter(container =>
-            container.name.toLowerCase().includes(debouncedSearchQuery)
+            container.name.toLowerCase().includes(searchQuery.toLowerCase())
           )
 
           if (filteredList.length === 0) {
