@@ -11,7 +11,6 @@ const ideaBoxSchemas = {
       hidden: z.boolean()
     }),
     raw: {
-      id: '10yi8esudwbgz4n',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -23,7 +22,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -37,7 +35,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'raujcrkq',
           max: 0,
           min: 0,
           name: 'icon',
@@ -51,7 +48,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'hvuukigw',
           max: 0,
           min: 0,
           name: 'color',
@@ -65,7 +61,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'spxeebso',
           max: 0,
           min: 0,
           name: 'name',
@@ -78,7 +73,6 @@ const ideaBoxSchemas = {
         },
         {
           hidden: false,
-          id: 'file2366146245',
           maxSelect: 1,
           maxSize: 0,
           mimeTypes: [
@@ -98,7 +92,6 @@ const ideaBoxSchemas = {
         },
         {
           hidden: false,
-          id: 'bool3844597223',
           name: 'pinned',
           presentable: false,
           required: false,
@@ -107,7 +100,6 @@ const ideaBoxSchemas = {
         },
         {
           hidden: false,
-          id: 'bool2287856061',
           name: 'hidden',
           presentable: false,
           required: false,
@@ -133,7 +125,6 @@ const ideaBoxSchemas = {
       updated: z.string()
     }),
     raw: {
-      id: 'g5fdcy099cdntzt',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -145,7 +136,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -158,7 +148,6 @@ const ideaBoxSchemas = {
         },
         {
           hidden: false,
-          id: 'szythmmj',
           maxSelect: 1,
           name: 'type',
           presentable: false,
@@ -169,9 +158,8 @@ const ideaBoxSchemas = {
         },
         {
           cascadeDelete: true,
-          collectionId: '10yi8esudwbgz4n',
+          collectionId: 'idea_box__containers',
           hidden: false,
-          id: 'tzxfjxmw',
           maxSelect: 1,
           minSelect: 0,
           name: 'container',
@@ -182,9 +170,8 @@ const ideaBoxSchemas = {
         },
         {
           cascadeDelete: true,
-          collectionId: '5hcu9coxoz9yauz',
+          collectionId: 'idea_box__folders',
           hidden: false,
-          id: '6pdlg70r',
           maxSelect: 1,
           minSelect: 0,
           name: 'folder',
@@ -195,7 +182,6 @@ const ideaBoxSchemas = {
         },
         {
           hidden: false,
-          id: '26gry9te',
           name: 'pinned',
           presentable: false,
           required: false,
@@ -204,7 +190,6 @@ const ideaBoxSchemas = {
         },
         {
           hidden: false,
-          id: 'x9rx6y5a',
           name: 'archived',
           presentable: false,
           required: false,
@@ -213,7 +198,6 @@ const ideaBoxSchemas = {
         },
         {
           hidden: false,
-          id: 'json1874629670',
           maxSize: 0,
           name: 'tags',
           presentable: false,
@@ -223,7 +207,6 @@ const ideaBoxSchemas = {
         },
         {
           hidden: false,
-          id: 'autodate2990389176',
           name: 'created',
           onCreate: true,
           onUpdate: false,
@@ -233,7 +216,6 @@ const ideaBoxSchemas = {
         },
         {
           hidden: false,
-          id: 'autodate3332085495',
           name: 'updated',
           onCreate: true,
           onUpdate: true,
@@ -255,7 +237,6 @@ const ideaBoxSchemas = {
       parent: z.string()
     }),
     raw: {
-      id: '5hcu9coxoz9yauz',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -267,7 +248,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -280,9 +260,8 @@ const ideaBoxSchemas = {
         },
         {
           cascadeDelete: true,
-          collectionId: '10yi8esudwbgz4n',
+          collectionId: 'idea_box__containers',
           hidden: false,
-          id: 'codeuv2z',
           maxSelect: 1,
           minSelect: 0,
           name: 'container',
@@ -294,7 +273,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'cketui8k',
           max: 0,
           min: 0,
           name: 'name',
@@ -308,7 +286,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'yft2ibc2',
           max: 0,
           min: 0,
           name: 'color',
@@ -322,7 +299,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'yjsyuj9u',
           max: 0,
           min: 0,
           name: 'icon',
@@ -335,9 +311,8 @@ const ideaBoxSchemas = {
         },
         {
           cascadeDelete: true,
-          collectionId: '5hcu9coxoz9yauz',
+          collectionId: 'idea_box__folders',
           hidden: false,
-          id: '6bvlcx9c',
           maxSelect: 1,
           minSelect: 0,
           name: 'parent',
@@ -359,7 +334,6 @@ const ideaBoxSchemas = {
       container: z.string()
     }),
     raw: {
-      id: 'pbc_180691175',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -371,7 +345,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -385,7 +358,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text1579384326',
           max: 0,
           min: 0,
           name: 'name',
@@ -399,7 +371,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text1704208859',
           max: 0,
           min: 0,
           name: 'icon',
@@ -413,7 +384,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text1716930793',
           max: 0,
           min: 0,
           name: 'color',
@@ -426,9 +396,8 @@ const ideaBoxSchemas = {
         },
         {
           cascadeDelete: true,
-          collectionId: '10yi8esudwbgz4n',
+          collectionId: 'idea_box__containers',
           hidden: false,
-          id: 'relation3349343259',
           maxSelect: 1,
           minSelect: 0,
           name: 'container',
@@ -453,7 +422,6 @@ const ideaBoxSchemas = {
       amount: z.number()
     }),
     raw: {
-      id: 'pbc_3145449922',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: null,
@@ -465,7 +433,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text3208210256',
           max: 0,
           min: 0,
           name: 'id',
@@ -479,7 +446,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_Fo7o',
           max: 0,
           min: 0,
           name: 'name',
@@ -493,7 +459,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_PZlw',
           max: 0,
           min: 0,
           name: 'color',
@@ -507,7 +472,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_OqQt',
           max: 0,
           min: 0,
           name: 'icon',
@@ -520,9 +484,8 @@ const ideaBoxSchemas = {
         },
         {
           cascadeDelete: true,
-          collectionId: '10yi8esudwbgz4n',
+          collectionId: 'idea_box__containers',
           hidden: false,
-          id: '_clone_CtOS',
           maxSelect: 1,
           minSelect: 0,
           name: 'container',
@@ -533,7 +496,6 @@ const ideaBoxSchemas = {
         },
         {
           hidden: false,
-          id: 'number2392944706',
           max: null,
           min: null,
           name: 'amount',
@@ -563,7 +525,6 @@ const ideaBoxSchemas = {
       image_count: z.number()
     }),
     raw: {
-      id: 'pbc_3754909733',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: null,
@@ -575,7 +536,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text3208210256',
           max: 0,
           min: 0,
           name: 'id',
@@ -589,7 +549,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_cfg8',
           max: 0,
           min: 0,
           name: 'name',
@@ -603,7 +562,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_QLaw',
           max: 0,
           min: 0,
           name: 'color',
@@ -617,7 +575,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: '_clone_x3Lc',
           max: 0,
           min: 0,
           name: 'icon',
@@ -630,7 +587,6 @@ const ideaBoxSchemas = {
         },
         {
           hidden: false,
-          id: '_clone_0uMh',
           maxSelect: 1,
           maxSize: 0,
           mimeTypes: [
@@ -650,7 +606,6 @@ const ideaBoxSchemas = {
         },
         {
           hidden: false,
-          id: '_clone_WTrS',
           name: 'pinned',
           presentable: false,
           required: false,
@@ -659,7 +614,6 @@ const ideaBoxSchemas = {
         },
         {
           hidden: false,
-          id: '_clone_kzUc',
           name: 'hidden',
           presentable: false,
           required: false,
@@ -668,7 +622,6 @@ const ideaBoxSchemas = {
         },
         {
           hidden: false,
-          id: 'number3547201087',
           max: null,
           min: null,
           name: 'text_count',
@@ -680,7 +633,6 @@ const ideaBoxSchemas = {
         },
         {
           hidden: false,
-          id: 'number711071932',
           max: null,
           min: null,
           name: 'link_count',
@@ -692,7 +644,6 @@ const ideaBoxSchemas = {
         },
         {
           hidden: false,
-          id: 'number2459746507',
           max: null,
           min: null,
           name: 'image_count',
@@ -715,7 +666,6 @@ const ideaBoxSchemas = {
       content: z.string()
     }),
     raw: {
-      id: 'pbc_3433603498',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -727,7 +677,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -740,9 +689,8 @@ const ideaBoxSchemas = {
         },
         {
           cascadeDelete: true,
-          collectionId: 'g5fdcy099cdntzt',
+          collectionId: 'idea_box__entries',
           hidden: false,
-          id: 'relation2517240994',
           maxSelect: 1,
           minSelect: 0,
           name: 'base_entry',
@@ -754,7 +702,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '',
           hidden: false,
-          id: 'text4274335913',
           max: 0,
           min: 0,
           name: 'content',
@@ -776,7 +723,6 @@ const ideaBoxSchemas = {
       base_entry: z.string()
     }),
     raw: {
-      id: 'pbc_3247415196',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -788,7 +734,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -802,7 +747,6 @@ const ideaBoxSchemas = {
         {
           exceptDomains: null,
           hidden: false,
-          id: 'url917281265',
           name: 'link',
           onlyDomains: null,
           presentable: false,
@@ -812,9 +756,8 @@ const ideaBoxSchemas = {
         },
         {
           cascadeDelete: true,
-          collectionId: 'g5fdcy099cdntzt',
+          collectionId: 'idea_box__entries',
           hidden: false,
-          id: 'relation2632451253',
           maxSelect: 1,
           minSelect: 0,
           name: 'base_entry',
@@ -834,7 +777,6 @@ const ideaBoxSchemas = {
       base_entry: z.string()
     }),
     raw: {
-      id: 'pbc_4140382908',
       listRule: '@request.auth.id != ""',
       viewRule: '@request.auth.id != ""',
       createRule: '@request.auth.id != ""',
@@ -846,7 +788,6 @@ const ideaBoxSchemas = {
         {
           autogeneratePattern: '[a-z0-9]{15}',
           hidden: false,
-          id: 'text3208210256',
           max: 15,
           min: 15,
           name: 'id',
@@ -859,7 +800,6 @@ const ideaBoxSchemas = {
         },
         {
           hidden: false,
-          id: 'file3309110367',
           maxSelect: 1,
           maxSize: 9999999999,
           mimeTypes: [
@@ -879,9 +819,8 @@ const ideaBoxSchemas = {
         },
         {
           cascadeDelete: true,
-          collectionId: 'g5fdcy099cdntzt',
+          collectionId: 'idea_box__entries',
           hidden: false,
-          id: 'relation2632451253',
           maxSelect: 1,
           minSelect: 0,
           name: 'base_entry',
