@@ -1,7 +1,9 @@
-import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 import { Icon } from '@iconify/react'
 import { useCallback } from 'react'
+import { useTranslation } from 'react-i18next'
 import { Link } from 'shared'
+
+import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 
 function ContainerName({
   id,
@@ -14,6 +16,8 @@ function ContainerName({
   icon: string
   color: string
 }) {
+  const { t } = useTranslation('apps.ideaBox')
+
   const { setSelectedTags, setSearchQuery, viewArchived } = useIdeaBoxContext()
 
   const handleNavigateToRoot = useCallback(() => {
@@ -42,8 +46,7 @@ function ContainerName({
           }}
         />
       </div>
-      {viewArchived ? 'Archived ideas in ' : ''}
-      {name}
+      {viewArchived ? t('archivedIdeaIn', { container: name }) : ''}
     </Link>
   )
 }

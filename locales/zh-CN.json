@@ -88,5 +88,6 @@
     "container": "创意盒",
     "folder": "资料夹",
     "ideaInFolder": "资料夹中的创意"
-  }
+  },
+  "archivedIdeaIn": "已归档的创意在 {{container}}"
 }

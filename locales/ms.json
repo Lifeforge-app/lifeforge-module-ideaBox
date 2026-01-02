@@ -88,5 +88,6 @@
     "container": "Kotak Idea",
     "folder": "Folder",
     "ideaInFolder": "Idea dalam Folder"
-  }
+  },
+  "archivedIdeaIn": "Idea Diarkibkan dalam {{container}}"
 }

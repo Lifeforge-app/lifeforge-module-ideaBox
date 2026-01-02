@@ -1,8 +1,8 @@
-import forgeAPI from '@/utils/forgeAPI'
 import {
   Button,
   ContextMenuItem,
   EmptyStateScreen,
+  FAB,
   ModuleHeader,
   SearchInput,
   WithQueryData
@@ -10,6 +10,8 @@ import {
 import { useModalStore } from 'lifeforge-ui'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+
+import forgeAPI from '@/utils/forgeAPI'
 
 import ContainerList from './components/ContainerList'
 import ModifyContainerModal from './components/ModifyContainerModal'
@@ -101,6 +103,7 @@ function IdeaBox() {
           return <ContainerList filteredList={filteredList} />
         }}
       </WithQueryData>
+      <FAB visibilityBreakpoint="md" onClick={handleCreateContainer} />
     </>
   )
 }

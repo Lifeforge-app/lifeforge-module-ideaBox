@@ -88,5 +88,6 @@
     "container": "Idea Box",
     "folder": "Folder",
     "ideaInFolder": "Idea in Folder"
-  }
+  },
+  "archivedIdeaIn": "Archived Idea in {{container}}"
 }
