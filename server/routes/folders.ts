@@ -1,7 +1,8 @@
-import { forgeController, forgeRouter } from '@functions/routes'
-import { ClientError } from '@functions/routes/utils/response'
 import { SCHEMAS } from '@schema'
 import z from 'zod'
+
+import { forgeController, forgeRouter } from '@functions/routes'
+import { ClientError } from '@functions/routes/utils/response'
 
 import { validateFolderPath } from '../utils/folders'
 
@@ -20,7 +21,7 @@ const list = forgeController
     })
   })
   .existenceCheck('query', {
-    container: 'idea_box__containers'
+    container: 'ideaBox__containers'
   })
   .callback(async ({ pb, query }) => {
     const { container, path } = query
@@ -40,7 +41,7 @@ const list = forgeController
     }
 
     return await pb.getFullList
-      .collection('idea_box__folders')
+      .collection('ideaBox__folders')
       .filter([
         {
           field: 'container',
@@ -66,15 +67,15 @@ const create = forgeController
     'zh-TW': '創建新資料夾'
   })
   .input({
-    body: SCHEMAS.idea_box.folders.schema
+    body: SCHEMAS.ideaBox.folders.schema
   })
   .existenceCheck('body', {
-    container: 'idea_box__containers',
-    parent: '[idea_box__folders]'
+    container: 'ideaBox__containers',
+    parent: '[ideaBox__folders]'
   })
   .callback(
     async ({ pb, body }) =>
-      await pb.create.collection('idea_box__folders').data(body).execute()
+      await pb.create.collection('ideaBox__folders').data(body).execute()
   )
   .statusCode(201)
 
@@ -90,21 +91,17 @@ const update = forgeController
     query: z.object({
       id: z.string()
     }),
-    body: SCHEMAS.idea_box.folders.schema.omit({
+    body: SCHEMAS.ideaBox.folders.schema.omit({
       container: true,
       parent: true
     })
   })
   .existenceCheck('query', {
-    id: 'idea_box__folders'
+    id: 'ideaBox__folders'
   })
   .callback(
     async ({ pb, query: { id }, body }) =>
-      await pb.update
-        .collection('idea_box__folders')
-        .id(id)
-        .data(body)
-        .execute()
+      await pb.update.collection('ideaBox__folders').id(id).data(body).execute()
   )
 
 const moveTo = forgeController
@@ -124,15 +121,15 @@ const moveTo = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'idea_box__folders'
+    id: 'ideaBox__folders'
   })
   .existenceCheck('body', {
-    target: 'idea_box__folders'
+    target: 'ideaBox__folders'
   })
   .callback(
     async ({ pb, query: { id }, body: { target } }) =>
       await pb.update
-        .collection('idea_box__folders')
+        .collection('ideaBox__folders')
         .id(id)
         .data({
           parent: target
@@ -154,11 +151,11 @@ const removeFromParent = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'idea_box__folders'
+    id: 'ideaBox__folders'
   })
   .callback(async ({ pb, query: { id } }) => {
     const currentFolder = await pb.getOne
-      .collection('idea_box__folders')
+      .collection('ideaBox__folders')
       .id(id)
       .execute()
 
@@ -167,12 +164,12 @@ const removeFromParent = forgeController
     }
 
     const parentFolder = await pb.getOne
-      .collection('idea_box__folders')
+      .collection('ideaBox__folders')
       .id(currentFolder.parent)
       .execute()
 
     return await pb.update
-      .collection('idea_box__folders')
+      .collection('ideaBox__folders')
       .id(id)
       .data({
         parent: parentFolder.parent || null
@@ -194,10 +191,10 @@ const remove = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'idea_box__folders'
+    id: 'ideaBox__folders'
   })
   .callback(async ({ pb, query: { id } }) => {
-    await pb.delete.collection('idea_box__folders').id(id).execute()
+    await pb.delete.collection('ideaBox__folders').id(id).execute()
   })
   .statusCode(204)
 

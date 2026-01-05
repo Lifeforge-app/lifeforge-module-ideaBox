@@ -1,9 +1,10 @@
+import ogs from 'open-graph-scraper'
+import z from 'zod'
+
 import { checkExistence } from '@functions/database'
 import { LoggingService } from '@functions/logging/loggingService'
 import { forgeController, forgeRouter } from '@functions/routes'
 import { ClientError } from '@functions/routes/utils/response'
-import ogs from 'open-graph-scraper'
-import z from 'zod'
 
 import { recursivelySearchFolder } from '../utils/folders'
 
@@ -24,12 +25,12 @@ const getPath = forgeController
     })
   })
   .existenceCheck('query', {
-    container: 'idea_box__containers',
-    folder: '[idea_box__folders]'
+    container: 'ideaBox__containers',
+    folder: '[ideaBox__folders]'
   })
   .callback(async ({ pb, query: { container, folder } }) => {
     const containerEntry = await pb.getOne
-      .collection('idea_box__containers')
+      .collection('ideaBox__containers')
       .id(container)
       .execute()
 
@@ -45,12 +46,12 @@ const getPath = forgeController
     const fullPath = []
 
     while (lastFolder) {
-      if (!(await checkExistence(pb, 'idea_box__folders', lastFolder))) {
+      if (!(await checkExistence(pb, 'ideaBox__folders', lastFolder))) {
         throw new ClientError(`Folder with ID "${lastFolder}" does not exist`)
       }
 
       const folderEntry = await pb.getOne
-        .collection('idea_box__folders')
+        .collection('ideaBox__folders')
         .id(lastFolder)
         .execute()
 
@@ -85,7 +86,7 @@ const checkValid = forgeController
   .callback(async ({ pb, query: { container, path } }) => {
     const containerExists = await checkExistence(
       pb,
-      'idea_box__containers',
+      'ideaBox__containers',
       container
     )
 
@@ -97,13 +98,13 @@ const checkValid = forgeController
     let lastFolder = ''
 
     for (const folder of path.split('/').filter(e => e)) {
-      if (!(await checkExistence(pb, 'idea_box__folders', folder))) {
+      if (!(await checkExistence(pb, 'ideaBox__folders', folder))) {
         folderExists = false
         break
       }
 
       const folderEntry = await pb.getOne
-        .collection('idea_box__folders')
+        .collection('ideaBox__folders')
         .id(folder)
         .execute()
 
@@ -135,11 +136,11 @@ const getOgData = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'idea_box__entries'
+    id: 'ideaBox__entries'
   })
   .callback(async ({ pb, query: { id } }) => {
     const data = await pb.getFirstListItem
-      .collection('idea_box__entries_link')
+      .collection('ideaBox__entries_link')
       .filter([
         {
           field: 'base_entry',
@@ -192,7 +193,7 @@ const search = forgeController
     })
   })
   .existenceCheck('query', {
-    container: '[idea_box__containers]'
+    container: '[ideaBox__containers]'
   })
   .callback(async ({ pb, query: { q, container, tags, folder } }) => {
     const results = await recursivelySearchFolder(

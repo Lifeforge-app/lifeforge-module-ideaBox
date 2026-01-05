@@ -1,7 +1,8 @@
-import getMedia from '@functions/external/media'
-import { forgeController, forgeRouter } from '@functions/routes'
 import { SCHEMAS } from '@schema'
 import z from 'zod'
+
+import getMedia from '@functions/external/media'
+import { forgeController, forgeRouter } from '@functions/routes'
 
 const validate = forgeController
   .query()
@@ -19,7 +20,7 @@ const validate = forgeController
   .callback(
     async ({ pb, query: { id } }) =>
       !!(await pb.getOne
-        .collection('idea_box__containers')
+        .collection('ideaBox__containers')
         .id(id)
         .execute()
         .catch(() => {}))
@@ -43,7 +44,7 @@ const list = forgeController
   })
   .callback(({ pb, query: { hidden } }) =>
     pb.getFullList
-      .collection('idea_box__containers_aggregated')
+      .collection('ideaBox__containers_aggregated')
       .filter([
         !hidden
           ? {
@@ -66,7 +67,7 @@ const create = forgeController
     'zh-TW': '創建新容器'
   })
   .input({
-    body: SCHEMAS.idea_box.containers.schema.omit({
+    body: SCHEMAS.ideaBox.containers.schema.omit({
       cover: true,
       hidden: true,
       pinned: true
@@ -80,7 +81,7 @@ const create = forgeController
   .statusCode(201)
   .callback(async ({ pb, body, media: { cover } }) =>
     pb.create
-      .collection('idea_box__containers')
+      .collection('ideaBox__containers')
       .data({
         ...body,
         ...(await getMedia('cover', cover))
@@ -100,7 +101,7 @@ const update = forgeController
     query: z.object({
       id: z.string()
     }),
-    body: SCHEMAS.idea_box.containers.schema.omit({
+    body: SCHEMAS.ideaBox.containers.schema.omit({
       cover: true,
       hidden: true,
       pinned: true
@@ -112,11 +113,11 @@ const update = forgeController
     }
   })
   .existenceCheck('query', {
-    id: 'idea_box__containers'
+    id: 'ideaBox__containers'
   })
   .callback(async ({ pb, query: { id }, body, media: { cover } }) =>
     pb.update
-      .collection('idea_box__containers')
+      .collection('ideaBox__containers')
       .id(id)
       .data({
         ...body,
@@ -139,11 +140,11 @@ const remove = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'idea_box__containers'
+    id: 'ideaBox__containers'
   })
   .statusCode(204)
   .callback(async ({ pb, query: { id } }) =>
-    pb.delete.collection('idea_box__containers').id(id).execute()
+    pb.delete.collection('ideaBox__containers').id(id).execute()
   )
 
 const togglePin = forgeController
@@ -160,16 +161,16 @@ const togglePin = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'idea_box__containers'
+    id: 'ideaBox__containers'
   })
   .callback(async ({ pb, query: { id } }) => {
     const container = await pb.getOne
-      .collection('idea_box__containers')
+      .collection('ideaBox__containers')
       .id(id)
       .execute()
 
     return pb.update
-      .collection('idea_box__containers')
+      .collection('ideaBox__containers')
       .id(id)
       .data({
         pinned: !container.pinned
@@ -191,16 +192,16 @@ const toggleHide = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'idea_box__containers'
+    id: 'ideaBox__containers'
   })
   .callback(async ({ pb, query: { id } }) => {
     const container = await pb.getOne
-      .collection('idea_box__containers')
+      .collection('ideaBox__containers')
       .id(id)
       .execute()
 
     return pb.update
-      .collection('idea_box__containers')
+      .collection('ideaBox__containers')
       .id(id)
       .data({
         hidden: !container.hidden,

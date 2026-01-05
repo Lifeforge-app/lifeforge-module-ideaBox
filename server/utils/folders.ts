@@ -13,7 +13,7 @@ export const validateFolderPath = async (
 
     try {
       const folderEntry = await pb.getOne
-        .collection('idea_box__folders')
+        .collection('ideaBox__folders')
         .id(folder)
         .execute()
 
@@ -44,7 +44,7 @@ export async function recursivelySearchFolder(
   pb: PBService
 ) {
   const folderInsideFolder = await pb.getFullList
-    .collection('idea_box__folders')
+    .collection('ideaBox__folders')
     .filter([
       {
         field: 'parent',
@@ -55,13 +55,13 @@ export async function recursivelySearchFolder(
     .execute()
 
   const thisFolder = folderId
-    ? await pb.getOne.collection('idea_box__folders').id(folderId).execute()
+    ? await pb.getOne.collection('ideaBox__folders').id(folderId).execute()
     : undefined
 
   const textResults = (
     await pb.getFullList
-      .collection('idea_box__entries_text')
-      .expand({ base_entry: 'idea_box__entries' })
+      .collection('ideaBox__entries_text')
+      .expand({ base_entry: 'ideaBox__entries' })
       .filter([
         {
           field: 'content',

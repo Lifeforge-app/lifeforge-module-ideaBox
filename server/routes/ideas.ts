@@ -1,9 +1,10 @@
+import COLLECTION_SCHEMAS, { SCHEMAS } from '@schema'
+import z from 'zod'
+
 import { SchemaWithPB } from '@functions/database/PBService/typescript/pb_service'
 import getMedia from '@functions/external/media'
 import { forgeController, forgeRouter } from '@functions/routes'
 import { ClientError } from '@functions/routes/utils/response'
-import COLLECTION_SCHEMAS, { SCHEMAS } from '@schema'
-import z from 'zod'
 
 import { validateFolderPath } from '../utils/folders'
 
@@ -26,7 +27,7 @@ const list = forgeController
     })
   })
   .existenceCheck('query', {
-    container: 'idea_box__containers'
+    container: 'ideaBox__containers'
   })
   .callback(async ({ pb, query: { path: pathParam, container, archived } }) => {
     const path = pathParam.split('/').filter(e => e)
@@ -44,9 +45,9 @@ const list = forgeController
     }
 
     const textIdeas = await pb.getFullList
-      .collection('idea_box__entries_text')
+      .collection('ideaBox__entries_text')
       .expand({
-        base_entry: 'idea_box__entries'
+        base_entry: 'ideaBox__entries'
       })
       .filter([
         {
@@ -69,9 +70,9 @@ const list = forgeController
       .execute()
 
     const imageIdeas = await pb.getFullList
-      .collection('idea_box__entries_image')
+      .collection('ideaBox__entries_image')
       .expand({
-        base_entry: 'idea_box__entries'
+        base_entry: 'ideaBox__entries'
       })
       .filter([
         {
@@ -94,9 +95,9 @@ const list = forgeController
       .execute()
 
     const linkIdeas = await pb.getFullList
-      .collection('idea_box__entries_link')
+      .collection('ideaBox__entries_link')
       .expand({
-        base_entry: 'idea_box__entries'
+        base_entry: 'ideaBox__entries'
       })
       .filter([
         {
@@ -118,23 +119,23 @@ const list = forgeController
       .sort(['-base_entry.pinned', '-base_entry.created'])
       .execute()
 
-    const _returnSchema = COLLECTION_SCHEMAS.idea_box__entries
+    const _returnSchema = COLLECTION_SCHEMAS.ideaBox__entries
       .omit({
         type: true
       })
       .and(
         z.union([
-          COLLECTION_SCHEMAS.idea_box__entries_text.extend({
+          COLLECTION_SCHEMAS.ideaBox__entries_text.extend({
             type: z.literal('text')
           }),
-          COLLECTION_SCHEMAS.idea_box__entries_image.extend({
+          COLLECTION_SCHEMAS.ideaBox__entries_image.extend({
             type: z.literal('image'),
             child: z.object({
               id: z.string(),
               collectionId: z.string()
             })
           }),
-          COLLECTION_SCHEMAS.idea_box__entries_link.extend({
+          COLLECTION_SCHEMAS.ideaBox__entries_link.extend({
             type: z.literal('link')
           })
         ])
@@ -166,7 +167,7 @@ const list = forgeController
     }) as Array<SchemaWithPB<z.infer<typeof _returnSchema>>>
   })
 
-const createSchema = SCHEMAS.idea_box.entries.schema
+const createSchema = SCHEMAS.ideaBox.entries.schema
   .omit({
     created: true,
     updated: true,
@@ -176,14 +177,14 @@ const createSchema = SCHEMAS.idea_box.entries.schema
   })
   .and(
     z.union([
-      SCHEMAS.idea_box.entries_text.schema
+      SCHEMAS.ideaBox.entries_text.schema
         .omit({
           base_entry: true
         })
         .extend({
           type: z.literal('text')
         }),
-      SCHEMAS.idea_box.entries_image.schema
+      SCHEMAS.ideaBox.entries_image.schema
         .omit({
           base_entry: true,
           image: true
@@ -191,7 +192,7 @@ const createSchema = SCHEMAS.idea_box.entries.schema
         .extend({
           type: z.literal('image')
         }),
-      SCHEMAS.idea_box.entries_link.schema
+      SCHEMAS.ideaBox.entries_link.schema
         .omit({
           base_entry: true
         })
@@ -218,15 +219,15 @@ const create = forgeController
     }
   })
   .existenceCheck('body', {
-    container: 'idea_box__containers',
-    folder: '[idea_box__folders]'
+    container: 'ideaBox__containers',
+    folder: '[ideaBox__folders]'
   })
   .statusCode(201)
   .callback(async ({ pb, body: rawBody, media: { image } }) => {
     const body = rawBody as z.infer<typeof createSchema>
 
     const baseEntry = await pb.create
-      .collection('idea_box__entries')
+      .collection('ideaBox__entries')
       .data({
         container: body.container,
         folder: body.folder,
@@ -237,7 +238,7 @@ const create = forgeController
 
     if (body.type === 'text') {
       await pb.create
-        .collection('idea_box__entries_text')
+        .collection('ideaBox__entries_text')
         .data({
           base_entry: baseEntry.id,
           content: body.content
@@ -251,7 +252,7 @@ const create = forgeController
       const imageData = await getMedia('image', image)
 
       await pb.create
-        .collection('idea_box__entries_image')
+        .collection('ideaBox__entries_image')
         .data({
           base_entry: baseEntry.id,
           ...imageData
@@ -259,7 +260,7 @@ const create = forgeController
         .execute()
     } else if (body.type === 'link') {
       await pb.create
-        .collection('idea_box__entries_link')
+        .collection('ideaBox__entries_link')
         .data({
           base_entry: baseEntry.id,
           link: body.link
@@ -268,7 +269,7 @@ const create = forgeController
     }
   })
 
-const updateSchema = SCHEMAS.idea_box.entries.schema
+const updateSchema = SCHEMAS.ideaBox.entries.schema
   .omit({
     created: true,
     updated: true,
@@ -280,14 +281,14 @@ const updateSchema = SCHEMAS.idea_box.entries.schema
   })
   .and(
     z.union([
-      SCHEMAS.idea_box.entries_text.schema
+      SCHEMAS.ideaBox.entries_text.schema
         .omit({
           base_entry: true
         })
         .extend({
           type: z.literal('text')
         }),
-      SCHEMAS.idea_box.entries_image.schema
+      SCHEMAS.ideaBox.entries_image.schema
         .omit({
           base_entry: true,
           image: true
@@ -295,7 +296,7 @@ const updateSchema = SCHEMAS.idea_box.entries.schema
         .extend({
           type: z.literal('image')
         }),
-      SCHEMAS.idea_box.entries_link.schema
+      SCHEMAS.ideaBox.entries_link.schema
         .omit({
           base_entry: true
         })
@@ -325,13 +326,13 @@ const update = forgeController
     }
   })
   .existenceCheck('query', {
-    id: 'idea_box__entries'
+    id: 'ideaBox__entries'
   })
   .callback(async ({ pb, query: { id }, body: rawBody, media: { image } }) => {
     const body = rawBody as z.infer<typeof createSchema>
 
     const baseIdea = await pb.update
-      .collection('idea_box__entries')
+      .collection('ideaBox__entries')
       .id(id)
       .data({
         type: body.type,
@@ -341,7 +342,7 @@ const update = forgeController
 
     if (body.type === 'text') {
       const existingText = await pb.getFirstListItem
-        .collection('idea_box__entries_text')
+        .collection('ideaBox__entries_text')
         .filter([
           {
             field: 'base_entry',
@@ -352,7 +353,7 @@ const update = forgeController
         .execute()
 
       await pb.update
-        .collection('idea_box__entries_text')
+        .collection('ideaBox__entries_text')
         .id(existingText.id)
         .data({
           content: body.content
@@ -364,7 +365,7 @@ const update = forgeController
       }
 
       const existingImage = await pb.getFirstListItem
-        .collection('idea_box__entries_image')
+        .collection('ideaBox__entries_image')
         .filter([
           {
             field: 'base_entry',
@@ -377,7 +378,7 @@ const update = forgeController
       const imageData = await getMedia('image', image)
 
       await pb.update
-        .collection('idea_box__entries_image')
+        .collection('ideaBox__entries_image')
         .id(existingImage.id)
         .data({
           ...imageData
@@ -385,7 +386,7 @@ const update = forgeController
         .execute()
     } else if (body.type === 'link') {
       const existingLink = await pb.getFirstListItem
-        .collection('idea_box__entries_link')
+        .collection('ideaBox__entries_link')
         .filter([
           {
             field: 'base_entry',
@@ -396,7 +397,7 @@ const update = forgeController
         .execute()
 
       await pb.update
-        .collection('idea_box__entries_link')
+        .collection('ideaBox__entries_link')
         .id(existingLink.id)
         .data({
           link: body.link
@@ -421,10 +422,10 @@ const remove = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'idea_box__entries'
+    id: 'ideaBox__entries'
   })
   .callback(({ pb, query: { id } }) =>
-    pb.delete.collection('idea_box__entries').id(id).execute()
+    pb.delete.collection('ideaBox__entries').id(id).execute()
   )
   .statusCode(204)
 
@@ -442,16 +443,13 @@ const pin = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'idea_box__entries'
+    id: 'ideaBox__entries'
   })
   .callback(async ({ pb, query: { id } }) => {
-    const idea = await pb.getOne
-      .collection('idea_box__entries')
-      .id(id)
-      .execute()
+    const idea = await pb.getOne.collection('ideaBox__entries').id(id).execute()
 
     return await pb.update
-      .collection('idea_box__entries')
+      .collection('ideaBox__entries')
       .id(id)
       .data({
         pinned: !idea.pinned
@@ -473,16 +471,13 @@ const archive = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'idea_box__entries'
+    id: 'ideaBox__entries'
   })
   .callback(async ({ pb, query: { id } }) => {
-    const idea = await pb.getOne
-      .collection('idea_box__entries')
-      .id(id)
-      .execute()
+    const idea = await pb.getOne.collection('ideaBox__entries').id(id).execute()
 
     return await pb.update
-      .collection('idea_box__entries')
+      .collection('ideaBox__entries')
       .id(id)
       .data({
         archived: !idea.archived,
@@ -508,14 +503,14 @@ const moveTo = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'idea_box__entries'
+    id: 'ideaBox__entries'
   })
   .existenceCheck('body', {
-    target: 'idea_box__folders'
+    target: 'ideaBox__folders'
   })
   .callback(({ pb, query: { id }, body: { target } }) =>
     pb.update
-      .collection('idea_box__entries')
+      .collection('ideaBox__entries')
       .id(id)
       .data({
         folder: target
@@ -537,11 +532,11 @@ const removeFromParent = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'idea_box__entries'
+    id: 'ideaBox__entries'
   })
   .callback(async ({ pb, query: { id } }) => {
     const currentIdea = await pb.getOne
-      .collection('idea_box__entries')
+      .collection('ideaBox__entries')
       .id(id)
       .execute()
 
@@ -550,7 +545,7 @@ const removeFromParent = forgeController
     }
 
     const currentFolder = await pb.getOne
-      .collection('idea_box__folders')
+      .collection('ideaBox__folders')
       .id(currentIdea.folder)
       .execute()
 
@@ -559,7 +554,7 @@ const removeFromParent = forgeController
     }
 
     await pb.update
-      .collection('idea_box__entries')
+      .collection('ideaBox__entries')
       .id(id)
       .data({
         folder: currentFolder.parent || ''

@@ -1,6 +1,7 @@
-import { forgeController, forgeRouter } from '@functions/routes'
 import { SCHEMAS } from '@schema'
 import z from 'zod'
+
+import { forgeController, forgeRouter } from '@functions/routes'
 
 const list = forgeController
   .query()
@@ -16,12 +17,12 @@ const list = forgeController
     })
   })
   .existenceCheck('query', {
-    container: 'idea_box__containers'
+    container: 'ideaBox__containers'
   })
   .callback(
     async ({ pb, query: { container } }) =>
       await pb.getFullList
-        .collection('idea_box__tags_aggregated')
+        .collection('ideaBox__tags_aggregated')
         .filter([
           {
             field: 'container',
@@ -42,15 +43,15 @@ const create = forgeController
     'zh-TW': '創建新標籤'
   })
   .input({
-    body: SCHEMAS.idea_box.tags.schema
+    body: SCHEMAS.ideaBox.tags.schema
   })
   .existenceCheck('query', {
-    container: 'idea_box__containers'
+    container: 'ideaBox__containers'
   })
   .statusCode(201)
   .callback(
     async ({ pb, body }) =>
-      await pb.create.collection('idea_box__tags').data(body).execute()
+      await pb.create.collection('ideaBox__tags').data(body).execute()
   )
 
 const update = forgeController
@@ -65,16 +66,16 @@ const update = forgeController
     query: z.object({
       id: z.string()
     }),
-    body: SCHEMAS.idea_box.tags.schema.omit({
+    body: SCHEMAS.ideaBox.tags.schema.omit({
       container: true
     })
   })
   .existenceCheck('query', {
-    id: 'idea_box__tags'
+    id: 'ideaBox__tags'
   })
   .callback(
     async ({ pb, query: { id }, body }) =>
-      await pb.update.collection('idea_box__tags').id(id).data(body).execute()
+      await pb.update.collection('ideaBox__tags').id(id).data(body).execute()
   )
 
 const remove = forgeController
@@ -91,11 +92,11 @@ const remove = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'idea_box__tags'
+    id: 'ideaBox__tags'
   })
   .statusCode(204)
   .callback(async ({ pb, query: { id } }) => {
-    await pb.delete.collection('idea_box__tags').id(id).execute()
+    await pb.delete.collection('ideaBox__tags').id(id).execute()
   })
 
 export default forgeRouter({
