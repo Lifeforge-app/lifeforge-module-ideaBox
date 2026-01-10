@@ -1,4 +1,3 @@
-import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 import { Icon } from '@iconify/react'
 import clsx from 'clsx'
 import { Button } from 'lifeforge-ui'
@@ -7,11 +6,13 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
 
+import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
+
 import ModifyFolderModal from './modals/ModifyFolderModal'
 import ModifyIdeaModal from './modals/ModifyIdeaModal'
 
 function FAB() {
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const { t } = useTranslation('apps.ideaBox')
 

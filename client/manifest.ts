@@ -5,5 +5,5 @@ export default {
   routes: {
     '/': lazy(() => import('@/pages/Containers')),
     '/:id/*': lazy(() => import('@/pages/Ideas'))
-  },
+  }
 } satisfies ModuleConfig

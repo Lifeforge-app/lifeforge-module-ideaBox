@@ -1,15 +1,16 @@
-import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 import { EmptyStateScreen, WithQuery } from 'lifeforge-ui'
 import { useModalStore } from 'lifeforge-ui'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
+
+import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 
 import ModifyIdeaModal from '../modals/ModifyIdeaModal'
 import FolderList from './components/FolderList'
 import IdeaList from './components/IdeaList'
 
 function IdeaAndFolderList() {
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const { t } = useTranslation('apps.ideaBox')
 

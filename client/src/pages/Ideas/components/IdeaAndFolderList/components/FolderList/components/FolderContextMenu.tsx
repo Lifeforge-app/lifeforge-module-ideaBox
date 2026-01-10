@@ -1,5 +1,3 @@
-import type { IdeaBoxFolder } from '@/providers/IdeaBoxProvider'
-import forgeAPI from '@/utils/forgeAPI'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   ConfirmationModal,
@@ -10,6 +8,9 @@ import {
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
 import tinycolor from 'tinycolor2'
+
+import type { IdeaBoxFolder } from '@/providers/IdeaBoxProvider'
+import forgeAPI from '@/utils/forgeAPI'
 
 import ModifyFolderModal from '../../../../modals/ModifyFolderModal'
 
@@ -22,7 +23,7 @@ function FolderContextMenu({
 }) {
   const queryClient = useQueryClient()
 
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const handleUpdateFolder = useCallback(() => {
     open(ModifyFolderModal, {

@@ -1,8 +1,3 @@
-import {
-  type IdeaBoxIdea,
-  useIdeaBoxContext
-} from '@/providers/IdeaBoxProvider'
-import forgeAPI from '@/utils/forgeAPI'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { ConfirmationModal, ContextMenu, ContextMenuItem } from 'lifeforge-ui'
 import { useModalStore } from 'lifeforge-ui'
@@ -10,11 +5,17 @@ import { useCallback } from 'react'
 import { toast } from 'react-toastify'
 import { useParams } from 'shared'
 
+import {
+  type IdeaBoxIdea,
+  useIdeaBoxContext
+} from '@/providers/IdeaBoxProvider'
+import forgeAPI from '@/utils/forgeAPI'
+
 import ModifyIdeaModal from '../../../../modals/ModifyIdeaModal'
 import MoveToFolderModal from '../../../../modals/MoveToFolderModal'
 
 function EntryContextMenu({ entry }: { entry: IdeaBoxIdea }) {
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const { viewArchived, searchQuery, selectedTags } = useIdeaBoxContext()
 

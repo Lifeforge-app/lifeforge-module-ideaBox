@@ -1,7 +1,9 @@
-import IdeaBoxProvider, { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 import { SearchInput } from 'lifeforge-ui'
 import { useParams } from 'shared'
 
+import IdeaBoxProvider, { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
+
+import '../../index.css'
 import FAB from './components/FAB'
 import Header from './components/Header'
 import IdeaAndFolderList from './components/IdeaAndFolderList'

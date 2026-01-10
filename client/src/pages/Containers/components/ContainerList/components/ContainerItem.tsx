@@ -1,24 +1,25 @@
-import type { IdeaBoxContainer } from '@/providers/IdeaBoxProvider'
-import forgeAPI from '@/utils/forgeAPI'
 import { Icon } from '@iconify/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
+  Card,
   ConfirmationModal,
   ContextMenu,
   ContextMenuItem,
-  Card,
   useModalStore
 } from 'lifeforge-ui'
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
 import { Link } from 'shared'
 
+import type { IdeaBoxContainer } from '@/providers/IdeaBoxProvider'
+import forgeAPI from '@/utils/forgeAPI'
+
 import ModifyContainerModal from '../../ModifyContainerModal'
 
 function ContainerItem({ container }: { container: IdeaBoxContainer }) {
   const queryClient = useQueryClient()
 
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const deleteMutation = useMutation(
     forgeAPI.ideaBox.containers.remove
@@ -94,12 +95,12 @@ function ContainerItem({ container }: { container: IdeaBoxContainer }) {
     <Card
       isInteractive
       as="li"
-      className="cursor-default! p-0! group flex flex-col items-center justify-start"
+      className="group flex cursor-default! flex-col items-center justify-start p-0!"
       tabIndex={-1}
     >
       {container.pinned && (
         <Icon
-          className="absolute -left-2 -top-2 z-50 size-5 -rotate-90 text-red-500 drop-shadow-md"
+          className="absolute -top-2 -left-2 z-50 size-5 -rotate-90 text-red-500 drop-shadow-md"
           icon="tabler:pin"
         />
       )}

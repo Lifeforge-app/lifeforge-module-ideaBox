@@ -1,7 +1,8 @@
-import { type IdeaBoxTag, useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 import { useModalStore } from 'lifeforge-ui'
 import { useCallback, useMemo } from 'react'
 import { useParams } from 'shared'
+
+import { type IdeaBoxTag, useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 
 import ModifyTagModal from '../modals/ModifyTagModal'
 import TagItem from './components/TagItem'
@@ -15,7 +16,7 @@ const sortFunc = (a: IdeaBoxTag, b: IdeaBoxTag) => {
 }
 
 function TagsSelector() {
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const { '*': path } = useParams<{ '*': string }>()
 

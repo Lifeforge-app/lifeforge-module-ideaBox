@@ -13,11 +13,12 @@ import { useTranslation } from 'react-i18next'
 
 import forgeAPI from '@/utils/forgeAPI'
 
+import '../../index.css'
 import ContainerList from './components/ContainerList'
 import ModifyContainerModal from './components/ModifyContainerModal'
 
 function IdeaBox() {
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const { t } = useTranslation('apps.ideaBox')
 

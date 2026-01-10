@@ -1,4 +1,3 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { type UseQueryResult, useQuery } from '@tanstack/react-query'
 import { useModalStore } from 'lifeforge-ui'
 import { createContext, useContext, useEffect, useMemo, useState } from 'react'
@@ -7,6 +6,8 @@ import { HTML5Backend } from 'react-dnd-html5-backend'
 import { toast } from 'react-toastify'
 import { useNavigate, useParams, useSearchParams } from 'shared'
 import type { InferOutput } from 'shared'
+
+import forgeAPI from '@/utils/forgeAPI'
 
 import ModifyIdeaModal from '../pages/Ideas/components/modals/ModifyIdeaModal'
 
@@ -47,7 +48,7 @@ export default function IdeaBoxProvider({
 }: {
   children: React.ReactNode
 }) {
-  const open = useModalStore(state => state.open)
+  const { open } = useModalStore()
 
   const navigate = useNavigate()
 
