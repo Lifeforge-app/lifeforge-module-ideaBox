@@ -1,10 +1,11 @@
-import type { IdeaBoxTag } from '@/providers/IdeaBoxProvider'
-import forgeAPI from '@/utils/forgeAPI'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { FormModal, defineForm } from 'lifeforge-ui'
 import { toast } from 'react-toastify'
 import { useParams } from 'shared'
 import type { InferInput } from 'shared'
+
+import type { IdeaBoxTag } from '@/providers/IdeaBoxProvider'
+import forgeAPI from '@/utils/forgeAPI'
 
 function ModifyTagModal({
   data: { type, initialData },
@@ -22,8 +23,8 @@ function ModifyTagModal({
 
   const mutation = useMutation(
     (type === 'create'
-      ? forgeAPI.ideaBox.tags.create
-      : forgeAPI.ideaBox.tags.update.input({ id: initialData?.id || '' })
+      ? forgeAPI.tags.create
+      : forgeAPI.tags.update.input({ id: initialData?.id || '' })
     ).mutationOptions({
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: ['ideaBox', 'tags'] })
@@ -35,7 +36,7 @@ function ModifyTagModal({
   )
 
   const { formProps } = defineForm<
-    InferInput<(typeof forgeAPI.ideaBox.tags)[typeof type]>['body']
+    InferInput<(typeof forgeAPI.tags)[typeof type]>['body']
   >({
     title: `tag.${type}`,
     icon: {

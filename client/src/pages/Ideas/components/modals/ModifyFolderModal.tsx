@@ -1,10 +1,11 @@
-import type { IdeaBoxFolder } from '@/providers/IdeaBoxProvider'
-import forgeAPI from '@/utils/forgeAPI'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { FormModal, defineForm } from 'lifeforge-ui'
 import { toast } from 'react-toastify'
 import { useParams } from 'shared'
 import type { InferInput } from 'shared'
+
+import type { IdeaBoxFolder } from '@/providers/IdeaBoxProvider'
+import forgeAPI from '@/utils/forgeAPI'
 
 function ModifyFolderModal({
   data: { type, initialData },
@@ -22,8 +23,8 @@ function ModifyFolderModal({
 
   const mutation = useMutation(
     (type === 'create'
-      ? forgeAPI.ideaBox.folders.create
-      : forgeAPI.ideaBox.folders.update.input({
+      ? forgeAPI.folders.create
+      : forgeAPI.folders.update.input({
           id: initialData?.id || ''
         })
     ).mutationOptions({
@@ -39,7 +40,7 @@ function ModifyFolderModal({
   )
 
   const { formProps } = defineForm<
-    InferInput<(typeof forgeAPI.ideaBox.folders)[typeof type]>['body']
+    InferInput<(typeof forgeAPI.folders)[typeof type]>['body']
   >({
     icon: {
       create: 'tabler:plus',

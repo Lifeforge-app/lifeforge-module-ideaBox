@@ -1,7 +1,9 @@
-import { PBService } from '@functions/database'
+import type { IPBService } from '@lifeforge/server-utils'
+
+import type schema from '../schema'
 
 export const validateFolderPath = async (
-  pb: PBService,
+  pb: IPBService<typeof schema>,
   container: string,
   path: string[]
 ): Promise<{ folderExists: boolean; lastFolder: string }> => {
@@ -13,7 +15,7 @@ export const validateFolderPath = async (
 
     try {
       const folderEntry = await pb.getOne
-        .collection('ideaBox__folders')
+        .collection('folders')
         .id(folder)
         .execute()
 
@@ -41,10 +43,10 @@ export async function recursivelySearchFolder(
   container: string,
   tags: string = '',
   parents: string,
-  pb: PBService
+  pb: IPBService<typeof schema>
 ) {
   const folderInsideFolder = await pb.getFullList
-    .collection('ideaBox__folders')
+    .collection('folders')
     .filter([
       {
         field: 'parent',
@@ -55,13 +57,13 @@ export async function recursivelySearchFolder(
     .execute()
 
   const thisFolder = folderId
-    ? await pb.getOne.collection('ideaBox__folders').id(folderId).execute()
+    ? await pb.getOne.collection('folders').id(folderId).execute()
     : undefined
 
   const textResults = (
     await pb.getFullList
-      .collection('ideaBox__entries_text')
-      .expand({ base_entry: 'ideaBox__entries' })
+      .collection('entries_text')
+      .expand({ base_entry: 'entries' })
       .filter([
         {
           field: 'content',

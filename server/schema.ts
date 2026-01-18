@@ -1,6 +1,7 @@
+import { cleanSchemas } from '@lifeforge/server-utils'
 import z from 'zod'
 
-const ideaBoxSchemas = {
+export const schemas = {
   containers: {
     schema: z.object({
       icon: z.string(),
@@ -836,4 +837,4 @@ const ideaBoxSchemas = {
   }
 }
 
-export default ideaBoxSchemas
+export default cleanSchemas(schemas)

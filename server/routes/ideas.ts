@@ -1,21 +1,13 @@
-import COLLECTION_SCHEMAS, { SCHEMAS } from '@schema'
+import { ClientError, type SchemaWithPB } from '@lifeforge/server-utils'
 import z from 'zod'
 
-import { SchemaWithPB } from '@functions/database/PBService/typescript/pb_service'
-import getMedia from '@functions/external/media'
-import { forgeController, forgeRouter } from '@functions/routes'
-import { ClientError } from '@functions/routes/utils/response'
-
+import forge from '../forge'
+import ideaBoxSchemas from '../schema'
 import { validateFolderPath } from '../utils/folders'
 
-const list = forgeController
+export const list = forge
   .query()
-  .description({
-    en: 'Get all ideas from a folder or idea container',
-    ms: 'Dapatkan semua idea daripada folder atau bekas idea',
-    'zh-CN': '获取文件夹中的所有想法或想法容器',
-    'zh-TW': '獲取資料夾中的所有想法或想法容器'
-  })
+  .description('Get all ideas from a folder or idea container')
   .input({
     query: z.object({
       container: z.string(),
@@ -27,7 +19,7 @@ const list = forgeController
     })
   })
   .existenceCheck('query', {
-    container: 'ideaBox__containers'
+    container: 'containers'
   })
   .callback(async ({ pb, query: { path: pathParam, container, archived } }) => {
     const path = pathParam.split('/').filter(e => e)
@@ -45,9 +37,9 @@ const list = forgeController
     }
 
     const textIdeas = await pb.getFullList
-      .collection('ideaBox__entries_text')
+      .collection('entries_text')
       .expand({
-        base_entry: 'ideaBox__entries'
+        base_entry: 'entries'
       })
       .filter([
         {
@@ -70,9 +62,9 @@ const list = forgeController
       .execute()
 
     const imageIdeas = await pb.getFullList
-      .collection('ideaBox__entries_image')
+      .collection('entries_image')
       .expand({
-        base_entry: 'ideaBox__entries'
+        base_entry: 'entries'
       })
       .filter([
         {
@@ -95,9 +87,9 @@ const list = forgeController
       .execute()
 
     const linkIdeas = await pb.getFullList
-      .collection('ideaBox__entries_link')
+      .collection('entries_link')
       .expand({
-        base_entry: 'ideaBox__entries'
+        base_entry: 'entries'
       })
       .filter([
         {
@@ -119,23 +111,23 @@ const list = forgeController
       .sort(['-base_entry.pinned', '-base_entry.created'])
       .execute()
 
-    const _returnSchema = COLLECTION_SCHEMAS.ideaBox__entries
+    const _returnSchema = ideaBoxSchemas.entries
       .omit({
         type: true
       })
       .and(
         z.union([
-          COLLECTION_SCHEMAS.ideaBox__entries_text.extend({
+          ideaBoxSchemas.entries_text.extend({
             type: z.literal('text')
           }),
-          COLLECTION_SCHEMAS.ideaBox__entries_image.extend({
+          ideaBoxSchemas.entries_image.extend({
             type: z.literal('image'),
             child: z.object({
               id: z.string(),
               collectionId: z.string()
             })
           }),
-          COLLECTION_SCHEMAS.ideaBox__entries_link.extend({
+          ideaBoxSchemas.entries_link.extend({
             type: z.literal('link')
           })
         ])
@@ -167,7 +159,7 @@ const list = forgeController
     }) as Array<SchemaWithPB<z.infer<typeof _returnSchema>>>
   })
 
-const createSchema = SCHEMAS.ideaBox.entries.schema
+const createSchema = ideaBoxSchemas.entries
   .omit({
     created: true,
     updated: true,
@@ -177,14 +169,14 @@ const createSchema = SCHEMAS.ideaBox.entries.schema
   })
   .and(
     z.union([
-      SCHEMAS.ideaBox.entries_text.schema
+      ideaBoxSchemas.entries_text
         .omit({
           base_entry: true
         })
         .extend({
           type: z.literal('text')
         }),
-      SCHEMAS.ideaBox.entries_image.schema
+      ideaBoxSchemas.entries_image
         .omit({
           base_entry: true,
           image: true
@@ -192,7 +184,7 @@ const createSchema = SCHEMAS.ideaBox.entries.schema
         .extend({
           type: z.literal('image')
         }),
-      SCHEMAS.ideaBox.entries_link.schema
+      ideaBoxSchemas.entries_link
         .omit({
           base_entry: true
         })
@@ -202,14 +194,9 @@ const createSchema = SCHEMAS.ideaBox.entries.schema
     ])
   )
 
-const create = forgeController
+export const create = forge
   .mutation()
-  .description({
-    en: 'Create a new idea entry',
-    ms: 'Cipta entri idea baharu',
-    'zh-CN': '创建新的想法条目',
-    'zh-TW': '創建新的想法條目'
-  })
+  .description('Create a new idea entry')
   .input({
     body: createSchema
   })
@@ -219,57 +206,66 @@ const create = forgeController
     }
   })
   .existenceCheck('body', {
-    container: 'ideaBox__containers',
-    folder: '[ideaBox__folders]'
+    container: 'containers',
+    folder: '[folders]'
   })
   .statusCode(201)
-  .callback(async ({ pb, body: rawBody, media: { image } }) => {
-    const body = rawBody as z.infer<typeof createSchema>
-
-    const baseEntry = await pb.create
-      .collection('ideaBox__entries')
-      .data({
-        container: body.container,
-        folder: body.folder,
-        type: body.type,
-        tags: body.tags
-      })
-      .execute()
-
-    if (body.type === 'text') {
-      await pb.create
-        .collection('ideaBox__entries_text')
-        .data({
-          base_entry: baseEntry.id,
-          content: body.content
-        })
-        .execute()
-    } else if (body.type === 'image') {
-      if (!image) {
-        throw new ClientError('Image is required for image entries')
+  .callback(
+    async ({
+      pb,
+      body: rawBody,
+      media: { image },
+      core: {
+        media: { retrieveMedia }
       }
+    }) => {
+      const body = rawBody as z.infer<typeof createSchema>
 
-      const imageData = await getMedia('image', image)
-
-      await pb.create
-        .collection('ideaBox__entries_image')
+      const baseEntry = await pb.create
+        .collection('entries')
         .data({
-          base_entry: baseEntry.id,
-          ...imageData
+          container: body.container,
+          folder: body.folder,
+          type: body.type,
+          tags: body.tags
         })
         .execute()
-    } else if (body.type === 'link') {
-      await pb.create
-        .collection('ideaBox__entries_link')
-        .data({
-          base_entry: baseEntry.id,
-          link: body.link
-        })
-        .execute()
+
+      if (body.type === 'text') {
+        await pb.create
+          .collection('entries_text')
+          .data({
+            base_entry: baseEntry.id,
+            content: body.content
+          })
+          .execute()
+      } else if (body.type === 'image') {
+        if (!image) {
+          throw new ClientError('Image is required for image entries')
+        }
+
+        const imageData = await retrieveMedia('image', image)
+
+        await pb.create
+          .collection('entries_image')
+          .data({
+            base_entry: baseEntry.id,
+            ...imageData
+          })
+          .execute()
+      } else if (body.type === 'link') {
+        await pb.create
+          .collection('entries_link')
+          .data({
+            base_entry: baseEntry.id,
+            link: body.link
+          })
+          .execute()
+      }
     }
-  })
+  )
 
-const updateSchema = SCHEMAS.ideaBox.entries.schema
+const updateSchema = ideaBoxSchemas.entries
   .omit({
     created: true,
     updated: true,
@@ -281,14 +277,14 @@ const updateSchema = SCHEMAS.ideaBox.entries.schema
   })
   .and(
     z.union([
-      SCHEMAS.ideaBox.entries_text.schema
+      ideaBoxSchemas.entries_text
         .omit({
           base_entry: true
         })
         .extend({
           type: z.literal('text')
         }),
-      SCHEMAS.ideaBox.entries_image.schema
+      ideaBoxSchemas.entries_image
         .omit({
           base_entry: true,
           image: true
@@ -296,7 +292,7 @@ const updateSchema = SCHEMAS.ideaBox.entries.schema
         .extend({
           type: z.literal('image')
         }),
-      SCHEMAS.ideaBox.entries_link.schema
+      ideaBoxSchemas.entries_link
         .omit({
           base_entry: true
         })
@@ -306,14 +302,9 @@ const updateSchema = SCHEMAS.ideaBox.entries.schema
     ])
   )
 
-const update = forgeController
+export const update = forge
   .mutation()
-  .description({
-    en: 'Update an existing idea',
-    ms: 'Kemas kini idea sedia ada',
-    'zh-CN': '更新现有想法',
-    'zh-TW': '更新現有想法'
-  })
+  .description('Update an existing idea')
   .input({
     query: z.object({
       id: z.string()
@@ -326,130 +317,130 @@ const update = forgeController
     }
   })
   .existenceCheck('query', {
-    id: 'ideaBox__entries'
+    id: 'entries'
   })
-  .callback(async ({ pb, query: { id }, body: rawBody, media: { image } }) => {
-    const body = rawBody as z.infer<typeof createSchema>
-
-    const baseIdea = await pb.update
-      .collection('ideaBox__entries')
-      .id(id)
-      .data({
-        type: body.type,
-        tags: body.tags
-      })
-      .execute()
-
-    if (body.type === 'text') {
-      const existingText = await pb.getFirstListItem
-        .collection('ideaBox__entries_text')
-        .filter([
-          {
-            field: 'base_entry',
-            operator: '=',
-            value: baseIdea.id
-          }
-        ])
-        .execute()
-
-      await pb.update
-        .collection('ideaBox__entries_text')
-        .id(existingText.id)
-        .data({
-          content: body.content
-        })
-        .execute()
-    } else if (body.type === 'image') {
-      if (!image) {
-        throw new ClientError('Image is required for image entries')
+  .callback(
+    async ({
+      pb,
+      query: { id },
+      body: rawBody,
+      media: { image },
+      core: {
+        media: { retrieveMedia }
       }
+    }) => {
+      const body = rawBody as z.infer<typeof createSchema>
 
-      const existingImage = await pb.getFirstListItem
-        .collection('ideaBox__entries_image')
-        .filter([
-          {
-            field: 'base_entry',
-            operator: '=',
-            value: baseIdea.id
-          }
-        ])
-        .execute()
-
-      const imageData = await getMedia('image', image)
-
-      await pb.update
-        .collection('ideaBox__entries_image')
-        .id(existingImage.id)
+      const baseIdea = await pb.update
+        .collection('entries')
+        .id(id)
         .data({
-          ...imageData
+          type: body.type,
+          tags: body.tags
         })
         .execute()
-    } else if (body.type === 'link') {
-      const existingLink = await pb.getFirstListItem
-        .collection('ideaBox__entries_link')
-        .filter([
-          {
-            field: 'base_entry',
-            operator: '=',
-            value: baseIdea.id
-          }
-        ])
-        .execute()
 
-      await pb.update
-        .collection('ideaBox__entries_link')
-        .id(existingLink.id)
-        .data({
-          link: body.link
-        })
-        .execute()
-    } else {
-      throw new ClientError('Invalid idea type')
+      if (body.type === 'text') {
+        const existingText = await pb.getFirstListItem
+          .collection('entries_text')
+          .filter([
+            {
+              field: 'base_entry',
+              operator: '=',
+              value: baseIdea.id
+            }
+          ])
+          .execute()
+
+        await pb.update
+          .collection('entries_text')
+          .id(existingText.id)
+          .data({
+            content: body.content
+          })
+          .execute()
+      } else if (body.type === 'image') {
+        if (!image) {
+          throw new ClientError('Image is required for image entries')
+        }
+
+        const existingImage = await pb.getFirstListItem
+          .collection('entries_image')
+          .filter([
+            {
+              field: 'base_entry',
+              operator: '=',
+              value: baseIdea.id
+            }
+          ])
+          .execute()
+
+        const imageData = await retrieveMedia('image', image)
+
+        await pb.update
+          .collection('entries_image')
+          .id(existingImage.id)
+          .data({
+            ...imageData
+          })
+          .execute()
+      } else if (body.type === 'link') {
+        const existingLink = await pb.getFirstListItem
+          .collection('entries_link')
+          .filter([
+            {
+              field: 'base_entry',
+              operator: '=',
+              value: baseIdea.id
+            }
+          ])
+          .execute()
+
+        await pb.update
+          .collection('entries_link')
+          .id(existingLink.id)
+          .data({
+            link: body.link
+          })
+          .execute()
+      } else {
+        throw new ClientError('Invalid idea type')
+      }
     }
-  })
+  )
 
-const remove = forgeController
+export const remove = forge
   .mutation()
-  .description({
-    en: 'Delete an idea',
-    ms: 'Padam idea',
-    'zh-CN': '删除想法',
-    'zh-TW': '刪除想法'
-  })
+  .description('Delete an idea')
   .input({
     query: z.object({
       id: z.string()
     })
   })
   .existenceCheck('query', {
-    id: 'ideaBox__entries'
+    id: 'entries'
   })
   .callback(({ pb, query: { id } }) =>
-    pb.delete.collection('ideaBox__entries').id(id).execute()
+    pb.delete.collection('entries').id(id).execute()
   )
   .statusCode(204)
 
-const pin = forgeController
+export const pin = forge
   .mutation()
-  .description({
-    en: 'Toggle pin status of an idea',
-    ms: 'Togol status pin idea',
-    'zh-CN': '切换想法的置顶状态',
-    'zh-TW': '切換想法的置頂狀態'
-  })
+  .description('Toggle pin status of an idea')
   .input({
     query: z.object({
       id: z.string()
     })
   })
   .existenceCheck('query', {
-    id: 'ideaBox__entries'
+    id: 'entries'
   })
   .callback(async ({ pb, query: { id } }) => {
-    const idea = await pb.getOne.collection('ideaBox__entries').id(id).execute()
+    const idea = await pb.getOne.collection('entries').id(id).execute()
 
     return await pb.update
-      .collection('ideaBox__entries')
+      .collection('entries')
       .id(id)
       .data({
         pinned: !idea.pinned
@@ -457,27 +448,22 @@ const pin = forgeController
       .execute()
   })
 
-const archive = forgeController
+export const archive = forge
   .mutation()
-  .description({
-    en: 'Toggle archive status of an idea',
-    ms: 'Togol status arkib idea',
-    'zh-CN': '切换想法的归档状态',
-    'zh-TW': '切換想法的封存狀態'
-  })
+  .description('Toggle archive status of an idea')
   .input({
     query: z.object({
       id: z.string()
     })
   })
   .existenceCheck('query', {
-    id: 'ideaBox__entries'
+    id: 'entries'
   })
   .callback(async ({ pb, query: { id } }) => {
-    const idea = await pb.getOne.collection('ideaBox__entries').id(id).execute()
+    const idea = await pb.getOne.collection('entries').id(id).execute()
 
     return await pb.update
-      .collection('ideaBox__entries')
+      .collection('entries')
       .id(id)
       .data({
         archived: !idea.archived,
@@ -486,14 +472,9 @@ const archive = forgeController
       .execute()
   })
 
-const moveTo = forgeController
+export const moveTo = forge
   .mutation()
-  .description({
-    en: 'Move an idea to another folder',
-    ms: 'Pindah idea ke folder lain',
-    'zh-CN': '将想法移动到另一个文件夹',
-    'zh-TW': '將想法移動到另一個資料夾'
-  })
+  .description('Move an idea to another folder')
   .input({
     query: z.object({
       id: z.string()
@@ -503,14 +484,14 @@ const moveTo = forgeController
     })
   })
   .existenceCheck('query', {
-    id: 'ideaBox__entries'
+    id: 'entries'
   })
   .existenceCheck('body', {
-    target: 'ideaBox__folders'
+    target: 'folders'
   })
   .callback(({ pb, query: { id }, body: { target } }) =>
     pb.update
-      .collection('ideaBox__entries')
+      .collection('entries')
       .id(id)
       .data({
         folder: target
@@ -518,34 +499,26 @@ const moveTo = forgeController
       .execute()
   )
 
-const removeFromParent = forgeController
+export const removeFromParent = forge
   .mutation()
-  .description({
-    en: 'Move idea to parent folder',
-    ms: 'Pindah idea ke folder induk',
-    'zh-CN': '将想法移至父文件夹',
-    'zh-TW': '將想法移至父資料夾'
-  })
+  .description('Move idea to parent folder')
   .input({
     query: z.object({
       id: z.string()
     })
   })
   .existenceCheck('query', {
-    id: 'ideaBox__entries'
+    id: 'entries'
   })
   .callback(async ({ pb, query: { id } }) => {
-    const currentIdea = await pb.getOne
-      .collection('ideaBox__entries')
-      .id(id)
-      .execute()
+    const currentIdea = await pb.getOne.collection('entries').id(id).execute()
 
     if (!currentIdea.folder) {
       throw new ClientError('Idea is not in any folder')
     }
 
     const currentFolder = await pb.getOne
-      .collection('ideaBox__folders')
+      .collection('folders')
       .id(currentIdea.folder)
       .execute()
 
@@ -554,21 +527,10 @@ const removeFromParent = forgeController
     }
 
     await pb.update
-      .collection('ideaBox__entries')
+      .collection('entries')
       .id(id)
       .data({
         folder: currentFolder.parent || ''
       })
       .execute()
   })
-
-export default forgeRouter({
-  list,
-  create,
-  update,
-  remove,
-  pin,
-  archive,
-  moveTo,
-  removeFromParent
-})

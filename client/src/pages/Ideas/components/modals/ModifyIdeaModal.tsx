@@ -1,4 +1,3 @@
-import forgeAPI from '@/utils/forgeAPI'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { FormModal, defineForm } from 'lifeforge-ui'
 import { useEffect } from 'react'
@@ -7,15 +6,15 @@ import { toast } from 'react-toastify'
 import { useParams } from 'shared'
 import type { InferInput, InferOutput } from 'shared'
 
+import forgeAPI from '@/utils/forgeAPI'
+
 function ModifyIdeaModal({
   data: { type, initialData },
   onClose
 }: {
   data: {
     type: 'create' | 'update'
-    initialData?: Partial<
-      InferOutput<typeof forgeAPI.ideaBox.ideas.list>[number]
-    > & {
+    initialData?: Partial<InferOutput<typeof forgeAPI.ideas.list>[number]> & {
       isPasted?: boolean
     }
   }
@@ -28,7 +27,7 @@ function ModifyIdeaModal({
   const { id, '*': path } = useParams<{ id: string; '*': string }>()
 
   const tagsQuery = useQuery(
-    forgeAPI.ideaBox.tags.list
+    forgeAPI.tags.list
       .input({
         container: id || ''
       })
@@ -37,8 +36,8 @@ function ModifyIdeaModal({
 
   const mutation = useMutation(
     (type === 'create'
-      ? forgeAPI.ideaBox.ideas.create
-      : forgeAPI.ideaBox.ideas.update.input({
+      ? forgeAPI.ideas.create
+      : forgeAPI.ideas.update.input({
           id: initialData?.id || ''
         })
     ).mutationOptions({
@@ -57,7 +56,7 @@ function ModifyIdeaModal({
   )
 
   const { formProps } = defineForm<
-    InferInput<(typeof forgeAPI.ideaBox.ideas)[typeof type]>['body']
+    InferInput<(typeof forgeAPI.ideas)[typeof type]>['body']
   >({
     icon: type === 'create' ? 'tabler:plus' : 'tabler:pencil',
     title: `idea.${type}`,
@@ -154,11 +153,11 @@ function ModifyIdeaModal({
                               : null,
                         preview: initialData.image
                           ? typeof initialData.image === 'string'
-                            ? forgeAPI.media.input({
+                            ? forgeAPI.getMedia({
                                 collectionId: initialData.child!.collectionId!,
                                 recordId: initialData.child!.id!,
                                 fieldId: initialData.image
-                              }).endpoint
+                              })
                             : (initialData.image as File | undefined) instanceof
                                 File
                               ? URL.createObjectURL(

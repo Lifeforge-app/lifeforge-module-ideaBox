@@ -1,23 +1,15 @@
+import { ClientError } from '@lifeforge/server-utils'
 import ogs from 'open-graph-scraper'
 import z from 'zod'
 
-import { checkExistence } from '@functions/database'
-import { LoggingService } from '@functions/logging/loggingService'
-import { forgeController, forgeRouter } from '@functions/routes'
-import { ClientError } from '@functions/routes/utils/response'
-
+import forge from '../forge'
 import { recursivelySearchFolder } from '../utils/folders'
 
 const OGCache = new Map<string, any>()
 
-const getPath = forgeController
+export const getPath = forge
   .query()
-  .description({
-    en: 'Get path information for a container or folder',
-    ms: 'Dapatkan maklumat laluan untuk bekas atau folder',
-    'zh-CN': '获取容器或文件夹的路径信息',
-    'zh-TW': '獲取容器或資料夾的路徑資訊'
-  })
+  .description('Get path information for a container or folder')
   .input({
     query: z.object({
       container: z.string(),
@@ -25,122 +17,128 @@ const getPath = forgeController
     })
   })
   .existenceCheck('query', {
-    container: 'ideaBox__containers',
-    folder: '[ideaBox__folders]'
+    container: 'containers',
+    folder: '[folders]'
   })
-  .callback(async ({ pb, query: { container, folder } }) => {
-    const containerEntry = await pb.getOne
-      .collection('ideaBox__containers')
-      .id(container)
-      .execute()
-
-    if (!folder) {
-      return {
-        container: containerEntry,
-        route: []
+  .callback(
+    async ({
+      pb,
+      query: { container, folder },
+      core: {
+        validation: { checkRecordExistence }
       }
-    }
-
-    let lastFolder = folder
-
-    const fullPath = []
-
-    while (lastFolder) {
-      if (!(await checkExistence(pb, 'ideaBox__folders', lastFolder))) {
-        throw new ClientError(`Folder with ID "${lastFolder}" does not exist`)
-      }
-
-      const folderEntry = await pb.getOne
-        .collection('ideaBox__folders')
-        .id(lastFolder)
+    }) => {
+      const containerEntry = await pb.getOne
+        .collection('containers')
+        .id(container)
         .execute()
 
-      if (folderEntry.container !== container) {
-        throw new ClientError('Invalid path')
+      if (!folder) {
+        return {
+          container: containerEntry,
+          route: []
+        }
       }
 
-      lastFolder = folderEntry.parent
-      fullPath.unshift(folderEntry)
-    }
+      let lastFolder = folder
 
-    return {
-      container: containerEntry,
-      route: fullPath
-    }
-  })
+      const fullPath = []
 
-const checkValid = forgeController
+      while (lastFolder) {
+        if (!(await checkRecordExistence(pb, 'folders', lastFolder))) {
+          throw new ClientError(`Folder with ID "${lastFolder}" does not exist`)
+        }
+
+        const folderEntry = await pb.getOne
+          .collection('folders')
+          .id(lastFolder)
+          .execute()
+
+        if (folderEntry.container !== container) {
+          throw new ClientError('Invalid path')
+        }
+
+        lastFolder = folderEntry.parent
+        fullPath.unshift(folderEntry)
+      }
+
+      return {
+        container: containerEntry,
+        route: fullPath
+      }
+    }
+  )
+
+export const checkValid = forge
   .query()
-  .description({
-    en: 'Validate if a folder path exists',
-    ms: 'Sahkan sama ada laluan folder wujud',
-    'zh-CN': '验证文件夹路径是否存在',
-    'zh-TW': '驗證資料夾路徑是否存在'
-  })
+  .description('Validate if a folder path exists')
   .input({
     query: z.object({
       container: z.string(),
       path: z.string()
     })
   })
-  .callback(async ({ pb, query: { container, path } }) => {
-    const containerExists = await checkExistence(
+  .callback(
+    async ({
       pb,
-      'ideaBox__containers',
-      container
-    )
+      query: { container, path },
+      core: {
+        validation: { checkRecordExistence }
+      }
+    }) => {
+      const containerExists = await checkRecordExistence(
+        pb,
+        'containers',
+        container
+      )
 
-    if (!containerExists) {
-      return false
-    }
-
-    let folderExists = true
-    let lastFolder = ''
-
-    for (const folder of path.split('/').filter(e => e)) {
-      if (!(await checkExistence(pb, 'ideaBox__folders', folder))) {
-        folderExists = false
-        break
+      if (!containerExists) {
+        return false
       }
 
-      const folderEntry = await pb.getOne
-        .collection('ideaBox__folders')
-        .id(folder)
-        .execute()
+      let folderExists = true
+      let lastFolder = ''
 
-      if (
-        folderEntry.parent !== lastFolder ||
-        folderEntry.container !== container
-      ) {
-        folderExists = false
-        break
+      for (const folder of path.split('/').filter(e => e)) {
+        if (!(await checkRecordExistence(pb, 'folders', folder))) {
+          folderExists = false
+          break
+        }
+
+        const folderEntry = await pb.getOne
+          .collection('folders')
+          .id(folder)
+          .execute()
+
+        if (
+          folderEntry.parent !== lastFolder ||
+          folderEntry.container !== container
+        ) {
+          folderExists = false
+          break
+        }
+
+        lastFolder = folder
       }
 
-      lastFolder = folder
+      return containerExists && folderExists
     }
+  )
 
-    return containerExists && folderExists
-  })
-
-const getOgData = forgeController
+export const getOgData = forge
   .query()
-  .description({
-    en: 'Get Open Graph metadata for a link entry',
-    ms: 'Dapatkan metadata Open Graph untuk entri pautan',
-    'zh-CN': '获取链接条目的Open Graph元数据',
-    'zh-TW': '獲取連結條目的Open Graph元數據'
-  })
+  .description('Get Open Graph metadata for a link entry')
   .input({
     query: z.object({
       id: z.string()
     })
   })
   .existenceCheck('query', {
-    id: 'ideaBox__entries'
+    id: 'entries'
   })
-  .callback(async ({ pb, query: { id } }) => {
+  .callback(async ({ pb, query: { id }, core: { logging } }) => {
     const data = await pb.getFirstListItem
-      .collection('ideaBox__entries_link')
+      .collection('entries_link')
       .filter([
         {
           field: 'base_entry',
@@ -163,10 +161,7 @@ const getOgData = forgeController
         }
       }
     }).catch(() => {
-      LoggingService.error(
-        `Error fetching Open Graph data: ${data.link}`,
-        'OG SCraper'
-      )
+      logging.error(`Error fetching Open Graph data: ${data.link}`)
 
       return { result: null }
     })
@@ -176,14 +171,9 @@ const getOgData = forgeController
     return result
   })
 
-const search = forgeController
+export const search = forge
   .query()
-  .description({
-    en: 'Search entries in a container',
-    ms: 'Cari entri dalam bekas',
-    'zh-CN': '搜索容器中的条目',
-    'zh-TW': '搜尋容器中的條目'
-  })
+  .description('Search entries in a container')
   .input({
     query: z.object({
       q: z.string(),
@@ -193,7 +183,7 @@ const search = forgeController
     })
   })
   .existenceCheck('query', {
-    container: '[ideaBox__containers]'
+    container: '[containers]'
   })
   .callback(async ({ pb, query: { q, container, tags, folder } }) => {
     const results = await recursivelySearchFolder(
@@ -207,10 +197,3 @@ const search = forgeController
 
     return results
   })
-
-export default forgeRouter({
-  getPath,
-  checkValid,
-  getOgData,
-  search
-})

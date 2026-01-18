@@ -1,11 +1,12 @@
-import type { IdeaBoxFolder } from '@/providers/IdeaBoxProvider'
-import forgeAPI from '@/utils/forgeAPI'
 import { Icon } from '@iconify/react'
 import { useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { useDrag, useDrop } from 'react-dnd'
 import { toast } from 'react-toastify'
 import { Link, useParams } from 'shared'
+
+import type { IdeaBoxFolder } from '@/providers/IdeaBoxProvider'
+import forgeAPI from '@/utils/forgeAPI'
 
 import FolderContextMenu from './FolderContextMenu'
 
@@ -80,7 +81,7 @@ function FolderItem({ folder }: { folder: IdeaBoxFolder }) {
     if (type === 'folder' && targetId === folder.id) return
 
     try {
-      await forgeAPI.ideaBox[type === 'idea' ? 'ideas' : 'folders'].moveTo
+      await forgeAPI[type === 'idea' ? 'ideas' : 'folders'].moveTo
         .input({
           id: targetId
         })

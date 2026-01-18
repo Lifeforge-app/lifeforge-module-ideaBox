@@ -1,5 +1,3 @@
-import type { IdeaBoxFolder, IdeaBoxIdea } from '@/providers/IdeaBoxProvider'
-import forgeAPI from '@/utils/forgeAPI'
 import { Icon } from '@iconify/react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
@@ -8,6 +6,9 @@ import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import { useParams } from 'shared'
+
+import type { IdeaBoxFolder, IdeaBoxIdea } from '@/providers/IdeaBoxProvider'
+import forgeAPI from '@/utils/forgeAPI'
 
 interface MoveToFolderModalProps {
   data: {
@@ -34,7 +35,7 @@ function MoveToFolderModal({
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null)
 
   const foldersQuery = useQuery(
-    forgeAPI.ideaBox.folders.list
+    forgeAPI.folders.list
       .input({
         container: containerId!,
         path: modalPath
@@ -45,7 +46,7 @@ function MoveToFolderModal({
   )
 
   const pathQuery = useQuery(
-    forgeAPI.ideaBox.misc.getPath
+    forgeAPI.misc.getPath
       .input({
         container: containerId!,
         folder: modalPath.split('/').pop() || ''
@@ -56,7 +57,7 @@ function MoveToFolderModal({
   )
 
   const moveToFolderMutation = useMutation(
-    forgeAPI.ideaBox.ideas.moveTo
+    forgeAPI.ideas.moveTo
       .input({
         id: idea.id
       })
@@ -118,7 +119,7 @@ function MoveToFolderModal({
         onClose={onClose}
       />
       {modalPath && <GoBackButton onClick={handleParentClick} />}
-      <div className="mb-6 mt-4 flex flex-wrap items-center gap-2">
+      <div className="mt-4 mb-6 flex flex-wrap items-center gap-2">
         <button
           className="flex items-center gap-2"
           onClick={() => setModalPath('')}
@@ -197,7 +198,7 @@ function MoveToFolderModal({
                     <div className="flex w-full min-w-0 items-start">
                       <p className="min-w-0 truncate">{folder.name}</p>
                       {isCurrentFolder(folder.id) && (
-                        <span className="text-bg-500 ml-2 mt-1 block text-sm">
+                        <span className="text-bg-500 mt-1 ml-2 block text-sm">
                           (current)
                         </span>
                       )}

@@ -12,27 +12,23 @@ import forgeAPI from '@/utils/forgeAPI'
 import ModifyIdeaModal from '../pages/Ideas/components/modals/ModifyIdeaModal'
 
 export type IdeaBoxContainer = InferOutput<
-  typeof forgeAPI.ideaBox.containers.list
+  typeof forgeAPI.containers.list
 >[number]
 
-export type IdeaBoxFolder = InferOutput<
-  typeof forgeAPI.ideaBox.folders.list
->[number]
+export type IdeaBoxFolder = InferOutput<typeof forgeAPI.folders.list>[number]
 
-export type IdeaBoxTag = InferOutput<typeof forgeAPI.ideaBox.tags.list>[number]
+export type IdeaBoxTag = InferOutput<typeof forgeAPI.tags.list>[number]
 
 export type IdeaBoxIdea =
-  | InferOutput<typeof forgeAPI.ideaBox.ideas.list>[number]
-  | InferOutput<typeof forgeAPI.ideaBox.misc.search>[number]
+  | InferOutput<typeof forgeAPI.ideas.list>[number]
+  | InferOutput<typeof forgeAPI.misc.search>[number]
 
 interface IIdeaBoxData {
   pathValid: boolean
   entriesQuery: UseQueryResult<IdeaBoxIdea[]>
   foldersQuery: UseQueryResult<IdeaBoxFolder[]>
   tagsQuery: UseQueryResult<IdeaBoxTag[]>
-  searchResultsQuery: UseQueryResult<
-    InferOutput<typeof forgeAPI.ideaBox.misc.search>
-  >
+  searchResultsQuery: UseQueryResult<InferOutput<typeof forgeAPI.misc.search>>
   searchQuery: string
   setSearchQuery: React.Dispatch<React.SetStateAction<string>>
   selectedTags: string[]
@@ -65,7 +61,7 @@ export default function IdeaBoxProvider({
   )
 
   const pathValidQuery = useQuery(
-    forgeAPI.ideaBox.misc.checkValid
+    forgeAPI.misc.checkValid
       .input({
         container: id || '',
         path: path || ''
@@ -76,7 +72,7 @@ export default function IdeaBoxProvider({
   )
 
   const entriesQuery = useQuery(
-    forgeAPI.ideaBox.ideas.list
+    forgeAPI.ideas.list
       .input({
         container: id!,
         path: path || '',
@@ -88,7 +84,7 @@ export default function IdeaBoxProvider({
   )
 
   const foldersQuery = useQuery(
-    forgeAPI.ideaBox.folders.list
+    forgeAPI.folders.list
       .input({
         container: id!,
         path: path || ''
@@ -99,7 +95,7 @@ export default function IdeaBoxProvider({
   )
 
   const tagsQuery = useQuery(
-    forgeAPI.ideaBox.tags.list
+    forgeAPI.tags.list
       .input({
         container: id!
       })
@@ -109,7 +105,7 @@ export default function IdeaBoxProvider({
   )
 
   const searchResultsQuery = useQuery(
-    forgeAPI.ideaBox.misc.search
+    forgeAPI.misc.search
       .input({
         q: searchQuery.trim(),
         container: id!,

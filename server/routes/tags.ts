@@ -1,28 +1,23 @@
-import { SCHEMAS } from '@schema'
 import z from 'zod'
 
-import { forgeController, forgeRouter } from '@functions/routes'
+import forge from '../forge'
+import ideaBoxSchemas from '../schema'
 
-const list = forgeController
+export const list = forge
   .query()
-  .description({
-    en: 'Get all tags in a container',
-    ms: 'Dapatkan semua tag dalam bekas',
-    'zh-CN': '获取容器中的所有标签',
-    'zh-TW': '獲取容器中的所有標籤'
-  })
+  .description('Get all tags in a container')
   .input({
     query: z.object({
       container: z.string()
     })
   })
   .existenceCheck('query', {
-    container: 'ideaBox__containers'
+    container: 'containers'
   })
   .callback(
     async ({ pb, query: { container } }) =>
       await pb.getFullList
-        .collection('ideaBox__tags_aggregated')
+        .collection('tags_aggregated')
         .filter([
           {
             field: 'container',
@@ -34,74 +29,52 @@ const list = forgeController
         .execute()
   )
 
-const create = forgeController
+export const create = forge
   .mutation()
-  .description({
-    en: 'Create a new tag',
-    ms: 'Cipta tag baharu',
-    'zh-CN': '创建新标签',
-    'zh-TW': '創建新標籤'
-  })
+  .description('Create a new tag')
   .input({
-    body: SCHEMAS.ideaBox.tags.schema
+    body: ideaBoxSchemas.tags
   })
   .existenceCheck('query', {
-    container: 'ideaBox__containers'
+    container: 'containers'
   })
   .statusCode(201)
   .callback(
     async ({ pb, body }) =>
-      await pb.create.collection('ideaBox__tags').data(body).execute()
+      await pb.create.collection('tags').data(body).execute()
   )
 
-const update = forgeController
+export const update = forge
   .mutation()
-  .description({
-    en: 'Update an existing tag',
-    ms: 'Kemas kini tag sedia ada',
-    'zh-CN': '更新现有标签',
-    'zh-TW': '更新現有標籤'
-  })
+  .description('Update an existing tag')
   .input({
     query: z.object({
       id: z.string()
     }),
-    body: SCHEMAS.ideaBox.tags.schema.omit({
+    body: ideaBoxSchemas.tags.omit({
       container: true
     })
   })
   .existenceCheck('query', {
-    id: 'ideaBox__tags'
+    id: 'tags'
   })
   .callback(
     async ({ pb, query: { id }, body }) =>
-      await pb.update.collection('ideaBox__tags').id(id).data(body).execute()
+      await pb.update.collection('tags').id(id).data(body).execute()
   )
 
-const remove = forgeController
+export const remove = forge
   .mutation()
-  .description({
-    en: 'Delete a tag',
-    ms: 'Padam tag',
-    'zh-CN': '删除标签',
-    'zh-TW': '刪除標籤'
-  })
+  .description('Delete a tag')
   .input({
     query: z.object({
       id: z.string()
     })
   })
   .existenceCheck('query', {
-    id: 'ideaBox__tags'
+    id: 'tags'
   })
   .statusCode(204)
   .callback(async ({ pb, query: { id } }) => {
-    await pb.delete.collection('ideaBox__tags').id(id).execute()
+    await pb.delete.collection('tags').id(id).execute()
   })
-
-export default forgeRouter({
-  list,
-  create,
-  update,
-  remove
-})

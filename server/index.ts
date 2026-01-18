@@ -1,15 +1,15 @@
-import { forgeRouter } from '@functions/routes'
+import { forgeRouter } from '@lifeforge/server-utils'
 
-import containersRouter from './routes/containers'
-import foldersRouter from './routes/folders'
-import ideasRouter from './routes/ideas'
-import miscRouter from './routes/misc'
-import tagsRouter from './routes/tags'
+import * as containersRoutes from './routes/containers'
+import * as foldersRoutes from './routes/folders'
+import * as ideasRoutes from './routes/ideas'
+import * as miscRoutes from './routes/misc'
+import * as tagsRoutes from './routes/tags'
 
 export default forgeRouter({
-  containers: containersRouter,
-  folders: foldersRouter,
-  ideas: ideasRouter,
-  tags: tagsRouter,
-  misc: miscRouter
+  containers: containersRoutes,
+  folders: foldersRoutes,
+  ideas: ideasRoutes,
+  tags: tagsRoutes,
+  misc: miscRoutes
 })

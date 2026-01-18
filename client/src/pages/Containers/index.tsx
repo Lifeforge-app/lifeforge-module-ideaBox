@@ -68,7 +68,7 @@ function IdeaBox() {
         onChange={setSearchQuery}
       />
       <WithQueryData
-        controller={forgeAPI.ideaBox.containers.list.input({
+        controller={forgeAPI.containers.list.input({
           hidden: showhidden.toString()
         })}
       >

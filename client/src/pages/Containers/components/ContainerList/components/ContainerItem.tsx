@@ -22,7 +22,7 @@ function ContainerItem({ container }: { container: IdeaBoxContainer }) {
   const { open } = useModalStore()
 
   const deleteMutation = useMutation(
-    forgeAPI.ideaBox.containers.remove
+    forgeAPI.containers.remove
       .input({
         id: container.id
       })
@@ -39,7 +39,7 @@ function ContainerItem({ container }: { container: IdeaBoxContainer }) {
   )
 
   const togglePinMutation = useMutation(
-    forgeAPI.ideaBox.containers.togglePin
+    forgeAPI.containers.togglePin
       .input({
         id: container.id
       })
@@ -56,7 +56,7 @@ function ContainerItem({ container }: { container: IdeaBoxContainer }) {
   )
 
   const toggleHideMutation = useMutation(
-    forgeAPI.ideaBox.containers.toggleHide
+    forgeAPI.containers.toggleHide
       .input({
         id: container.id
       })
@@ -109,14 +109,12 @@ function ContainerItem({ container }: { container: IdeaBoxContainer }) {
           <img
             alt=""
             className="aspect-video size-full object-cover"
-            src={
-              forgeAPI.media.input({
-                collectionId: container.collectionId,
-                recordId: container.id,
-                fieldId: container.cover,
-                thumb: '0x300'
-              }).endpoint
-            }
+            src={forgeAPI.getMedia({
+              collectionId: container.collectionId,
+              recordId: container.id,
+              fieldId: container.cover,
+              thumb: '0x300'
+            })}
           />
         ) : (
           <Icon

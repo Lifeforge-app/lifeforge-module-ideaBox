@@ -24,9 +24,9 @@ function EntryContextMenu({ entry }: { entry: IdeaBoxIdea }) {
   const { id, '*': path } = useParams<{ id: string; '*': string }>()
 
   const deleteMutation = useMutation(
-    forgeAPI.ideaBox.ideas.remove
+    forgeAPI.ideas.remove
       .input({
-        id: entry.id
+        id: entry.id || ''
       })
       .mutationOptions({
         onSuccess: () => {
@@ -44,9 +44,9 @@ function EntryContextMenu({ entry }: { entry: IdeaBoxIdea }) {
   )
 
   const pinIdeaMutation = useMutation(
-    forgeAPI.ideaBox.ideas.pin
+    forgeAPI.ideas.pin
       .input({
-        id: entry.id
+        id: entry.id || ''
       })
       .mutationOptions({
         onSuccess: () => {
@@ -64,9 +64,9 @@ function EntryContextMenu({ entry }: { entry: IdeaBoxIdea }) {
   )
 
   const archiveIdeaMutation = useMutation(
-    forgeAPI.ideaBox.ideas.archive
+    forgeAPI.ideas.archive
       .input({
-        id: entry.id
+        id: entry.id || ''
       })
       .mutationOptions({
         onSuccess: () => {
@@ -86,9 +86,9 @@ function EntryContextMenu({ entry }: { entry: IdeaBoxIdea }) {
   )
 
   const removeFromFolderMutation = useMutation(
-    forgeAPI.ideaBox.ideas.removeFromParent
+    forgeAPI.ideas.removeFromParent
       .input({
-        id: entry.id
+        id: entry.id || ''
       })
       .mutationOptions({
         onSuccess: () => {

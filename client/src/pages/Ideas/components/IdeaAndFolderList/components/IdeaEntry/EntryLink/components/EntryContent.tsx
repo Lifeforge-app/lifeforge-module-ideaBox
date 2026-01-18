@@ -1,11 +1,12 @@
-import type { IdeaBoxIdea } from '@/providers/IdeaBoxProvider'
-import forgeAPI from '@/utils/forgeAPI'
 import { useQuery } from '@tanstack/react-query'
 import { memo } from 'react'
 
+import type { IdeaBoxIdea } from '@/providers/IdeaBoxProvider'
+import forgeAPI from '@/utils/forgeAPI'
+
 function EntryContent({ entry }: { entry: IdeaBoxIdea }) {
   const OGQuery = useQuery(
-    forgeAPI.ideaBox.misc.getOgData.input({ id: entry.id }).queryOptions({
+    forgeAPI.misc.getOgData.input({ id: entry.id }).queryOptions({
       retry: 5
     })
   )

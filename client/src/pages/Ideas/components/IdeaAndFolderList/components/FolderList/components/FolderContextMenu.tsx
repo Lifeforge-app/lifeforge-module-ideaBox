@@ -33,7 +33,7 @@ function FolderContextMenu({
   }, [folder])
 
   const deleteMutation = useMutation(
-    forgeAPI.ideaBox.folders.remove
+    forgeAPI.folders.remove
       .input({
         id: folder.id
       })
@@ -62,7 +62,7 @@ function FolderContextMenu({
   }, [folder])
 
   const removeFromFolderMutation = useMutation(
-    forgeAPI.ideaBox.folders.removeFromParent
+    forgeAPI.folders.removeFromParent
       .input({
         id: folder.id
       })

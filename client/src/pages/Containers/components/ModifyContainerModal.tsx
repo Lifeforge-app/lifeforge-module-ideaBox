@@ -1,9 +1,10 @@
-import type { IdeaBoxContainer } from '@/providers/IdeaBoxProvider'
-import forgeAPI from '@/utils/forgeAPI'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { FormModal, defineForm } from 'lifeforge-ui'
 import { toast } from 'react-toastify'
 import type { InferInput } from 'shared'
+
+import type { IdeaBoxContainer } from '@/providers/IdeaBoxProvider'
+import forgeAPI from '@/utils/forgeAPI'
 
 function ModifyContainerModal({
   data: { type, initialData },
@@ -19,8 +20,8 @@ function ModifyContainerModal({
 
   const mutation = useMutation(
     (type === 'create'
-      ? forgeAPI.ideaBox.containers.create
-      : forgeAPI.ideaBox.containers.update.input({
+      ? forgeAPI.containers.create
+      : forgeAPI.containers.update.input({
           id: initialData?.id || ''!
         })
     ).mutationOptions({
@@ -38,15 +39,11 @@ function ModifyContainerModal({
   )
 
   const imageGenAPIKeyExistsQuery = useQuery(
-    forgeAPI.apiKeys.entries.checkKeys
-      .input({
-        keys: 'openai'
-      })
-      .queryOptions()
+    forgeAPI.checkAPIKeys({ keys: 'openai' }).queryOptions()
   )
 
   const { formProps } = defineForm<
-    InferInput<(typeof forgeAPI.ideaBox.containers)[typeof type]>['body']
+    InferInput<(typeof forgeAPI.containers)[typeof type]>['body']
   >({
     icon: type === 'create' ? 'tabler:plus' : 'tabler:pencil',
     title: `container.${type}`,
@@ -93,12 +90,12 @@ function ModifyContainerModal({
       cover: initialData?.cover
         ? {
             file: 'keep',
-            preview: forgeAPI.media.input({
+            preview: forgeAPI.getMedia({
               collectionId: initialData.collectionId,
               recordId: initialData.id,
               fieldId: initialData.cover,
               thumb: '0x500'
-            }).endpoint
+            })
           }
         : {
             file: null,

@@ -1,9 +1,10 @@
-import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
-import forgeAPI from '@/utils/forgeAPI'
 import { Icon } from '@iconify/react'
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { Link, useParams } from 'shared'
+
+import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
+import forgeAPI from '@/utils/forgeAPI'
 
 import ContainerName from './components/ContainerName'
 import GoBackButtonAndMenu from './components/GoBackButtonAndMenu'
@@ -14,7 +15,7 @@ function Header() {
   const { id, '*': path } = useParams<{ id: string; '*': string }>()
 
   const pathDetailsQuery = useQuery(
-    forgeAPI.ideaBox.misc.getPath
+    forgeAPI.misc.getPath
       .input({
         container: id || '',
         folder: path?.split('/').pop() ?? undefined
@@ -41,13 +42,11 @@ function Header() {
             ? {
                 backgroundImage:
                   pathDetails?.container &&
-                  `url(${
-                    forgeAPI.media.input({
-                      collectionId: pathDetails.container.collectionId,
-                      recordId: pathDetails.container.id,
-                      fieldId: pathDetails.container.cover
-                    }).endpoint
-                  })`
+                  `url(${forgeAPI.getMedia({
+                    collectionId: pathDetails.container.collectionId,
+                    recordId: pathDetails.container.id,
+                    fieldId: pathDetails.container.cover
+                  })})`
               }
             : undefined
         }
