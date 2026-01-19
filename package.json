@@ -5,7 +5,7 @@
     "type": "git",
     "url": "https://github.com/lifeforge-app/lifeforge-module-ideaBox.git"
   },
-  "version": "0.0.3",
+  "version": "0.0.4",
   "author": "Melvin Chia <melvinchia623600@gmail.com>",
   "description": "Capture them before the inspiration flies away!",
   "scripts": {
