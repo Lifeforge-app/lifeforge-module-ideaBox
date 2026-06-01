@@ -1,11 +1,11 @@
 import { Icon } from '@iconify/react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { Button, GoBackButton, ModalHeader, WithQuery } from 'lifeforge-ui'
+import { Button, GoBackButton, ModalHeader, WithQuery } from '@lifeforge/ui'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
-import { useParams } from 'shared'
+import { useParams } from '@lifeforge/shared'
 
 import type { IdeaBoxFolder, IdeaBoxIdea } from '@/providers/IdeaBoxProvider'
 import forgeAPI from '@/utils/forgeAPI'

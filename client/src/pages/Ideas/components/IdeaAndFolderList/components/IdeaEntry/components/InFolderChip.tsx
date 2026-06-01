@@ -2,8 +2,8 @@ import {
   type IdeaBoxIdea,
   useIdeaBoxContext
 } from '@/providers/IdeaBoxProvider'
-import { TagChip } from 'lifeforge-ui'
-import { useNavigate, useParams } from 'shared'
+import { TagChip } from '@lifeforge/ui'
+import { useNavigate, useParams } from '@lifeforge/shared'
 
 function InFolderChip({ entry }: { entry: IdeaBoxIdea }) {
   const { setSearchQuery, setSelectedTags } = useIdeaBoxContext()

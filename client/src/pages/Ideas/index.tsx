@@ -1,5 +1,5 @@
-import { SearchInput } from 'lifeforge-ui'
-import { useParams } from 'shared'
+import { SearchInput } from '@lifeforge/ui'
+import { useParams } from '@lifeforge/shared'
 
 import IdeaBoxProvider, { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 

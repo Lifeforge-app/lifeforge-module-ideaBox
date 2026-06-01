@@ -6,10 +6,10 @@ import {
   ContextMenu,
   ContextMenuItem,
   useModalStore
-} from 'lifeforge-ui'
+} from '@lifeforge/ui'
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
-import { Link } from 'shared'
+import { Link } from '@lifeforge/shared'
 
 import type { IdeaBoxContainer } from '@/providers/IdeaBoxProvider'
 import forgeAPI from '@/utils/forgeAPI'

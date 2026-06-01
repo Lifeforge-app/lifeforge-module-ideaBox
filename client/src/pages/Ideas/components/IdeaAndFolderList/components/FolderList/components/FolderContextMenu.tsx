@@ -1,13 +1,14 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useCallback } from 'react'
+import { toast } from 'react-toastify'
+import tinycolor from 'tinycolor2'
+
 import {
   ConfirmationModal,
   ContextMenu,
   ContextMenuItem,
   useModalStore
-} from 'lifeforge-ui'
-import { useCallback } from 'react'
-import { toast } from 'react-toastify'
-import tinycolor from 'tinycolor2'
+} from '@lifeforge/ui'
 
 import type { IdeaBoxFolder } from '@/providers/IdeaBoxProvider'
 import forgeAPI from '@/utils/forgeAPI'

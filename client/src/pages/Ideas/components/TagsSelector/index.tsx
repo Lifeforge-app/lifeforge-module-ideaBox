@@ -1,6 +1,6 @@
-import { useModalStore } from 'lifeforge-ui'
+import { useModalStore } from '@lifeforge/ui'
 import { useCallback, useMemo } from 'react'
-import { useParams } from 'shared'
+import { useParams } from '@lifeforge/shared'
 
 import { type IdeaBoxTag, useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 

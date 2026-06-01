@@ -3,7 +3,8 @@ import { useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { useDrag, useDrop } from 'react-dnd'
 import { toast } from 'react-toastify'
-import { Link, useParams } from 'shared'
+
+import { Link, useParams } from '@lifeforge/shared'
 
 import type { IdeaBoxFolder } from '@/providers/IdeaBoxProvider'
 import forgeAPI from '@/utils/forgeAPI'

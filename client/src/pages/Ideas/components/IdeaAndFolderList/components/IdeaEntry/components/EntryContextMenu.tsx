@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { ConfirmationModal, ContextMenu, ContextMenuItem } from 'lifeforge-ui'
-import { useModalStore } from 'lifeforge-ui'
+import { ConfirmationModal, ContextMenu, ContextMenuItem } from '@lifeforge/ui'
+import { useModalStore } from '@lifeforge/ui'
 import { useCallback } from 'react'
 import { toast } from 'react-toastify'
-import { useParams } from 'shared'
+import { useParams } from '@lifeforge/shared'
 
 import {
   type IdeaBoxIdea,

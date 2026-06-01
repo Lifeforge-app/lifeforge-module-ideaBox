@@ -2,9 +2,10 @@ import { Icon } from '@iconify/react/dist/iconify.js'
 import clsx from 'clsx'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
-import { Card } from 'lifeforge-ui'
 import { useDrag } from 'react-dnd'
 import { useTranslation } from 'react-i18next'
+
+import { Card } from '@lifeforge/ui'
 
 import type { IdeaBoxIdea } from '@/providers/IdeaBoxProvider'
 

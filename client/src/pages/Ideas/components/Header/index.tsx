@@ -1,7 +1,8 @@
 import { Icon } from '@iconify/react'
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { Link, useParams } from 'shared'
+
+import { Link, useParams } from '@lifeforge/shared'
 
 import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 import forgeAPI from '@/utils/forgeAPI'

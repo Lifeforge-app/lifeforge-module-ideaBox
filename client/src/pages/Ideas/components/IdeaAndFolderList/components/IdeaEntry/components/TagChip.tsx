@@ -1,6 +1,8 @@
-import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
-import { TagChip as _TagChip } from 'lifeforge-ui'
 import { memo, useMemo } from 'react'
+
+import { TagChip as _TagChip } from '@lifeforge/ui'
+
+import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 
 function TagChip({ text }: { text: string }) {
   const { selectedTags, tagsQuery } = useIdeaBoxContext()

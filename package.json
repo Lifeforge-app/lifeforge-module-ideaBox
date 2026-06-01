@@ -29,7 +29,7 @@
   },
   "peerDependencies": {
     "@lifeforge/server-utils": "workspace:*",
-    "lifeforge-ui": "workspace:*",
-    "shared": "workspace:*"
+    "@lifeforge/ui": "workspace:*",
+    "@lifeforge/shared": "workspace:*"
   }
 }

@@ -1,10 +1,11 @@
 import { Icon } from '@iconify/react'
 import clsx from 'clsx'
-import { Button } from 'lifeforge-ui'
-import { useModalStore } from 'lifeforge-ui'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useTranslation } from 'react-i18next'
+
+import { Button } from '@lifeforge/ui'
+import { useModalStore } from '@lifeforge/ui'
 
 import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 

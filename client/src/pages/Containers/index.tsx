@@ -1,3 +1,6 @@
+import { useCallback, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+
 import {
   Button,
   ContextMenuItem,
@@ -6,10 +9,8 @@ import {
   ModuleHeader,
   SearchInput,
   WithQueryData
-} from 'lifeforge-ui'
-import { useModalStore } from 'lifeforge-ui'
-import { useCallback, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+} from '@lifeforge/ui'
+import { useModalStore } from '@lifeforge/ui'
 
 import forgeAPI from '@/utils/forgeAPI'
 
