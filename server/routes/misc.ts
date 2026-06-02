@@ -1,24 +1,35 @@
-import { ClientError } from '@lifeforge/server-utils'
 import ogs from 'open-graph-scraper'
 import z from 'zod'
 
 import forge from '../forge'
+import ideaBoxSchemas from '../schema'
 import { recursivelySearchFolder } from '../utils/folders'
 
 const OGCache = new Map<string, any>()
 
 export const getPath = forge
-  .query()
-  .description('Get path information for a container or folder')
-  .input({
-    query: z.object({
-      container: z.string(),
-      folder: z.string().optional()
-    })
-  })
-  .existenceCheck('query', {
-    container: 'containers',
-    folder: '[folders]'
+  .query({
+    description: 'Get path information for a container or folder',
+    input: {
+      query: z.object({
+        container: z.string(),
+        folder: z.string().optional()
+      })
+    },
+    existenceCheck: {
+      query: {
+        container: 'containers',
+        folder: '[folders]'
+      }
+    },
+    output: {
+      OK: z.object({
+        container: ideaBoxSchemas.containers,
+        route: z.array(ideaBoxSchemas.folders)
+      }),
+      BAD_REQUEST: z.string(),
+      NOT_FOUND: true
+    }
   })
   .callback(
     async ({
@@ -26,7 +37,8 @@ export const getPath = forge
       query: { container, folder },
       core: {
         validation: { checkRecordExistence }
-      }
+      },
+      response
     }) => {
       const containerEntry = await pb.getOne
         .collection('containers')
@@ -34,10 +46,10 @@ export const getPath = forge
         .execute()
 
       if (!folder) {
-        return {
+        return response.ok({
           container: containerEntry,
           route: []
-        }
+        })
       }
 
       let lastFolder = folder
@@ -46,7 +58,9 @@ export const getPath = forge
 
       while (lastFolder) {
         if (!(await checkRecordExistence(pb, 'folders', lastFolder))) {
-          throw new ClientError(`Folder with ID "${lastFolder}" does not exist`)
+          return response.badRequest(
+            `Folder with ID "${lastFolder}" does not exist`
+          )
         }
 
         const folderEntry = await pb.getOne
@@ -55,28 +69,32 @@ export const getPath = forge
           .execute()
 
         if (folderEntry.container !== container) {
-          throw new ClientError('Invalid path')
+          return response.badRequest('Invalid path')
         }
 
         lastFolder = folderEntry.parent
         fullPath.unshift(folderEntry)
       }
 
-      return {
+      return response.ok({
         container: containerEntry,
         route: fullPath
-      }
+      })
     }
   )
 
 export const checkValid = forge
-  .query()
-  .description('Validate if a folder path exists')
-  .input({
-    query: z.object({
-      container: z.string(),
-      path: z.string()
-    })
+  .query({
+    description: 'Validate if a folder path exists',
+    input: {
+      query: z.object({
+        container: z.string(),
+        path: z.string()
+      })
+    },
+    output: {
+      OK: z.boolean()
+    }
   })
   .callback(
     async ({
@@ -84,7 +102,8 @@ export const checkValid = forge
       query: { container, path },
       core: {
         validation: { checkRecordExistence }
-      }
+      },
+      response
     }) => {
       const containerExists = await checkRecordExistence(
         pb,
@@ -93,7 +112,7 @@ export const checkValid = forge
       )
 
       if (!containerExists) {
-        return false
+        return response.ok(false)
       }
 
       let folderExists = true
@@ -121,22 +140,27 @@ export const checkValid = forge
         lastFolder = folder
       }
 
-      return containerExists && folderExists
+      return response.ok(containerExists && folderExists)
     }
   )
 
 export const getOgData = forge
-  .query()
-  .description('Get Open Graph metadata for a link entry')
-  .input({
-    query: z.object({
-      id: z.string()
-    })
+  .query({
+    description: 'Get Open Graph metadata for a link entry',
+    input: {
+      query: z.object({
+        id: z.string()
+      })
+    },
+    existenceCheck: {
+      query: { id: 'entries' }
+    },
+    output: {
+      OK: z.any(),
+      NOT_FOUND: true
+    }
   })
-  .existenceCheck('query', {
-    id: 'entries'
-  })
-  .callback(async ({ pb, query: { id }, core: { logging } }) => {
+  .callback(async ({ pb, query: { id }, core: { logging }, response }) => {
     const data = await pb.getFirstListItem
       .collection('entries_link')
       .filter([
@@ -149,7 +173,7 @@ export const getOgData = forge
       .execute()
 
     if (OGCache.has(id) && OGCache.get(id)?.requestUrl === data.link) {
-      return OGCache.get(id)
+      return response.ok(OGCache.get(id))
     }
 
     const { result } = await ogs({
@@ -168,24 +192,38 @@ export const getOgData = forge
 
     OGCache.set(id, { ...result, requestUrl: data.link })
 
-    return result
+    return response.ok(result)
   })
 
 export const search = forge
-  .query()
-  .description('Search entries in a container')
-  .input({
-    query: z.object({
-      q: z.string(),
-      container: z.string(),
-      tags: z.string().optional(),
-      folder: z.string().optional()
-    })
+  .query({
+    description: 'Search entries in a container',
+    input: {
+      query: z.object({
+        q: z.string(),
+        container: z.string(),
+        tags: z.string().optional(),
+        folder: z.string().optional()
+      })
+    },
+    existenceCheck: {
+      query: { container: '[containers]' }
+    },
+    output: {
+      OK: z.array(
+        ideaBoxSchemas.entries.extend({
+          content: z.string(),
+          type: z.literal('text'),
+          fullPath: z.string(),
+          expand: z.object({
+            folder: ideaBoxSchemas.folders.optional()
+          })
+        })
+      ),
+      NOT_FOUND: true
+    }
   })
-  .existenceCheck('query', {
-    container: '[containers]'
-  })
-  .callback(async ({ pb, query: { q, container, tags, folder } }) => {
+  .callback(async ({ pb, query: { q, container, tags, folder }, response }) => {
     const results = await recursivelySearchFolder(
       folder || '',
       q,
@@ -195,5 +233,5 @@ export const search = forge
       pb
     )
 
-    return results
+    return response.ok(results)
   })
