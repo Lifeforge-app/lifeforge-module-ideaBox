@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import { Link, useParams } from '@lifeforge/shared'
 
 import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 import ContainerName from './components/ContainerName'
 import GoBackButtonAndMenu from './components/GoBackButtonAndMenu'

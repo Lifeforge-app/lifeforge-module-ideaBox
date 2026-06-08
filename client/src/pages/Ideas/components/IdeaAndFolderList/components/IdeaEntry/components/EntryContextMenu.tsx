@@ -9,7 +9,7 @@ import {
   type IdeaBoxIdea,
   useIdeaBoxContext
 } from '@/providers/IdeaBoxProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 import ModifyIdeaModal from '../../../../modals/ModifyIdeaModal'
 import MoveToFolderModal from '../../../../modals/MoveToFolderModal'

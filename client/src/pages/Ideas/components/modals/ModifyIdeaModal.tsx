@@ -6,7 +6,7 @@ import { toast } from 'react-toastify'
 import { useParams } from '@lifeforge/shared'
 import type { InferInput, InferOutput } from '@lifeforge/shared'
 
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 function ModifyIdeaModal({
   data: { type, initialData },

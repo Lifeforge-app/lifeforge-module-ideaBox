@@ -8,7 +8,7 @@ import { toast } from 'react-toastify'
 import { useParams } from '@lifeforge/shared'
 
 import type { IdeaBoxFolder, IdeaBoxIdea } from '@/providers/IdeaBoxProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 interface MoveToFolderModalProps {
   data: {

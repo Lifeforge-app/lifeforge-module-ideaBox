@@ -11,7 +11,7 @@ import {
 } from '@lifeforge/ui'
 
 import type { IdeaBoxFolder } from '@/providers/IdeaBoxProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 import ModifyFolderModal from '../../../../modals/ModifyFolderModal'
 

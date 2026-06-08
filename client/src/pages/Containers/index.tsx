@@ -12,9 +12,8 @@ import {
 } from '@lifeforge/ui'
 import { useModalStore } from '@lifeforge/ui'
 
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
-import '../../index.css'
 import ContainerList from './components/ContainerList'
 import ModifyContainerModal from './components/ModifyContainerModal'
 

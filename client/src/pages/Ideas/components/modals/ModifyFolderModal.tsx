@@ -5,7 +5,7 @@ import { useParams } from '@lifeforge/shared'
 import type { InferInput } from '@lifeforge/shared'
 
 import type { IdeaBoxFolder } from '@/providers/IdeaBoxProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 function ModifyFolderModal({
   data: { type, initialData },

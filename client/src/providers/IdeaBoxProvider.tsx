@@ -7,7 +7,7 @@ import { toast } from 'react-toastify'
 import { useNavigate, useParams, useSearchParams } from '@lifeforge/shared'
 import type { InferOutput } from '@lifeforge/shared'
 
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 import ModifyIdeaModal from '../pages/Ideas/components/modals/ModifyIdeaModal'
 

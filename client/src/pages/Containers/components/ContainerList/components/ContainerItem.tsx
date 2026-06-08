@@ -12,7 +12,7 @@ import { toast } from 'react-toastify'
 import { Link } from '@lifeforge/shared'
 
 import type { IdeaBoxContainer } from '@/providers/IdeaBoxProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 import ModifyContainerModal from '../../ModifyContainerModal'
 

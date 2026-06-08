@@ -5,7 +5,7 @@ import { useParams } from '@lifeforge/shared'
 import type { InferInput } from '@lifeforge/shared'
 
 import type { IdeaBoxTag } from '@/providers/IdeaBoxProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 function ModifyTagModal({
   data: { type, initialData },

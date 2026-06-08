@@ -7,7 +7,7 @@ import { toast } from 'react-toastify'
 import { Link, useParams } from '@lifeforge/shared'
 
 import type { IdeaBoxFolder } from '@/providers/IdeaBoxProvider'
-import forgeAPI from '@/utils/forgeAPI'
+import { forgeAPI } from '@/manifest'
 
 import FolderContextMenu from './FolderContextMenu'
 
