@@ -15,15 +15,14 @@ export const validate = forge
       OK: z.boolean()
     }
   })
-  .callback(
-    async ({ pb, query: { id }, response }) =>
-      response.ok(
-        !!(await pb.getOne
-          .collection('containers')
-          .id(id)
-          .execute()
-          .catch(() => {}))
-      )
+  .callback(async ({ pb, query: { id }, response }) =>
+    response.ok(
+      !!(await pb.getOne
+        .collection('containers')
+        .id(id)
+        .execute()
+        .catch(() => {}))
+    )
   )
 
 export const list = forge

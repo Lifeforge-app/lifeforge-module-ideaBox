@@ -8,8 +8,9 @@ import {
   FAB,
   ModuleHeader,
   SearchInput,
-  WithQueryData
-, useModalStore } from '@lifeforge/ui'
+  WithQueryData,
+  useModalStore
+} from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 

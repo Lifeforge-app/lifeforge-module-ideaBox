@@ -1,9 +1,9 @@
 import { useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { useDrag, useDrop } from 'react-dnd'
-
 import { Link, useParams } from 'react-router'
-import { Icon , toast } from '@lifeforge/ui'
+
+import { Icon, toast } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 import type { IdeaBoxFolder } from '@/providers/IdeaBoxProvider'

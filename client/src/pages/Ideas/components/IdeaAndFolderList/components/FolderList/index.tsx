@@ -1,6 +1,6 @@
-import { Icon , WithQuery } from '@lifeforge/ui'
 import { useTranslation } from 'react-i18next'
 
+import { Icon, WithQuery } from '@lifeforge/ui'
 
 import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 

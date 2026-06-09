@@ -1,7 +1,7 @@
 import Zoom from 'react-medium-image-zoom'
 
-import type { IdeaBoxIdea } from '@/providers/IdeaBoxProvider'
 import { forgeAPI } from '@/manifest'
+import type { IdeaBoxIdea } from '@/providers/IdeaBoxProvider'
 
 import CustomZoomContent from './components/CustomZoomContent'
 import IdeaWrapper from './components/IdeaWrapper'

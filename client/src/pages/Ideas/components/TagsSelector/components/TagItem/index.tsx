@@ -1,7 +1,8 @@
-import { Icon } from '@lifeforge/ui'
 import clsx from 'clsx'
 import { memo, useCallback, useMemo } from 'react'
 import tinycolor from 'tinycolor2'
+
+import { Icon } from '@lifeforge/ui'
 
 import HamburgerButton from './components/HamburgerButton'
 import ItemCount from './components/ItemCount'

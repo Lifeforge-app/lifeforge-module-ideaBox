@@ -19,21 +19,20 @@ export const list = forge
       NOT_FOUND: true
     }
   })
-  .callback(
-    async ({ pb, query: { container }, response }) =>
-      response.ok(
-        await pb.getFullList
-          .collection('tags_aggregated')
-          .filter([
-            {
-              field: 'container',
-              operator: '=',
-              value: container
-            }
-          ])
-          .sort(['-amount'])
-          .execute()
-      )
+  .callback(async ({ pb, query: { container }, response }) =>
+    response.ok(
+      await pb.getFullList
+        .collection('tags_aggregated')
+        .filter([
+          {
+            field: 'container',
+            operator: '=',
+            value: container
+          }
+        ])
+        .sort(['-amount'])
+        .execute()
+    )
   )
 
 export const create = forge
@@ -50,11 +49,8 @@ export const create = forge
       NOT_FOUND: true
     }
   })
-  .callback(
-    async ({ pb, body, response }) =>
-      response.created(
-        await pb.create.collection('tags').data(body).execute()
-      )
+  .callback(async ({ pb, body, response }) =>
+    response.created(await pb.create.collection('tags').data(body).execute())
   )
 
 export const update = forge
@@ -76,11 +72,8 @@ export const update = forge
       NOT_FOUND: true
     }
   })
-  .callback(
-    async ({ pb, query: { id }, body, response }) =>
-      response.ok(
-        await pb.update.collection('tags').id(id).data(body).execute()
-      )
+  .callback(async ({ pb, query: { id }, body, response }) =>
+    response.ok(await pb.update.collection('tags').id(id).data(body).execute())
   )
 
 export const remove = forge

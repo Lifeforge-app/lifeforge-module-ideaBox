@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-
 import { useParams } from 'react-router'
+
 import type { InferInput, InferOutput } from '@lifeforge/api'
-import { FormModal, defineForm , toast } from '@lifeforge/ui'
+import { FormModal, defineForm, toast } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 

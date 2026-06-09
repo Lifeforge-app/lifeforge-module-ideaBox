@@ -1,6 +1,7 @@
-import type { IdeaBoxIdea } from '@/providers/IdeaBoxProvider'
 import { useState } from 'react'
 import Markdown from 'react-markdown'
+
+import type { IdeaBoxIdea } from '@/providers/IdeaBoxProvider'
 
 import IdeaWrapper from './components/IdeaWrapper'
 

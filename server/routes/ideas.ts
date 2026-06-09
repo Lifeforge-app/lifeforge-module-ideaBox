@@ -45,127 +45,133 @@ export const list = forge
       NOT_FOUND: true
     }
   })
-  .callback(async ({ pb, query: { path: pathParam, container, archived }, response }) => {
-    const path = pathParam.split('/').filter(e => e)
-
-    const parsedArchived = archived === 'true'
-
-    const { folderExists, lastFolder } = await validateFolderPath(
+  .callback(
+    async ({
       pb,
-      container,
-      path
-    )
+      query: { path: pathParam, container, archived },
+      response
+    }) => {
+      const path = pathParam.split('/').filter(e => e)
 
-    if (!folderExists) {
-      return response.badRequest(
-        `Folder with path "${pathParam}" does not exist in container "${container}"`
+      const parsedArchived = archived === 'true'
+
+      const { folderExists, lastFolder } = await validateFolderPath(
+        pb,
+        container,
+        path
+      )
+
+      if (!folderExists) {
+        return response.badRequest(
+          `Folder with path "${pathParam}" does not exist in container "${container}"`
+        )
+      }
+
+      const textIdeas = await pb.getFullList
+        .collection('entries_text')
+        .expand({
+          base_entry: 'entries'
+        })
+        .filter([
+          {
+            field: 'base_entry.container',
+            operator: '=',
+            value: container
+          },
+          {
+            field: 'base_entry.archived',
+            operator: '=',
+            value: parsedArchived
+          },
+          {
+            field: 'base_entry.folder',
+            operator: '=',
+            value: lastFolder || ''
+          }
+        ])
+        .sort(['-base_entry.pinned', '-base_entry.created'])
+        .execute()
+
+      const imageIdeas = await pb.getFullList
+        .collection('entries_image')
+        .expand({
+          base_entry: 'entries'
+        })
+        .filter([
+          {
+            field: 'base_entry.container',
+            operator: '=',
+            value: container
+          },
+          {
+            field: 'base_entry.archived',
+            operator: '=',
+            value: parsedArchived
+          },
+          {
+            field: 'base_entry.folder',
+            operator: '=',
+            value: lastFolder || ''
+          }
+        ])
+        .sort(['-base_entry.pinned', '-base_entry.created'])
+        .execute()
+
+      const linkIdeas = await pb.getFullList
+        .collection('entries_link')
+        .expand({
+          base_entry: 'entries'
+        })
+        .filter([
+          {
+            field: 'base_entry.container',
+            operator: '=',
+            value: container
+          },
+          {
+            field: 'base_entry.archived',
+            operator: '=',
+            value: parsedArchived
+          },
+          {
+            field: 'base_entry.folder',
+            operator: '=',
+            value: lastFolder || ''
+          }
+        ])
+        .sort(['-base_entry.pinned', '-base_entry.created'])
+        .execute()
+
+      return response.ok(
+        (
+          [
+            ...textIdeas.map(idea => ({
+              ...idea.expand!.base_entry,
+              content: idea.content,
+              type: 'text' as const
+            })),
+            ...imageIdeas.map(idea => ({
+              ...idea.expand!.base_entry,
+              child: {
+                id: idea.id,
+                collectionId: idea.collectionId
+              },
+              image: idea.image
+            })),
+            ...linkIdeas.map(idea => ({
+              ...idea.expand!.base_entry,
+              link: idea.link
+            }))
+          ] as z.infer<typeof ListIdeaSchema>[]
+        ).sort((a, b) => {
+          if (a.pinned && !b.pinned) return -1
+          if (!a.pinned && b.pinned) return 1
+
+          return new Date(b.created!).getTime() - new Date(a.created!).getTime()
+        })
       )
     }
-
-    const textIdeas = await pb.getFullList
-      .collection('entries_text')
-      .expand({
-        base_entry: 'entries'
-      })
-      .filter([
-        {
-          field: 'base_entry.container',
-          operator: '=',
-          value: container
-        },
-        {
-          field: 'base_entry.archived',
-          operator: '=',
-          value: parsedArchived
-        },
-        {
-          field: 'base_entry.folder',
-          operator: '=',
-          value: lastFolder || ''
-        }
-      ])
-      .sort(['-base_entry.pinned', '-base_entry.created'])
-      .execute()
-
-    const imageIdeas = await pb.getFullList
-      .collection('entries_image')
-      .expand({
-        base_entry: 'entries'
-      })
-      .filter([
-        {
-          field: 'base_entry.container',
-          operator: '=',
-          value: container
-        },
-        {
-          field: 'base_entry.archived',
-          operator: '=',
-          value: parsedArchived
-        },
-        {
-          field: 'base_entry.folder',
-          operator: '=',
-          value: lastFolder || ''
-        }
-      ])
-      .sort(['-base_entry.pinned', '-base_entry.created'])
-      .execute()
-
-    const linkIdeas = await pb.getFullList
-      .collection('entries_link')
-      .expand({
-        base_entry: 'entries'
-      })
-      .filter([
-        {
-          field: 'base_entry.container',
-          operator: '=',
-          value: container
-        },
-        {
-          field: 'base_entry.archived',
-          operator: '=',
-          value: parsedArchived
-        },
-        {
-          field: 'base_entry.folder',
-          operator: '=',
-          value: lastFolder || ''
-        }
-      ])
-      .sort(['-base_entry.pinned', '-base_entry.created'])
-      .execute()
-
-    return response.ok(
-      (
-        [
-          ...textIdeas.map(idea => ({
-            ...idea.expand!.base_entry,
-            content: idea.content,
-            type: 'text' as const
-          })),
-          ...imageIdeas.map(idea => ({
-            ...idea.expand!.base_entry,
-            child: {
-              id: idea.id,
-              collectionId: idea.collectionId
-            },
-            image: idea.image
-          })),
-          ...linkIdeas.map(idea => ({
-            ...idea.expand!.base_entry,
-            link: idea.link
-          }))
-        ] as z.infer<typeof ListIdeaSchema>[]
-      ).sort((a, b) => {
-        if (a.pinned && !b.pinned) return -1
-        if (!a.pinned && b.pinned) return 1
-
-        return new Date(b.created!).getTime() - new Date(a.created!).getTime()
-      })
-    )
-  })
+  )
 
 const createSchema = ideaBoxSchemas.entries
   .omit({

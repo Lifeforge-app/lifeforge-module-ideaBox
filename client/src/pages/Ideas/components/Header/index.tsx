@@ -1,11 +1,11 @@
-import { Icon } from '@lifeforge/ui'
 import { useQuery } from '@tanstack/react-query'
 import clsx from 'clsx'
-
 import { Link, useParams } from 'react-router'
 
-import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
+import { Icon } from '@lifeforge/ui'
+
 import { forgeAPI } from '@/manifest'
+import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 
 import ContainerName from './components/ContainerName'
 import GoBackButtonAndMenu from './components/GoBackButtonAndMenu'

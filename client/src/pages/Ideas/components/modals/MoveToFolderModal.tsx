@@ -2,9 +2,16 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-
 import { useParams } from 'react-router'
-import { Icon , Button, GoBackButton, ModalHeader, WithQuery , toast } from '@lifeforge/ui'
+
+import {
+  Button,
+  GoBackButton,
+  Icon,
+  ModalHeader,
+  WithQuery,
+  toast
+} from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 import type { IdeaBoxFolder, IdeaBoxIdea } from '@/providers/IdeaBoxProvider'
