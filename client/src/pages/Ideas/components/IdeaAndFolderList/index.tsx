@@ -1,8 +1,7 @@
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 
-import { EmptyStateScreen, WithQuery } from '@lifeforge/ui'
-import { useModalStore } from '@lifeforge/ui'
+import { EmptyStateScreen, WithQuery , useModalStore } from '@lifeforge/ui'
 
 import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 

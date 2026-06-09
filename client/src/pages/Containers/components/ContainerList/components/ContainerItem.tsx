@@ -1,18 +1,19 @@
-import { Icon } from '@iconify/react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useCallback } from 'react'
+import { Link } from 'react-router'
+
 import {
   Card,
   ConfirmationModal,
   ContextMenu,
   ContextMenuItem,
+  Icon,
+  toast,
   useModalStore
 } from '@lifeforge/ui'
-import { useCallback } from 'react'
-import { toast } from 'react-toastify'
-import { Link } from '@lifeforge/shared'
 
-import type { IdeaBoxContainer } from '@/providers/IdeaBoxProvider'
 import { forgeAPI } from '@/manifest'
+import type { IdeaBoxContainer } from '@/providers/IdeaBoxProvider'
 
 import ModifyContainerModal from '../../ModifyContainerModal'
 
@@ -84,7 +85,7 @@ function ContainerItem({ container }: { container: IdeaBoxContainer }) {
       title: 'Delete Container',
       description: 'Are you sure you want to delete this container?',
       onConfirm: async () => {
-        await deleteMutation.mutateAsync({})
+        await deleteMutation.mutateAsync(undefined)
       },
       confirmationButton: 'delete',
       confirmationPrompt: container.name
@@ -176,13 +177,13 @@ function ContainerItem({ container }: { container: IdeaBoxContainer }) {
         <ContextMenuItem
           icon={container.pinned ? 'tabler:pinned-off' : 'tabler:pin'}
           label={container.pinned ? 'Unpin' : 'Pin'}
-          onClick={() => togglePinMutation.mutate({})}
+          onClick={() => togglePinMutation.mutate(undefined)}
         />
         <ContextMenuItem
           icon={container.hidden ? 'tabler:eye' : 'tabler:eye-off'}
           label={container.hidden ? 'Unhide' : 'Hide'}
           namespace="apps.ideaBox"
-          onClick={() => toggleHideMutation.mutate({})}
+          onClick={() => toggleHideMutation.mutate(undefined)}
         />
         <ContextMenuItem
           icon="tabler:pencil"

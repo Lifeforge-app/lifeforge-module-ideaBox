@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { FormModal, defineForm } from '@lifeforge/ui'
-import { toast } from 'react-toastify'
-import { useParams } from '@lifeforge/shared'
-import type { InferInput } from '@lifeforge/shared'
 
-import type { IdeaBoxTag } from '@/providers/IdeaBoxProvider'
+import { useParams } from 'react-router'
+import type { InferInput } from '@lifeforge/api'
+import { FormModal, defineForm , toast } from '@lifeforge/ui'
+
 import { forgeAPI } from '@/manifest'
+import type { IdeaBoxTag } from '@/providers/IdeaBoxProvider'
 
 function ModifyTagModal({
   data: { type, initialData },

@@ -1,4 +1,4 @@
-import { useParams } from '@lifeforge/shared'
+import { useParams } from 'react-router'
 import { SearchInput } from '@lifeforge/ui'
 
 import IdeaBoxProvider, { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'

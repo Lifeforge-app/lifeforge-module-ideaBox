@@ -3,7 +3,7 @@ import {
   useIdeaBoxContext
 } from '@/providers/IdeaBoxProvider'
 import { TagChip } from '@lifeforge/ui'
-import { useNavigate, useParams } from '@lifeforge/shared'
+import { useNavigate, useParams } from 'react-router'
 
 function InFolderChip({ entry }: { entry: IdeaBoxIdea }) {
   const { setSearchQuery, setSelectedTags } = useIdeaBoxContext()

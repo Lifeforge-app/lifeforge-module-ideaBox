@@ -1,13 +1,12 @@
-import { Icon } from '@iconify/react'
 import { useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { useDrag, useDrop } from 'react-dnd'
-import { toast } from 'react-toastify'
 
-import { Link, useParams } from '@lifeforge/shared'
+import { Link, useParams } from 'react-router'
+import { Icon , toast } from '@lifeforge/ui'
 
-import type { IdeaBoxFolder } from '@/providers/IdeaBoxProvider'
 import { forgeAPI } from '@/manifest'
+import type { IdeaBoxFolder } from '@/providers/IdeaBoxProvider'
 
 import FolderContextMenu from './FolderContextMenu'
 

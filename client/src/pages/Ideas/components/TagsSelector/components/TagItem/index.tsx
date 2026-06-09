@@ -1,4 +1,4 @@
-import { Icon } from '@iconify/react'
+import { Icon } from '@lifeforge/ui'
 import clsx from 'clsx'
 import { memo, useCallback, useMemo } from 'react'
 import tinycolor from 'tinycolor2'

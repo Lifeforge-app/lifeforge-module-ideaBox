@@ -1,8 +1,8 @@
-import { Icon } from '@iconify/react'
 import { useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
+import { Link } from 'react-router'
 
-import { Link } from '@lifeforge/shared'
+import { Icon } from '@lifeforge/ui'
 
 import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 

@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { FormModal, defineForm } from '@lifeforge/ui'
-import { toast } from 'react-toastify'
-import type { InferInput } from '@lifeforge/shared'
 
-import type { IdeaBoxContainer } from '@/providers/IdeaBoxProvider'
+import type { InferInput } from '@lifeforge/api'
+import { FormModal, defineForm , toast } from '@lifeforge/ui'
+
 import { forgeAPI } from '@/manifest'
+import type { IdeaBoxContainer } from '@/providers/IdeaBoxProvider'
 
 function ModifyContainerModal({
   data: { type, initialData },

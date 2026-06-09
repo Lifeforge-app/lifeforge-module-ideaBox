@@ -1,15 +1,20 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { ConfirmationModal, ContextMenu, ContextMenuItem } from '@lifeforge/ui'
-import { useModalStore } from '@lifeforge/ui'
 import { useCallback } from 'react'
-import { toast } from 'react-toastify'
-import { useParams } from '@lifeforge/shared'
+import { useParams } from 'react-router'
 
+import {
+  ConfirmationModal,
+  ContextMenu,
+  ContextMenuItem,
+  toast,
+  useModalStore
+} from '@lifeforge/ui'
+
+import { forgeAPI } from '@/manifest'
 import {
   type IdeaBoxIdea,
   useIdeaBoxContext
 } from '@/providers/IdeaBoxProvider'
-import { forgeAPI } from '@/manifest'
 
 import ModifyIdeaModal from '../../../../modals/ModifyIdeaModal'
 import MoveToFolderModal from '../../../../modals/MoveToFolderModal'
@@ -124,7 +129,7 @@ function EntryContextMenu({ entry }: { entry: IdeaBoxIdea }) {
       description: `Are you sure you want to delete this idea? This action cannot be undone.`,
       confirmationButton: 'delete',
       onConfirm: async () => {
-        await deleteMutation.mutateAsync({})
+        await deleteMutation.mutateAsync(undefined)
       }
     })
   }, [entry, id, path, viewArchived, searchQuery, selectedTags])
@@ -136,7 +141,7 @@ function EntryContextMenu({ entry }: { entry: IdeaBoxIdea }) {
           icon={entry.pinned ? 'tabler:pinned-off' : 'tabler:pin'}
           label={entry.pinned ? 'Unpin' : 'Pin'}
           onClick={() => {
-            pinIdeaMutation.mutate({})
+            pinIdeaMutation.mutate(undefined)
           }}
         />
       )}
@@ -144,7 +149,7 @@ function EntryContextMenu({ entry }: { entry: IdeaBoxIdea }) {
         icon={entry.archived ? 'tabler:archive-off' : 'tabler:archive'}
         label={entry.archived ? 'Unarchive' : 'Archive'}
         onClick={() => {
-          archiveIdeaMutation.mutate({})
+          archiveIdeaMutation.mutate(undefined)
         }}
       />
       <ContextMenuItem
@@ -164,7 +169,7 @@ function EntryContextMenu({ entry }: { entry: IdeaBoxIdea }) {
           label="Remove from folder"
           namespace="apps.ideaBox"
           onClick={() => {
-            removeFromFolderMutation.mutate({})
+            removeFromFolderMutation.mutate(undefined)
           }}
         />
       )}

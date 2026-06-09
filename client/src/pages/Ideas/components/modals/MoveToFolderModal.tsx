@@ -1,14 +1,13 @@
-import { Icon } from '@iconify/react'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
-import { Button, GoBackButton, ModalHeader, WithQuery } from '@lifeforge/ui'
 import { useCallback, useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { toast } from 'react-toastify'
-import { useParams } from '@lifeforge/shared'
 
-import type { IdeaBoxFolder, IdeaBoxIdea } from '@/providers/IdeaBoxProvider'
+import { useParams } from 'react-router'
+import { Icon , Button, GoBackButton, ModalHeader, WithQuery , toast } from '@lifeforge/ui'
+
 import { forgeAPI } from '@/manifest'
+import type { IdeaBoxFolder, IdeaBoxIdea } from '@/providers/IdeaBoxProvider'
 
 interface MoveToFolderModalProps {
   data: {

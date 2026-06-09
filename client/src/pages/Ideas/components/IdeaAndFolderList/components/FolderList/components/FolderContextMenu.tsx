@@ -1,17 +1,17 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useCallback } from 'react'
-import { toast } from 'react-toastify'
 import tinycolor from 'tinycolor2'
 
 import {
   ConfirmationModal,
   ContextMenu,
   ContextMenuItem,
+  toast,
   useModalStore
 } from '@lifeforge/ui'
 
-import type { IdeaBoxFolder } from '@/providers/IdeaBoxProvider'
 import { forgeAPI } from '@/manifest'
+import type { IdeaBoxFolder } from '@/providers/IdeaBoxProvider'
 
 import ModifyFolderModal from '../../../../modals/ModifyFolderModal'
 
@@ -57,7 +57,7 @@ function FolderContextMenu({
       confirmationButton: 'delete',
       confirmationPrompt: folder.name,
       onConfirm: async () => {
-        await deleteMutation.mutateAsync({})
+        await deleteMutation.mutateAsync(undefined)
       }
     })
   }, [folder])
@@ -100,7 +100,7 @@ function FolderContextMenu({
           icon="tabler:folder-minus"
           label="Remove from folder"
           namespace="apps.ideaBox"
-          onClick={() => removeFromFolderMutation.mutate({})}
+          onClick={() => removeFromFolderMutation.mutate(undefined)}
         />
       )}
       <ContextMenuItem

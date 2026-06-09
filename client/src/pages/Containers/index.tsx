@@ -9,8 +9,7 @@ import {
   ModuleHeader,
   SearchInput,
   WithQueryData
-} from '@lifeforge/ui'
-import { useModalStore } from '@lifeforge/ui'
+, useModalStore } from '@lifeforge/ui'
 
 import { forgeAPI } from '@/manifest'
 
