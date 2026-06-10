@@ -7,7 +7,6 @@ import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 
 function GoBackButtonAndMenu() {
   const navigate = useNavigate()
-
   const location = useLocation()
 
   const { viewArchived, setViewArchived, setSearchQuery, setSelectedTags } =

@@ -18,7 +18,6 @@ const sortFunc = (a: IdeaBoxTag, b: IdeaBoxTag) => {
 
 function TagsSelector() {
   const { open } = useModalStore()
-
   const { '*': path } = useParams<{ '*': string }>()
 
   const {

@@ -12,7 +12,6 @@ import GoBackButtonAndMenu from './components/GoBackButtonAndMenu'
 
 function Header() {
   const { setSearchQuery, setSelectedTags, pathValid } = useIdeaBoxContext()
-
   const { id, '*': path } = useParams<{ id: string; '*': string }>()
 
   const pathDetailsQuery = useQuery(

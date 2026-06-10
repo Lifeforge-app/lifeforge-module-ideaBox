@@ -45,15 +45,10 @@ export default function IdeaBoxProvider({
   children: React.ReactNode
 }) {
   const { open } = useModalStore()
-
   const navigate = useNavigate()
-
   const [searchParams, setSearchParams] = useSearchParams()
-
   const { id, '*': path } = useParams<{ id: string; '*': string }>()
-
   const [searchQuery, setSearchQuery] = useState('')
-
   const [selectedTags, setSelectedTags] = useState<string[]>([])
 
   const [viewArchived, setViewArchived] = useState(

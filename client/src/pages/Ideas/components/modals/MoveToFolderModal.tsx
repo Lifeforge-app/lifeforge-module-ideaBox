@@ -28,7 +28,6 @@ function MoveToFolderModal({
   onClose
 }: MoveToFolderModalProps) {
   const { t } = useModuleTranslation()
-
   const queryClient = useQueryClient()
 
   const { id: containerId, '*': currentPath } = useParams<{
@@ -37,7 +36,6 @@ function MoveToFolderModal({
   }>()
 
   const [modalPath, setModalPath] = useState<string>(currentPath || '')
-
   const [selectedFolderId, setSelectedFolderId] = useState<string | null>(null)
 
   const foldersQuery = useQuery(

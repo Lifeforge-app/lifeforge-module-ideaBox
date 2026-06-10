@@ -18,7 +18,6 @@ function ModifyTagModal({
   onClose: () => void
 }) {
   const queryClient = useQueryClient()
-
   const { id } = useParams<{ id: string }>()
 
   const mutation = useMutation(

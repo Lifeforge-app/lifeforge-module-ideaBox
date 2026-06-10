@@ -19,7 +19,6 @@ import ModifyContainerModal from '../../ModifyContainerModal'
 
 function ContainerItem({ container }: { container: IdeaBoxContainer }) {
   const queryClient = useQueryClient()
-
   const { open } = useModalStore()
 
   const deleteMutation = useMutation(

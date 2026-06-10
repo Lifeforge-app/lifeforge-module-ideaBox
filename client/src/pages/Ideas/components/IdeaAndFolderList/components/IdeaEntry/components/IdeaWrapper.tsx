@@ -4,8 +4,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import { useDrag } from 'react-dnd'
 import { useModuleTranslation } from '@lifeforge/localization'
 
-import { Icon } from '@lifeforge/ui'
-import { Card } from '@lifeforge/ui'
+import { Icon , Card } from '@lifeforge/ui'
 
 import type { IdeaBoxIdea } from '@/providers/IdeaBoxProvider'
 

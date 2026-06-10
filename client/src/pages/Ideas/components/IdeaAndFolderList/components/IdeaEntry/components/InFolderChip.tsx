@@ -9,9 +9,7 @@ import {
 
 function InFolderChip({ entry }: { entry: IdeaBoxIdea }) {
   const { setSearchQuery, setSelectedTags } = useIdeaBoxContext()
-
   const navigate = useNavigate()
-
   const { '*': path } = useParams<{ '*': string }>()
 
   if (!('fullPath' in entry) || !entry.expand || !entry.expand.folder) {

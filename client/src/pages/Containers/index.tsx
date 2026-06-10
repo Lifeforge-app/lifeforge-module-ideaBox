@@ -19,11 +19,8 @@ import ModifyContainerModal from './components/ModifyContainerModal'
 
 function IdeaBox() {
   const { open } = useModalStore()
-
   const { t } = useModuleTranslation()
-
   const [searchQuery, setSearchQuery] = useState('')
-
   const [showhidden, setShowhidden] = useState(false)
 
   const handleCreateContainer = useCallback(() => {

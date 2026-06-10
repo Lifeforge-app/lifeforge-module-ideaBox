@@ -11,7 +11,6 @@ import IdeaList from './components/IdeaList'
 
 function IdeaAndFolderList() {
   const { open } = useModalStore()
-
   const { t } = useModuleTranslation()
 
   const {

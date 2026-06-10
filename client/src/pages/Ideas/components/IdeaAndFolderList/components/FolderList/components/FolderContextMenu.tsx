@@ -23,7 +23,6 @@ function FolderContextMenu({
   isOver: boolean
 }) {
   const queryClient = useQueryClient()
-
   const { open } = useModalStore()
 
   const handleUpdateFolder = useCallback(() => {

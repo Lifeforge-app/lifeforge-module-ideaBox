@@ -18,7 +18,6 @@ function ModifyFolderModal({
   onClose: () => void
 }) {
   const queryClient = useQueryClient()
-
   const { id, '*': path } = useParams<{ id: string; '*': string }>()
 
   const mutation = useMutation(

@@ -18,7 +18,6 @@ function ContainerName({
   color: string
 }) {
   const { t } = useModuleTranslation()
-
   const { setSelectedTags, setSearchQuery, viewArchived } = useIdeaBoxContext()
 
   const handleNavigateToRoot = useCallback(() => {

@@ -42,7 +42,6 @@ function getStyle({
 
 function FolderItem({ folder }: { folder: IdeaBoxFolder }) {
   const queryClient = useQueryClient()
-
   const { id, '*': path } = useParams<{ id: string; '*': string }>()
 
   const [{ opacity, isDragging }, dragRef] = useDrag(

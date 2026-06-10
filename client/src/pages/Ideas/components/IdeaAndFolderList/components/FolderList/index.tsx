@@ -8,7 +8,6 @@ import FolderItem from './components/FolderItem'
 
 function FolderList() {
   const { t } = useModuleTranslation()
-
   const { foldersQuery } = useIdeaBoxContext()
 
   return (

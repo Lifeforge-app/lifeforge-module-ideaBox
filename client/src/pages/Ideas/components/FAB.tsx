@@ -12,15 +12,10 @@ import ModifyIdeaModal from './modals/ModifyIdeaModal'
 
 function FAB() {
   const { open } = useModalStore()
-
   const { t } = useModuleTranslation()
-
   const { viewArchived } = useIdeaBoxContext()
-
   const [isOpen, setIsOpen] = useState(false)
-
   const [focusedIndex, setFocusedIndex] = useState<number | null>(null)
-
   const menuRef = useRef<HTMLDivElement>(null)
 
   const handleEntryCreation = useCallback(

@@ -21,11 +21,8 @@ import MoveToFolderModal from '../../../../modals/MoveToFolderModal'
 
 function EntryContextMenu({ entry }: { entry: IdeaBoxIdea }) {
   const { open } = useModalStore()
-
   const { viewArchived, searchQuery, selectedTags } = useIdeaBoxContext()
-
   const queryClient = useQueryClient()
-
   const { id, '*': path } = useParams<{ id: string; '*': string }>()
 
   const deleteMutation = useMutation(

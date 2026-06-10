@@ -21,9 +21,7 @@ function ModifyIdeaModal({
   onClose: () => void
 }) {
   const queryClient = useQueryClient()
-
   const { t } = useModuleTranslation()
-
   const { id, '*': path } = useParams<{ id: string; '*': string }>()
 
   const tagsQuery = useQuery(
