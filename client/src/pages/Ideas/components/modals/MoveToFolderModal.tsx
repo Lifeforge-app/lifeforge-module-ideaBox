@@ -1,9 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { useCallback, useState } from 'react'
-import { useModuleTranslation } from '@lifeforge/localization'
 import { useParams } from 'react-router'
 
+import { useModuleTranslation } from '@lifeforge/localization'
 import {
   Button,
   GoBackButton,
@@ -118,7 +118,6 @@ function MoveToFolderModal({
     <div className="min-w-[50vw]">
       <ModalHeader
         icon="tabler:folder-symlink"
-        namespace="apps.ideaBox"
         title="Move to folder"
         onClose={onClose}
       />

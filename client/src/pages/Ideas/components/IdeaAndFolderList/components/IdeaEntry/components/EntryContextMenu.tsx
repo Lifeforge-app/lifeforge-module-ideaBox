@@ -157,14 +157,12 @@ function EntryContextMenu({ entry }: { entry: IdeaBoxIdea }) {
       <ContextMenuItem
         icon="tabler:folder-symlink"
         label="Move to Folder"
-        namespace="apps.ideaBox"
         onClick={handleMoveToFolder}
       />
       {!searchQuery && selectedTags.length === 0 && path !== '' && (
         <ContextMenuItem
           icon="tabler:folder-minus"
           label="Remove from folder"
-          namespace="apps.ideaBox"
           onClick={() => {
             removeFromFolderMutation.mutate(undefined)
           }}

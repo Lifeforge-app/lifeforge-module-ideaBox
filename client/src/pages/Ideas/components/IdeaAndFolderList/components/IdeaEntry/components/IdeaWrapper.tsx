@@ -2,9 +2,9 @@ import clsx from 'clsx'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { useDrag } from 'react-dnd'
-import { useModuleTranslation } from '@lifeforge/localization'
 
-import { Icon , Card } from '@lifeforge/ui'
+import { useModuleTranslation } from '@lifeforge/localization'
+import { Card, Icon } from '@lifeforge/ui'
 
 import type { IdeaBoxIdea } from '@/providers/IdeaBoxProvider'
 

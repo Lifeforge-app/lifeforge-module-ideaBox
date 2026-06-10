@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
-import { useModuleTranslation } from '@lifeforge/localization'
 
+import { useModuleTranslation } from '@lifeforge/localization'
 import {
   Button,
   ContextMenuItem,
@@ -50,7 +50,6 @@ function IdeaBox() {
               <ContextMenuItem
                 icon="tabler:eye-off"
                 label={showhidden ? 'Hide Hidden' : 'Show Hidden'}
-                namespace="apps.ideaBox"
                 onClick={() => setShowhidden(prev => !prev)}
               />
             </>
@@ -59,7 +58,6 @@ function IdeaBox() {
       />
       <SearchInput
         debounceMs={300}
-        namespace="apps.ideaBox"
         searchTarget="container"
         value={searchQuery}
         onChange={setSearchQuery}
@@ -75,8 +73,7 @@ function IdeaBox() {
               <EmptyStateScreen
                 icon="tabler:cube-off"
                 message={{
-                  id: 'container',
-                  namespace: 'apps.ideaBox'
+                  id: 'container'
                 }}
               />
             )
@@ -91,8 +88,7 @@ function IdeaBox() {
               <EmptyStateScreen
                 icon="tabler:search-off"
                 message={{
-                  id: 'containerSearch',
-                  namespace: 'apps.ideaBox'
+                  id: 'containerSearch'
                 }}
               />
             )

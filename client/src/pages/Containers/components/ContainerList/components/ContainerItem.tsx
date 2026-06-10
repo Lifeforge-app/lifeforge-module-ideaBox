@@ -181,7 +181,6 @@ function ContainerItem({ container }: { container: IdeaBoxContainer }) {
         <ContextMenuItem
           icon={container.hidden ? 'tabler:eye' : 'tabler:eye-off'}
           label={container.hidden ? 'Unhide' : 'Hide'}
-          namespace="apps.ideaBox"
           onClick={() => toggleHideMutation.mutate(undefined)}
         />
         <ContextMenuItem

@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
-import { useModuleTranslation } from '@lifeforge/localization'
 import { Link } from 'react-router'
 
+import { useModuleTranslation } from '@lifeforge/localization'
 import { Icon } from '@lifeforge/ui'
 
 import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'

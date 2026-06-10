@@ -1,5 +1,4 @@
 import { useModuleTranslation } from '@lifeforge/localization'
-
 import { Icon, WithQuery } from '@lifeforge/ui'
 
 import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'

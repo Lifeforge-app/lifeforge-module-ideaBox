@@ -1,6 +1,6 @@
 import { useCallback } from 'react'
-import { useModuleTranslation } from '@lifeforge/localization'
 
+import { useModuleTranslation } from '@lifeforge/localization'
 import { EmptyStateScreen, WithQuery, useModalStore } from '@lifeforge/ui'
 
 import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
@@ -53,16 +53,14 @@ function IdeaAndFolderList() {
                           }}
                           icon="tabler:bulb-off"
                           message={{
-                            id: 'idea',
-                            namespace: 'apps.ideaBox'
+                            id: 'idea'
                           }}
                         />
                       ) : (
                         <EmptyStateScreen
                           icon="tabler:archive-off"
                           message={{
-                            id: 'archived',
-                            namespace: 'apps.ideaBox'
+                            id: 'archived'
                           }}
                         />
                       )}
@@ -87,8 +85,7 @@ function IdeaAndFolderList() {
                   <EmptyStateScreen
                     icon="tabler:search"
                     message={{
-                      id: 'result',
-                      namespace: 'apps.ideaBox'
+                      id: 'result'
                     }}
                   />
                 </div>

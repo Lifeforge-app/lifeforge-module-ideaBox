@@ -1,8 +1,8 @@
 import clsx from 'clsx'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { useModuleTranslation } from '@lifeforge/localization'
 
+import { useModuleTranslation } from '@lifeforge/localization'
 import { Button, Icon, useModalStore } from '@lifeforge/ui'
 
 import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'

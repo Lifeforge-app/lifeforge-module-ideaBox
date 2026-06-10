@@ -20,7 +20,6 @@ function Ideas() {
         <SearchInput
           className="mt-4"
           debounceMs={300}
-          namespace="apps.ideaBox"
           searchTarget={path === '' ? 'idea' : 'idea In Folder'}
           value={searchQuery}
           onChange={setSearchQuery}
