@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 
 import { Button, Icon, useModalStore } from '@lifeforge/ui'
 
@@ -13,7 +13,7 @@ import ModifyIdeaModal from './modals/ModifyIdeaModal'
 function FAB() {
   const { open } = useModalStore()
 
-  const { t } = useTranslation('apps.ideaBox')
+  const { t } = useModuleTranslation()
 
   const { viewArchived } = useIdeaBoxContext()
 

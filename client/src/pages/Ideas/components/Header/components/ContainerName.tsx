@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 import { Link } from 'react-router'
 
 import { Icon } from '@lifeforge/ui'
@@ -17,7 +17,7 @@ function ContainerName({
   icon: string
   color: string
 }) {
-  const { t } = useTranslation('apps.ideaBox')
+  const { t } = useModuleTranslation()
 
   const { setSelectedTags, setSearchQuery, viewArchived } = useIdeaBoxContext()
 

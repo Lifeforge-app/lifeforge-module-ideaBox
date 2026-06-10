@@ -1,4 +1,4 @@
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 
 import { Icon, WithQuery } from '@lifeforge/ui'
 
@@ -7,7 +7,7 @@ import { useIdeaBoxContext } from '@/providers/IdeaBoxProvider'
 import FolderItem from './components/FolderItem'
 
 function FolderList() {
-  const { t } = useTranslation('apps.ideaBox')
+  const { t } = useModuleTranslation()
 
   const { foldersQuery } = useIdeaBoxContext()
 

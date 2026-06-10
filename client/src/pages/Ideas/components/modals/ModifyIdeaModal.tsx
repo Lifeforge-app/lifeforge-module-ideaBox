@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 import { useParams } from 'react-router'
 
 import type { InferInput, InferOutput } from '@lifeforge/api'
@@ -22,7 +22,7 @@ function ModifyIdeaModal({
 }) {
   const queryClient = useQueryClient()
 
-  const { t } = useTranslation('apps.ideaBox')
+  const { t } = useModuleTranslation()
 
   const { id, '*': path } = useParams<{ id: string; '*': string }>()
 

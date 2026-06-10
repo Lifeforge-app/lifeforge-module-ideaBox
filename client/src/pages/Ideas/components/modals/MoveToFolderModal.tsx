@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import clsx from 'clsx'
 import { useCallback, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 import { useParams } from 'react-router'
 
 import {
@@ -27,7 +27,7 @@ function MoveToFolderModal({
   data: { idea },
   onClose
 }: MoveToFolderModalProps) {
-  const { t } = useTranslation('apps.ideaBox')
+  const { t } = useModuleTranslation()
 
   const queryClient = useQueryClient()
 

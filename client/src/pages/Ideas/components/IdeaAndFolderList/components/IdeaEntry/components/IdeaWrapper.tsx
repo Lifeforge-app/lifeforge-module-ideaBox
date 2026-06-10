@@ -2,7 +2,7 @@ import clsx from 'clsx'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import { useDrag } from 'react-dnd'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 
 import { Icon } from '@lifeforge/ui'
 import { Card } from '@lifeforge/ui'
@@ -24,7 +24,7 @@ function IdeaWrapper({
   children: React.ReactNode
   onClick?: () => void
 }) {
-  const { t } = useTranslation('apps.ideaBox')
+  const { t } = useModuleTranslation()
 
   const [{ opacity, isDragging }, dragRef] = useDrag(
     () => ({

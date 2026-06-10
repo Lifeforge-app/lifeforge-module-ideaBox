@@ -1,5 +1,5 @@
 import { useCallback } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 
 import { EmptyStateScreen, WithQuery, useModalStore } from '@lifeforge/ui'
 
@@ -12,7 +12,7 @@ import IdeaList from './components/IdeaList'
 function IdeaAndFolderList() {
   const { open } = useModalStore()
 
-  const { t } = useTranslation('apps.ideaBox')
+  const { t } = useModuleTranslation()
 
   const {
     entriesQuery,

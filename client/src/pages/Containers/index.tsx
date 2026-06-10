@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { useModuleTranslation } from '@lifeforge/localization'
 
 import {
   Button,
@@ -20,7 +20,7 @@ import ModifyContainerModal from './components/ModifyContainerModal'
 function IdeaBox() {
   const { open } = useModalStore()
 
-  const { t } = useTranslation('apps.ideaBox')
+  const { t } = useModuleTranslation()
 
   const [searchQuery, setSearchQuery] = useState('')
 
